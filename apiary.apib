@@ -1,0 +1,82 @@
+FORMAT: 1A
+HOST: http://times.minifreelancer.apiblueprint.org/
+
+# minifreelancertimes
+
+minifreelancertimes is a proof of concept API allowing freelancer register and collect time logs.
+
+## TimeLogs Collection [/timelogs]
+
+### List All TimeLogs [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "url": "/timelogs/1",
+                "prj": "prj-1",
+                "comment":"develop web app WA1",
+                "started": "2017-01-12T04:13:01.900+0000",
+                "timeSpent": 120
+            },
+            {
+                "id": 2,
+                "url": "/timelogs/2",
+                "prj": "prj-1",
+                "comment":"unit test web app WA1",
+                "started": "2017-01-12T06:13:01.900+0000",
+                "timeSpent": 90
+            }
+        ]
+
+### Create a New TimeLog [POST]
+
+You may create a new TimeLog using this action. It takes a JSON
+object containing a TimeLog.
+
++ Request (application/json)
+
+        {
+            "prj": "prj-1",
+            "comment":"develop web app WA1",
+            "started": "2017-01-12T04:13:01.900+0000",
+            "timeSpent": 120
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /timelogs/2
+
+    + Body
+
+            {
+                "id": 1,
+                "url": "/timelogs/1",
+                "prj": "prj-1",
+                "comment":"develop web app WA1",
+                "started": "2017-01-12T04:13:01.900+0000",
+                "timeSpent": 120
+            }
+
+
+        
+## TimeLog [/timelogs/{timelog_id}]
+
+### Get a TimeLog [GET]
+
++ Parameters
+    + timelog_id (number) - ID of the TimeLog in the form of an integer
+
++ Response 200 (application/json)
+
+        {
+                "id": 1,
+                "url": "/timelogs/1",
+                "prj": "prj-1",
+                "comment":"develop web app WA1",
+                "started": "2017-01-12T04:13:01.900+0000",
+                "timeSpent": 120
+        }
