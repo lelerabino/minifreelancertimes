@@ -191,6 +191,8 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+npm-debug.log
+.env
 orleans.codegen.cs
 
 # Since there are multiple workflows, uncomment next line to ignore bower_components
@@ -250,3 +252,4 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+package.json
