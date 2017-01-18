@@ -1,0 +1,30 @@
+{
+  "engines": {
+    "node": "6.6.0"
+  },
+  "name": "minifreelancertimes",
+  "version": "1.0.0",
+  "description": "sample spa allowing freelancer to record timelogs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nf start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://lelerabino@github.com/lelerabino/minifreelancertimes.git"
+  },
+  "keywords": [],
+  "author": "Emanuele Rabino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lelerabino/minifreelancertimes/issues"
+  },
+  "homepage": "https://github.com/lelerabino/minifreelancertimes#readme",
+  "dependencies": {
+    "body-parser": "1.16.0",
+    "express": "4.14.0",
+    "foreman": "2.0.0",
+    "mongoose": "4.7.7"
+  }
+}
