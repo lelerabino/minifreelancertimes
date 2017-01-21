@@ -4,7 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     favicon = require('serve-favicon'),
-
+    basicAuth = require('basic-auth-connect'),
     TimeLog = require('./app/models/timelog');
 
 /*
@@ -69,8 +69,7 @@ express()
         });
     })
 
-    .put('/api/timelogs/:id', function (req, res) {
-        // http://mongoosejs.com/docs/api.html#model_Model.findById
+    .put('/api/timelogs/:id', function (req, res) {        // http://mongoosejs.com/docs/api.html#model_Model.findById
         TimeLog.findById(req.params.id, function (err, timelog) {
             timelog.comment = req.body.comment;
             timelog.prj = req.body.prj;
@@ -91,6 +90,8 @@ express()
         });
     })
 
+    .use(basicAuth('guest', 'guest'))
     .use(express.static(__dirname + '/public'))
+    .use(bodyParser())
     .use(favicon('public/favicon.ico'))
     .listen(process.env.PORT || 5000);
