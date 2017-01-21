@@ -22,6 +22,17 @@ define('TimeLogs.View', function () {
                 $('.timetext').editable({
                     success: function() {
                         //TODO
+                    },
+                    showbuttons:true,
+                    send:'never',
+                    emptytext:'-',
+                    display: function(value) {
+                        if(value) {
+                            $(this).text(value + 'h');
+                        }
+                        else{
+                            $(this).empty();
+                        }
                     }
                 });
             });
