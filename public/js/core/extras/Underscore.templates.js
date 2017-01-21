@@ -13,9 +13,9 @@
 		console.error('Error in macro: '+ macro_name + '\n' + error + '\n ' + error.stack);
 	};
 
-	var isPageGenerator = function ()
+	var isTestingEnv = function ()
 	{
-		return SPA.isPageGenerator ? SPA.isPageGenerator() : false;
+		return false;
 	};
 
 	SPA.compileMacros = function compileMacros(macros)
@@ -30,8 +30,8 @@
 			registerMacro: function (name, fn)
 			{
 				var original_source = fn.toString()
-				,	prefix = isPageGenerator() ? '' : '\\n\\n<!-- MACRO STARTS: ' + name + ' -->\\n'
-				,	posfix = isPageGenerator() ? '' : '\\n<!-- MACRO ENDS: ' + name + ' -->\\n'
+				,	prefix = isTestingEnv() ? '' : '\\n\\n<!-- MACRO STARTS: ' + name + ' -->\\n'
+				,	posfix = isTestingEnv() ? '' : '\\n<!-- MACRO ENDS: ' + name + ' -->\\n'
 					// Adds comment lines at the begining and end of the macro
 					// The rest of the mumbo jumbo is to play nice with underscore.js
 				,	modified_source = ';try{var __p="' + prefix + '";' + original_source.replace(/^function[^\{]+\{/i, '').replace(/\}[^\}]*$/i, '') +';__p+="' + posfix + '";return __p;}catch(e){SPA.handleMacroError(e,"'+ name +'")}' || []
@@ -84,8 +84,8 @@
 		{
 			// If the template hasn't been compiled we compile it and add it to the dictionary
 			processed_templates[template_id] = processed_templates[template_id] || _.template(SPA.templates[template_id] || '');
-			var prefix = isPageGenerator() ? '' : '\n\n<!-- TEMPLATE STARTS: '+ template_id +'-->\n'
-			,	posfix = isPageGenerator() ? '' : '\n<!-- TEMPLATE ENDS: '+ template_id +' -->\n';
+			var prefix = isTestingEnv() ? '' : '\n\n<!-- TEMPLATE STARTS: '+ template_id +'-->\n'
+			,	posfix = isTestingEnv() ? '' : '\n<!-- TEMPLATE ENDS: '+ template_id +' -->\n';
 			// Then we return the template, adding the start and end comment lines
 			return prefix + processed_templates[template_id](_.extend({}, SPA.macros, obj)) + posfix;
 		}
@@ -116,7 +116,7 @@
 		// Recursively removes all the appearances of script tags from tempaltes&macros output - only for SEO output. Originally this was designed to prevent XSS attacks but now it is only for cleaning up SEO output.
 	,	removeScripts = function (text)
 		{
-			if (isPageGenerator() && text)
+			if (isTestingEnv() && text)
 			{
 				text = text.replace(/(<!--[\s\S]*?-->)/g, ' $1 '); //invalidates de XSS attack like <scr<!--cheat-->ipt> - keep the comment and add spaces
 				while (SCRIPT_REGEX.test(text))
@@ -131,7 +131,7 @@
 		// function that runs only in SEO and minifies templates&macros output, jQuery.html() and jQuery.append(). It minifies HTML output, remove comments and wrap images with noscript for performance.
 	,	minifyMarkup = function (text)
 		{
-			if (isPageGenerator() && text)
+			if (isTestingEnv() && text)
 			{
 				text = text
 					// remove spaces between tags.
@@ -150,7 +150,7 @@
 					text = text.replace(/(<img\s+[^>]*>\s*<\/img>|<img\s+[^>]*\/>|(?:<img\s+[^>]*>)(?!\s*<\/img>))(?!\s*<\s*\/noscript\s*>)/gmi,'<noscript>$1</noscript>');
 				}
 			}
-			if (!isPageGenerator() && window.fixImagesForLoader)
+			if (!isTestingEnv() && window.fixImagesForLoader)
 			{
 				text = window.fixImagesForLoader(text);
 			}
@@ -158,7 +158,7 @@
 		};
 
 	// if in SEO we also override jQuery.html() and jQuery.append() so html output is minified. Also remove scripts - so content scripts don't appear in SEO output.
-	if (isPageGenerator())
+	if (isTestingEnv())
 	{
 		var jQuery_originalHtml = jQuery.fn.html;
 		jQuery.fn.html = function(html)

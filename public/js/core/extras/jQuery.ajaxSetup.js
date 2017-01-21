@@ -31,7 +31,7 @@
 				}
 			}).hide();
 
-			if (!_.result(CLU, 'isPageGenerator'))
+			if (!_.result(SPA, 'isTestingEnv'))
 			{
 				$loading_icon.appendTo($body);
 			}

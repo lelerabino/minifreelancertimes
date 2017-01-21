@@ -33,7 +33,7 @@
 			}
 
 			//Apply permissions
-			var $tmpl = this.applyPermissions(tmpl);
+			var $tmpl = jQuery(tmpl);
 
 			this.$el.empty();
 
@@ -74,50 +74,6 @@
 		//     <div data-permissions="transactions.tranFind.1"></div>
 		//     <div data-permissions="transactions.tranCustDep.3,transactions.tranDepAppl.1 lists.tranFind.1" data-permissions-operator="OR" ></div>
 
-	,	applyPermissions: function (tmpl)
-		{
-			// We need to wrap the template in a container so then we can find
-			// and remove parent nodes also (jQuery.find only works in descendants).
-			var $template = SPA.ENVIRONMENT.jsEnvironment === 'server' ? jQuery('<div/>').append(tmpl) : jQuery(tmpl)
-			,	$permissioned_elements = $template.find('[data-permissions]');
-
-			$permissioned_elements.each(function ()
-			{
-				var $el = jQuery(this)
-				,	element_permission = $el.data('permissions')
-				,	perms = element_permission.split(/[\s,]+/)
-				,	perm_operator = $el.data('permissions-operator') || 'AND'
-				,	perm_eval
-				,	perm_evaluation = perm_operator !== 'OR';
-
-				_.each(perms, function (perm)
-				{
-					var perm_tokens = perm.split('.');
-
-					perm_eval = !(perm_tokens.length === 3 &&
-						perm_tokens[2] < 5 &&
-						SPA.ENVIRONMENT.permissions &&
-						SPA.ENVIRONMENT.permissions[perm_tokens[0]] &&
-						SPA.ENVIRONMENT.permissions[perm_tokens[0]][perm_tokens[1]] < perm_tokens[2]);
-
-					if (perm_operator === 'OR')
-					{
-						perm_evaluation = perm_evaluation || perm_eval;
-					}
-					else
-					{
-						perm_evaluation = perm_evaluation &&  perm_eval;
-					}
-				});
-
-				if (!perm_evaluation)
-				{
-					$el.remove();
-				}
-			});
-
-			return $template;
-		}
 
 	,	render: function ()
 		{
