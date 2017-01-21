@@ -3,6 +3,7 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    favicon = require('serve-favicon'),
 
     TimeLog = require('./app/models/timelog');
 
@@ -91,4 +92,5 @@ express()
     })
 
     .use(express.static(__dirname + '/public'))
+    .use(favicon('public/favicon.ico'))
     .listen(process.env.PORT || 5000);

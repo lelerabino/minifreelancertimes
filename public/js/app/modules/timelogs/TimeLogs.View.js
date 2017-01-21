@@ -18,7 +18,13 @@ define('TimeLogs.View', function () {
         }
 
         , showContent: function () {
-            this.application.getLayout().showContent(this);
+            this.application.getLayout().showContent(this).then(function () {
+                $('.timetext').editable({
+                    success: function() {
+                        //TODO
+                    }
+                });
+            });
         }
     });
 });

@@ -69,6 +69,7 @@ var layout = SPA.Application('TimeLogs').getLayout();
 layout.appendToDom();
 layout.on('afterAppendToDom', function () {
     SPA.initializeContainerDashboard();
+    jQuery.fn.editable.defaults.mode = 'inline';
 });
 
 
