@@ -47,57 +47,25 @@
                         Task1
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Customer1
-                    </td>
-                    <td>
-                        Project1
-                    </td>
-                    <td>
-                        Task1
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                 </tr>
                 <tr>
@@ -111,25 +79,25 @@
                         Task1
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                 </tr>
                 <tr>
@@ -143,25 +111,57 @@
                         Task1
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
                     </td>
                     <td>
-                        <input type="number" style="width: 4em"/>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Customer1
+                    </td>
+                    <td>
+                        Project1
+                    </td>
+                    <td>
+                        Task1
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
+                    </td>
+                    <td>
+                        <input type="number" style="width: 3em"/>
                     </td>
                 </tr>
             </tbody>
@@ -198,45 +198,13 @@
                     Task1
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    Task1
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
                     <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
@@ -262,45 +230,13 @@
                     Task1
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    Task1
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
                     <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
@@ -326,13 +262,77 @@
                     Task1
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <input type="number" style="width: 4em"/>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Customer1
+                </td>
+                <td>
+                    Project1
+                </td>
+                <td>
+                    Task1
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+                <td>
+                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Customer1
+                </td>
+                <td>
+                    Project1
+                </td>
+                <td>
+                    Task1
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
+                </td>
+                <td>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
                     <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
