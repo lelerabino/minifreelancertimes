@@ -12,7 +12,6 @@
 (function ()
 {
     'use strict';
-
     // Global Name Space CLU, stands for Clustin.
     var SPA = window.SPA = _.extend(window.SPA || {}, Backbone.Events);
 

@@ -48,13 +48,11 @@
             }
             , getProfile: function () {
                 return SPA.ENVIRONMENT.PROFILE;
+            },
+            getCurrentWeek: function () {
+                return moment().week();
             }
         };
-
-        if (!document.location.hash || document.location.hash.indexOf('w=') < 0) {
-            document.location.hash = '?w=0';
-        }
-
     </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">

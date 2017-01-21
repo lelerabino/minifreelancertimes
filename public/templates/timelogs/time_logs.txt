@@ -10,10 +10,10 @@
         <!-- /.btn-group -->
         <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
         <div class="pull-left">
-            Jan 20-27
+            <%=view.formatWeek()%>
             <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                <button type="button" data-action="wmove" data-incr="-1" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                <button type="button" data-action="wmove" data-incr="1" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
             </div>
             <!-- /.btn-group -->
         </div>

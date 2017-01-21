@@ -101,6 +101,9 @@
         },
         alert: function (options) {
             return vex.dialog.alert(options);
+        },
+        getCurrentWeek: function(){
+            return SPA.getCurrentWeek();
         }
     });
 

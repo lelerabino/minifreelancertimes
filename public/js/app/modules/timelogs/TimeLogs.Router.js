@@ -7,18 +7,20 @@ define('TimeLogs.Router', ['TimeLogs.View'], function (View) {
     return Backbone.Router.extend({
 
         routes: {
-            '*path': 'index'
+            '?w=*w': 'index'
         }
 
         , initialize: function (application) {
             this.application = application;
         }
 
-        , index: function (path, options)
-        {
+        , index: function (w) {
+            w = w ? w.toLowerCase() : 'current';
+            w = (w === 'current') ? SPA.getCurrentWeek() : w;
 
             var view = new View({
-                application: this.application
+                application: this.application,
+                weekModel : new Backbone.Model({week:w})
             });
 
             view.showContent();

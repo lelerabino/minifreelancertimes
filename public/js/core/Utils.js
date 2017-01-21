@@ -6,229 +6,6 @@
 (function () {
     'use strict';
 
-    // _.formatPhone:
-    // Will try to reformat a phone number for a given phone Format,
-    // If no format is given, it will try to use the one in site settings.
-    function formatPhone(phone, format) {
-        // fyi: the tilde (~) its used as !== -1
-        var extentionSearch = phone.search(/[A-Za-z#]/)
-            , extention = ~extentionSearch ? ' ' + phone.substring(extentionSearch) : ''
-            , phoneNumber = ~extentionSearch ? ' ' + phone.substring(0, extentionSearch) : phone;
-
-        format = format || SPA.ENVIRONMENT.spaSettings.phoneformat;
-
-        if (/^[0-9()-.\s]+$/.test(phoneNumber) && format) {
-            var format_tokens = {}
-                , phoneDigits = phoneNumber.replace(/[()-.\s]/g, '');
-
-            switch (format) {
-                // c: country, ab: area_before, aa: area_after, d: digits
-                case '(123) 456-7890':
-                    format_tokens = {c: ' ', ab: '(', aa: ') ', d: '-'};
-                    break;
-                case '123 456 7890':
-                    format_tokens = {c: ' ', ab: '', aa: ' ', d: ' '};
-                    break;
-                case '123-456-7890':
-                    format_tokens = {c: ' ', ab: '', aa: '-', d: '-'};
-                    break;
-                case '123.456.7890':
-                    format_tokens = {c: ' ', ab: '', aa: '.', d: '.'};
-                    break;
-                default:
-                    return phone;
-            }
-
-            switch (phoneDigits.length) {
-                case 7:
-                    return phoneDigits.substring(0, 3) + format_tokens.d + phoneDigits.substring(3) + extention;
-                case 10:
-                    return format_tokens.ab + phoneDigits.substring(0, 3) + format_tokens.aa + phoneDigits.substring(3, 6) + format_tokens.d + phoneDigits.substring(6) + extention;
-                case 11:
-                    return phoneDigits.substring(0, 1) + format_tokens.c + format_tokens.ab + phoneDigits.substring(1, 4) + format_tokens.aa + phoneDigits.substring(4, 7) + format_tokens.d + phoneDigits.substring(7) + extention;
-                default:
-                    return phone;
-            }
-        }
-
-        return phone;
-    }
-
-    // Convert a date object to string using international format YYYY-MM-dd
-    // Useful for inputs of type="date"
-    function dateToString(date) {
-        var month = '' + (date.getMonth() + 1)
-            , day = '' + date.getDate();
-
-        if (month.length === 1) {
-            month = '0' + month;
-        }
-
-        if (day.length === 1) {
-            day = '0' + day;
-        }
-
-        return date.getFullYear() + '-' + month + '-' + day;
-    }
-
-    //This method parse a string date into a date object.
-    // str_date: String date.
-    // options.format: String format that specify the format of the input string. By Default YYYY-MM-dd.
-    // options.plusMonth: Number that indicate how many month offset should be applied whne creating the date object.
-    function stringToDate(str_date, options) {
-        options = _.extend({
-            format: 'YYYY-MM-dd'
-            , plusMonth: -1
-            , dateSplitCharacter: '-'
-        }, options || {});
-
-        //plumbing
-        var date_parts = str_date ? str_date.split(options.dateSplitCharacter) : []
-            , format_parts = options.format ? options.format.split('-') : []
-            , year_index = _.indexOf(format_parts, 'YYYY') >= 0 ? _.indexOf(format_parts, 'YYYY') : 2
-            , month_index = _.indexOf(format_parts, 'MM') >= 0 ? _.indexOf(format_parts, 'MM') : 1
-            , day_index = _.indexOf(format_parts, 'dd') >= 0 ? _.indexOf(format_parts, 'dd') : 0
-        //Date parts
-            , year = parseInt(date_parts[year_index], 10)
-            , month = parseInt(date_parts[month_index], 10) + (options.plusMonth || 0)
-            , day = parseInt(date_parts[day_index], 10)
-            , result = new Date(year, month, day);
-
-        if (!(result.getMonth() !== month || day !== result.getDate() || result.getFullYear() !== year)) {
-            return result;
-        }
-    }
-
-    function isDateValid(date) {
-        if (Object.prototype.toString.call(date) === '[object Date]') {
-            // it is a date
-            if (isNaN(date.getTime())) {
-                // d.valueOf() could also work
-                // date is not valid
-                return false;
-            }
-            else {
-                // date is valid
-                // now validate the values of day, month and year
-                var dtDay = date.getDate()
-                    , dtMonth = date.getMonth() + 1
-                    , dtYear = date.getFullYear()
-                    , pattern = /^\d{4}$/;
-
-                if (!pattern.test(dtYear)) {
-                    return false;
-                }
-                else if (dtMonth < 1 || dtMonth > 12) {
-                    return false;
-                }
-                else if (dtDay < 1 || dtDay > 31) {
-                    return false;
-                }
-                else if ((dtMonth === 4 || dtMonth === 6 || dtMonth === 9 || dtMonth === 11) && dtDay === 31) {
-                    return false;
-                }
-                else if (dtMonth === 2) {
-                    var isleap = (dtYear % 4 === 0 && (dtYear % 100 !== 0 || dtYear % 400 === 0));
-                    if (dtDay > 29 || (dtDay === 29 && !isleap)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-        else {
-            // not a date
-            return false;
-        }
-    }
-
-    function paymenthodIdCreditCart(cc_number) {
-        // regex for credit card issuer validation
-        var cards_reg_ex = {
-            'VISA': /^4[0-9]{12}(?:[0-9]{3})?$/
-            , 'Master Card': /^5[1-5][0-9]{14}$/
-            , 'American Express': /^3[47][0-9]{13}$/
-            , 'Discover': /^6(?:011|5[0-9]{2})[0-9]{12}$/
-            , 'Maestro': /^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$/
-        }
-
-        // get the credit card name
-            , paymenthod_name;
-
-        // validate that the number and issuer
-        _.each(cards_reg_ex, function (reg_ex, name) {
-            if (reg_ex.test(cc_number)) {
-                paymenthod_name = name;
-            }
-        });
-
-        var paymentmethod = paymenthod_name && _.findWhere(SPA.ENVIRONMENT.spaSettings.paymentmethods, {name: paymenthod_name.toString()});
-
-        return paymentmethod && paymentmethod.internalid;
-    }
-
-
-    function validateSecurityCode(value) {
-        var ccsn = jQuery.trim(value);
-
-        if (!ccsn) {
-            return _('Security Number is required').translate();
-        }
-
-        if (!(Backbone.Validation.patterns.number.test(ccsn) && (ccsn.length === 3 || ccsn.length === 4))) {
-            return _('Security Number is invalid').translate();
-        }
-    }
-
-    function validatePhone(phone) {
-        var minLength = 7;
-
-
-        if (_.isNumber(phone)) {
-            // phone is a number so we can't ask for .length
-            // we elevate 10 to (minLength - 1)
-            // if the number is lower, then its invalid
-            // eg: phone = 1234567890 is greater than 1000000, so its valid
-            //     phone = 123456 is lower than 1000000, so its invalid
-            if (phone < Math.pow(10, minLength - 1)) {
-                return _('Phone Number is invalid').translate();
-            }
-        }
-        else if (phone) {
-            // if its a string, we remove all the useless characters
-            var value = phone.replace(/[()-.\s]/g, '');
-            // we then turn the value into an integer and back to string
-            // to make sure all of the characters are numeric
-
-            //first remove leading zeros for number comparison
-            while (value.length && value.substring(0, 1) === '0') {
-                value = value.substring(1, value.length);
-            }
-            if (parseInt(value, 10).toString() !== value || value.length < minLength) {
-                return _('Phone Number is invalid').translate();
-            }
-        }
-        else {
-            return _('Phone is required').translate();
-        }
-
-    }
-
-    function validateState(value, valName, form) {
-        var countries = SPA.ENVIRONMENT.spaSettings.countries || {};
-        if (countries[form.country] && countries[form.country].states && value === '') {
-            return _('State is required').translate();
-        }
-    }
-
-    function validateZipCode(value, valName, form) {
-        var countries = SPA.ENVIRONMENT.spaSettings.countries || {};
-        if (!value && (!form.country || countries[form.country] && countries[form.country].isziprequired === 'T')) {
-            return _('Zip Code is required').translate();
-        }
-    }
-
     // translate:
     // used on all of the harcoded texts in the templates
     // gets the translated value from SPA.Translations object literal
@@ -241,7 +18,7 @@
         // Turns the arguments object into an array
         var args = Array.prototype.slice.call(arguments)
 
-        // Checks the translation table
+            // Checks the translation table
             , result = SPA.Translations && SPA.Translations[text] ? SPA.Translations[text] : text;
 
         if (args.length && result) {
@@ -287,129 +64,6 @@
         }
 
         return names.join(' > ');
-    }
-
-    function formatCurrency(value, symbol) {
-        var value_float = parseFloat(value);
-
-        if (isNaN(value_float)) {
-            return value;
-        }
-
-        var negative = value_float < 0;
-        value_float = Math.abs(value_float);
-        value_float = parseInt((value_float + 0.005) * 100, 10) / 100;
-
-        var value_string = value_float.toString()
-
-            , groupseparator = ','
-            , decimalseparator = '.'
-            , negativeprefix = '('
-            , negativesuffix = ')'
-            , settings = SPA && SPA.ENVIRONMENT && SPA.ENVIRONMENT.spaSettings ? SPA.ENVIRONMENT.spaSettings : {};
-
-        if (Object.prototype.hasOwnProperty.call(window, 'groupseparator')) {
-            groupseparator = window.groupseparator;
-        }
-        else if (Object.prototype.hasOwnProperty.call(settings, 'groupseparator')) {
-            groupseparator = settings.groupseparator;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(window, 'decimalseparator')) {
-            decimalseparator = window.decimalseparator;
-        }
-        else if (Object.prototype.hasOwnProperty.call(settings, 'decimalseparator')) {
-            decimalseparator = settings.decimalseparator;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(window, 'negativeprefix')) {
-            negativeprefix = window.negativeprefix;
-        }
-        else if (Object.prototype.hasOwnProperty.call(settings, 'negativeprefix')) {
-            negativeprefix = settings.negativeprefix;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(window, 'negativesuffix')) {
-            negativesuffix = window.negativesuffix;
-        }
-        else if (Object.prototype.hasOwnProperty.call(settings, 'negativesuffix')) {
-            negativesuffix = settings.negativesuffix;
-        }
-
-        value_string = value_string.replace('.', decimalseparator);
-        var decimal_position = value_string.indexOf(decimalseparator);
-
-        // if the string doesn't contains a .
-        if (!~decimal_position) {
-            value_string += decimalseparator + '00';
-            decimal_position = value_string.indexOf(decimalseparator);
-        }
-        // if it only contains one number after the .
-        else if (value_string.indexOf(decimalseparator) === (value_string.length - 2)) {
-            value_string += '0';
-        }
-
-        var thousand_string = '';
-        for (var i = value_string.length - 1; i >= 0; i--) {
-            //If the distance to the left of the decimal separator is a multiple of 3 you need to add the group separator
-            thousand_string = (i > 0 && i < decimal_position && (((decimal_position - i) % 3) === 0) ? groupseparator : '') +
-                value_string[i] + thousand_string;
-        }
-
-        if (!symbol) {
-            if (typeof session !== 'undefined' && session.getShopperCurrency) {
-                symbol = session.getShopperCurrency().symbol;
-            }
-            else if (settings.shopperCurrency) {
-                symbol = settings.shopperCurrency.symbol;
-            }
-            else if (SPA.getSessionInfo('currentCurrency')) {
-                symbol = SPA.getSessionInfo('currentCurrency').symbol;
-            }
-
-            if (!symbol) {
-                symbol = '$';
-            }
-        }
-
-        value_string = symbol + thousand_string;
-
-        return negative ? (negativeprefix + value_string + negativesuffix) : value_string;
-    }
-
-    // Formats a non-negative number with commas as thousand separator (e.g. for displaying quantities)
-    function formatQuantity(number) {
-        var result = []
-            , parts = ('' + number).split('.')
-            , integerPart = parts[0].split('').reverse();
-
-        for (var i = 0; i < integerPart.length; i++) {
-            if (i > 0 && (i % 3 === 0)) {
-                result.unshift(',');
-            }
-
-            result.unshift(integerPart[i]);
-        }
-
-        if (parts.length > 1) {
-            result.push('.');
-            result.push(parts[1]);
-        }
-
-        return result.join('');
-    }
-
-    function highlightKeyword(text, keyword) {
-        text = text || '';
-        if (!keyword) {
-            return text;
-        }
-
-        keyword = jQuery.trim(keyword).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
-
-        return text.replace(new RegExp('(' + keyword + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>';
-        });
     }
 
     function substitute(text, object) {
@@ -517,15 +171,6 @@
         }, '');
     }
 
-    function resizeImage(sizes, url, size) {
-        var resize = _.where(sizes, {name: size})[0];
-
-        if (!!resize) {
-            return url + (~url.indexOf('?') ? '&' : '?') + resize.urlsuffix;
-        }
-
-        return url;
-    }
 
     function getAbsoluteUrl(file) {
         var base_url = SPA.ENVIRONMENT.baseUrl
@@ -533,14 +178,6 @@
         return base_url ? base_url.replace('{{file}}', fileReplace) : file;
     }
 
-    function getDownloadPdfUrl(params) {
-        params = params || {};
-        params.n = SPA.ENVIRONMENT.spaSettings.siteid;
-
-        var origin = window.location.origin ? window.location.origin :
-            (window.location.protocol + '//' + window.location.hostname + (window.location.port ? (':' + window.location.port) : ''));
-        return _.addParamsToUrl(origin + _.getAbsoluteUrl('download.ssp'), params);
-    }
 
     //Fixes anchor elements, preventing default behavior so that
     //they do not change the views (ie: checkout steps)
@@ -555,24 +192,6 @@
         return window;
     }
 
-    // Performs a POST operation to a specific url
-    function doPost(url) {
-        var form = jQuery('<form id="do-post" method="POST" action="' + url + '"></form>').hide();
-
-        // we have to append it to the dom  for browser compatibility
-        // check if the form already exists (user could cancel the operation before it gets to the submit)
-        var do_post = jQuery('#do-post');
-        if (do_post && do_post[0]) {
-            do_post[0].action = url;
-            do_post[0].method = 'POST';
-        }
-        else {
-            jQuery('html').append(form);
-            do_post = jQuery('#do-post');
-        }
-
-        do_post[0].submit();
-    }
 
     function getPathFromObject(object, path, default_value) {
         if (!path) {
@@ -618,57 +237,6 @@
         prev[_.last(tokens)] = value;
     }
 
-    function getItemLinkAttributes(item) {
-        var url = _(item.get('_url') + item.getQueryStringWithQuantity(1)).fixUrl()
-            , link_attributes = '';
-
-        if (url) {
-            link_attributes = {
-                href: url
-            };
-
-            if (SPA.ENVIRONMENT.siteType === 'ADVANCED') {
-                _.extend(link_attributes, {
-                    data: {
-                        touchpoint: 'home'
-                        , hashtag: '#' + url
-                    }
-                });
-            }
-        }
-
-        return _.objectToAtrributes(link_attributes);
-    }
-
-    function ellipsis(selector) {
-        if (!jQuery(selector).data('ellipsis')) {
-            var values = ['', '.', '..', '...', '..', '.']
-            // var values = ['┏(°.°)┛', '┗(°.°)┛', '┗(°.°)┓', '┏(°.°)┓']
-                , count = 0
-                , timer = null
-                , element = jQuery(selector);
-
-            element.data('ellipsis', true);
-            element.css('visibility', 'hidden');
-            element.html('...');
-            // element.html('┏(°.°)┛');
-            element.css('width', element.css('width'));
-            element.css('display', 'inline-block');
-            element.html('');
-            element.css('visibility', 'visible');
-
-            timer = setInterval(function () {
-                if (jQuery(selector).length) {
-                    element.html(values[count % values.length]);
-                    count++;
-                }
-                else {
-                    clearInterval(timer);
-                    element = null;
-                }
-            }, 250);
-        }
-    }
 
     function reorderUrlParams(url) {
         var params = []
@@ -704,90 +272,24 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
-    // Algorithm to search an item in the cart
-    // We can't use internalid only because for matrix items, the internalid change when is added to the cart
-    function findItemInCart(findItem, cart) {
-        return cart.get('lines').find(function (item) {
-            var internalid = findItem.get('internalid')
-                , childs = findItem.getSelectedMatrixChilds();
-
-            item = item.get('item');
-
-            if (childs && childs.length === 1) {
-                internalid = childs[0].get('internalid');
-            }
-
-            if ((findItem.get('internalid') === item.get('internalid') || internalid === item.get('internalid')) && _.size(findItem.itemOptions) === _.size(item.itemOptions)) {
-                var keys = _.keys(item.itemOptions);
-                for (var i = 0; i < keys.length; i++) {
-                    if (!findItem.itemOptions[keys[i]] || findItem.itemOptions[keys[i]].internalid !== item.itemOptions[keys[i]].internalid) {
-                        return;
-                    }
-                }
-
-                return item;
-            }
-        });
-    }
-
-    function wrapNlApiStringToDate(string) {
-        if (window.top.nlapiStringToDate) {
-            return window.top.nlapiStringToDate(string);
-        }
-        else {
-            return stringToDate(string, {format: 'MM/dd/YYYY', dateSplitCharacter: '/'});
-        }
-    }
-
-    function _readCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
 
     SPA.Utils = {
         translate: translate
         , substitute: substitute
-        , paymenthodIdCreditCart: paymenthodIdCreditCart
-        , formatPhone: formatPhone
-        , dateToString: dateToString
-        , isDateValid: isDateValid
-        , stringToDate: stringToDate
-        , validatePhone: validatePhone
-        , validateState: validateState
-        , validateZipCode: validateZipCode
-        , validateSecurityCode: validateSecurityCode
-        , formatCurrency: formatCurrency
-        , formatQuantity: formatQuantity
-        , highlightKeyword: highlightKeyword
         , getFullPathForElement: getFullPathForElement
         , collectionToString: collectionToString
         , addParamsToUrl: addParamsToUrl
         , parseUrlOptions: parseUrlOptions
         , objectToAtrributes: objectToAtrributes
-        , resizeImage: resizeImage
         , hyphenate: hyphenate
         , getAbsoluteUrl: getAbsoluteUrl
         , preventAnchorNavigation: preventAnchorNavigation
         , getWindow: getWindow
-        , getDownloadPdfUrl: getDownloadPdfUrl
-        , doPost: doPost
         , getPathFromObject: getPathFromObject
         , setPathFromObject: setPathFromObject
-        , getItemLinkAttributes: getItemLinkAttributes
-        , ellipsis: ellipsis
         , reorderUrlParams: reorderUrlParams
         , getSessionParams: getSessionParams
-        , findItemInCart: findItemInCart
         , getParameterByName: getParameterByName
-        , wrapNlApiStringToDate: wrapNlApiStringToDate
         , guid: function () {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -872,7 +374,7 @@
             return JSON.stringify(obj1) === JSON.stringify(obj2);
         },
         getSessionId: function () {
-            return _readCookie('JSESSIONID');
+            return 'notimplemented';
         }
     };
 

@@ -38,10 +38,9 @@ SPA.startTimeLogs = function () {
                                     application.getLayout().internalError(SPA.ENVIRONMENT.contextError.errorMessage, 'Error ' + SPA.ENVIRONMENT.contextError.errorStatusCode + ': ' + SPA.ENVIRONMENT.contextError.errorCode);
                                 }
                                 else {
-                                    var fragment = _.parseUrlOptions(location.search).fragment;
 
-                                    if (fragment && !location.hash) {
-                                        location.hash = decodeURIComponent(fragment);
+                                    if (!document.location.hash || document.location.hash.indexOf('w=') < 0) {
+                                        document.location.hash = '?w=' + SPA.getCurrentWeek();
                                     }
 
                                     // Only do push state client side.
