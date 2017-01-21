@@ -306,7 +306,7 @@
             , decimalseparator = '.'
             , negativeprefix = '('
             , negativesuffix = ')'
-            , settings = CLU && SPA.ENVIRONMENT && SPA.ENVIRONMENT.spaSettings ? SPA.ENVIRONMENT.spaSettings : {};
+            , settings = SPA && SPA.ENVIRONMENT && SPA.ENVIRONMENT.spaSettings ? SPA.ENVIRONMENT.spaSettings : {};
 
         if (Object.prototype.hasOwnProperty.call(window, 'groupseparator')) {
             groupseparator = window.groupseparator;

@@ -90,5 +90,5 @@ express()
         });
     })
 
-    .use(express.static(__dirname + '/'))
+    .use(express.static(__dirname + '/public'))
     .listen(process.env.PORT || 5000);

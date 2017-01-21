@@ -70,33 +70,33 @@
         },
         confirm: function (taskType, options) {
             var that = this;
-            /*if (SPA.noconfirm || location.hostname.indexOf('debugger') >= 0) {
-             return options.callback(true);
-             }*/
-            if(that.application.getConfig('preInvEntries.confirmationBehaviors')[taskType].confirmRequired) {
-                return vex.dialog.confirm(_.extend(options, {
-                    buttons: {
-                        YES: {
-                            text: 'No',
-                            type: 'button',
-                            className: 'vex-dialog-button-secondary',
-                            click: function ($vexContent, event) {
-                                $vexContent.data().vex.value = false;
-                                return vex.close($vexContent.data().vex.id);
-                            }
-                        },
-                        NO: {
-                            text: 'OK',
-                            type: 'button',
-                            className: 'vex-dialog-button-primary',
-                            click: function ($vexContent, event) {
-                                $vexContent.data().vex.value = true;
-                                return vex.close($vexContent.data().vex.id);
-                            }
+            if (SPA.noconfirm) {
+                return options.callback(true);
+            }
+
+            return vex.dialog.confirm(_.extend(options, {
+                buttons: {
+                    YES: {
+                        text: 'No',
+                        type: 'button',
+                        className: 'vex-dialog-button-secondary',
+                        click: function ($vexContent, event) {
+                            $vexContent.data().vex.value = false;
+                            return vex.close($vexContent.data().vex.id);
+                        }
+                    },
+                    NO: {
+                        text: 'OK',
+                        type: 'button',
+                        className: 'vex-dialog-button-primary',
+                        click: function ($vexContent, event) {
+                            $vexContent.data().vex.value = true;
+                            return vex.close($vexContent.data().vex.id);
                         }
                     }
-                }));
-            }
+                }
+            }));
+
             return options.callback(true);
         },
         alert: function (options) {
@@ -139,14 +139,14 @@
             }
             return pvalue.data.lastdate;
         }, function (reason) {
-            throw _.createError('LAST_INVOICES_DATE_SERVER_ERROR','', reason);
+            throw _.createError('LAST_INVOICES_DATE_SERVER_ERROR', '', reason);
         }).fail(function (reason) {
-            throw _.createError('LAST_INVOICES_DATE_SERVER_ERROR','', reason);
+            throw _.createError('LAST_INVOICES_DATE_SERVER_ERROR', '', reason);
         });
     };
 
     app.setRunningCommands = function (commands) {
-      this.runningCommands = commands;
+        this.runningCommands = commands;
     };
 
     app.getRunningCommands = function () {

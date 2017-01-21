@@ -21,16 +21,16 @@
                     SALES_ORDER_CHANGED: 'CVP__SALESORDER__EVENTS__SALES_ORDER_CHANGED'
                 },
                 errors: {
-                    OFFLINE: 'CLU_GEF_CGUI_INSTANCE_OFFLINE',
-                    DISABLED_USER: 'CLU_GEF_USER_DISABLED',
-                    DUPLICATED_ITEM_CODE: 'CLU_GEF_DUP_CODE',
-                    CANT_DELETE_CSTM_RCRD_ENTRY: 'CLU_GEF_CANT_DELETE_CSTM_RCRD_ENTRY',
-                    FIELD_CONTAINS_MORE_THAN_MAX_CHARS: 'CLU_GEF_CONTAINS_MORE_THAN_FIELD_MAX_CHARS',
-                    FIELD_CONTAINS_LESS_THAN_MIN_CHARS: 'CLU_GEF_CONTAINS_LESS_THAN_FIELD_MIN_CHARS',
-                    FIELD_VALUE_IS_TOO_HIGH: 'CLU_GEF_CONTAINS_VALUE_IS_TOO_HIGH',
-                    MISSING_MANDATORY_FIELD: 'CLU_GEF_MANDATORY_FIELD_NOT_SPECIFIED',
-                    NULL_FIELD_NOT_ALLOWED: 'CLU_GEF_NULL_FIELD_NOT_ALLOWED',
-                    FIELDS_INVALID_DATA_RANGE: 'CLU_GEF_INVALID_DATA_RANGE',
+                    OFFLINE: 'SPA_GEF_CGUI_INSTANCE_OFFLINE',
+                    DISABLED_USER: 'SPA_GEF_USER_DISABLED',
+                    DUPLICATED_ITEM_CODE: 'SPA_GEF_DUP_CODE',
+                    CANT_DELETE_CSTM_RCRD_ENTRY: 'SPA_GEF_CANT_DELETE_CSTM_RCRD_ENTRY',
+                    FIELD_CONTAINS_MORE_THAN_MAX_CHARS: 'SPA_GEF_CONTAINS_MORE_THAN_FIELD_MAX_CHARS',
+                    FIELD_CONTAINS_LESS_THAN_MIN_CHARS: 'SPA_GEF_CONTAINS_LESS_THAN_FIELD_MIN_CHARS',
+                    FIELD_VALUE_IS_TOO_HIGH: 'SPA_GEF_CONTAINS_VALUE_IS_TOO_HIGH',
+                    MISSING_MANDATORY_FIELD: 'SPA_GEF_MANDATORY_FIELD_NOT_SPECIFIED',
+                    NULL_FIELD_NOT_ALLOWED: 'SPA_GEF_NULL_FIELD_NOT_ALLOWED',
+                    FIELDS_INVALID_DATA_RANGE: 'SPA_GEF_INVALID_DATA_RANGE',
                     getFieldFromError: function (value) {
                         try {
                             var token = value.split('|')[1];
@@ -84,7 +84,9 @@
     };
 
     _.extend(application.Configuration, {
-        modules: []
+        modules: [
+            'TimeLogs'
+        ]
     });
 
     var screen_width = window.screen ? window.screen.availWidth : window.outerWidth || window.innerWidth;

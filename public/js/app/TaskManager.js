@@ -116,7 +116,7 @@
         },
 
         identify: function () {
-            return 'CLU Operation [type:' + this.get('type') + ',type: ' + this.id + ']';
+            return 'SPA Operation [type:' + this.get('type') + ',type: ' + this.id + ']';
         },
 
         onResolve: function (pvalue) {
@@ -168,7 +168,7 @@
         },
 
         identify: function () {
-            return 'CLU Task [type:' + this.get('type') + ', tid: ' + this.id + ']';
+            return 'SPA Task [type:' + this.get('type') + ', tid: ' + this.id + ']';
         },
 
         createOp: function (attrs, options) {
@@ -713,7 +713,7 @@
             var that = this;
             var id = (logMsg && logMsg.id) ? logMsg.id : SPA.Utils.guid();
             var userid = SPA.getProfile().user;
-            var title = that.application.getConfig().sync.conventions.diagnostics.log.errors.getLogTitle(task, 'CLU_FATAL_ERROR', reason, userid, 'TODO_CLU_sessionid', that._shortenizeToken(that.sessionid));
+            var title = that.application.getConfig().sync.conventions.diagnostics.log.errors.getLogTitle(task, 'SPA_FATAL_ERROR', reason, userid, 'TODO_SPA_sessionid', that._shortenizeToken(that.sessionid));
             var log = new _logModel({
                     logid: id,
                     type: 'ERROR',
@@ -911,7 +911,7 @@
                         client.safeGuard();
                     }
                     catch (err) {
-                        console.log('CLU: Some error during safeGuard of client : ' + client);
+                        console.log('Some error during safeGuard of client : ' + client);
                         //silent for security reason!
                     }
                 }

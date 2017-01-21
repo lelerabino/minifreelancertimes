@@ -46,8 +46,7 @@ SPA.startTimeLogs = function () {
 
                                     // Only do push state client side.
                                     Backbone.history.start({
-                                        pushState: SPA.ENVIRONMENT.jsEnvironment === 'browser' && !SPA.preventPushState,
-                                        root: '{{{spa.historyRoot}}}'
+                                        pushState: SPA.ENVIRONMENT.jsEnvironment === 'browser' && !SPA.preventPushState
                                     });
                                     startOp.resolve();
                                     task.resolve();
@@ -68,8 +67,12 @@ SPA.startTimeLogs();
 
 var layout = SPA.Application('TimeLogs').getLayout();
 layout.appendToDom();
+layout.on('afterAppendToDom', function () {
+    SPA.initializeContainerDashboard();
+});
 
-vex.defaultOptions.className = 'vex-theme-plain';
+
+vex.defaultOptions.className = 'vex-theme-wireframe';
 
 if (SPA.ENVIRONMENT.serverSettings.beforeUnloadConfirmation) {
     jQuery(window).on('beforeunload', function () {

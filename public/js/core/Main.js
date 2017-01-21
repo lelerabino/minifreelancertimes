@@ -14,7 +14,7 @@
     'use strict';
 
     // Global Name Space CLU, stands for Clustin.
-    var CLU = window.CLU = _.extend(window.CLU || {}, Backbone.Events);
+    var SPA = window.SPA = _.extend(window.SPA || {}, Backbone.Events);
 
     // Make jQuery not use the $ alias
     //jQuery.noConflict();
