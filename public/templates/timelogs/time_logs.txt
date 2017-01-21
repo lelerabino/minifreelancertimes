@@ -24,57 +24,25 @@ test template timelogs!
                 Task1
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Customer1
-            </td>
-            <td>
-                Project1
-            </td>
-            <td>
-                Task1
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
         </tr>
         <tr>
@@ -88,57 +56,25 @@ test template timelogs!
                 Task1
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Customer1
-            </td>
-            <td>
-                Project1
-            </td>
-            <td>
-                Task1
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
-            </td>
-            <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
         </tr>
         <tr>
@@ -152,25 +88,89 @@ test template timelogs!
                 Task1
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">3</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
             <td>
-                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter username">5</a>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Customer1
+            </td>
+            <td>
+                Project1
+            </td>
+            <td>
+                Task1
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Customer1
+            </td>
+            <td>
+                Project1
+            </td>
+            <td>
+                Task1
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">3</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
+            </td>
+            <td>
+                <a href="#" class="timetext" data-type="text" data-pk="1"  data-title="Enter the time (h)">5</a>
             </td>
         </tr>
     </table>
