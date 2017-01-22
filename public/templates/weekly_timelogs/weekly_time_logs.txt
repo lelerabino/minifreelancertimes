@@ -1,16 +1,88 @@
 <div class="box-header with-border">
     <h3 class="box-title">Weekly Enter TimeLogs</h3>
-
 </div>
+<div>
+    <!--<select class="form-control" id="customers">
+        <% _.each(view.getCustomers(), function(cst, index){
+        %>
+        <option value="<%= cst._id %>"><%= cst.name %></option>
+        <%
+        }) %>
+    </select>-->
+</div>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newCstModal">Add Customer</button>
+<div class="modal fade" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Add Customer</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newCstName">Customer Name</label>
+                        <input type="text" class="form-control" id="newCstName" placeholder="customer name here">
+                    </div>
+                    <div class="form-group">
+                        <label for="newCstAddress">Address</label>
+                        <input type="text" class="form-control" id="newCstAddress" placeholder="address here" value="test address...">
+                    </div>
+                    <div class="form-group">
+                        <label for="newCstVat">Fiscal Code</label>
+                        <input type="text" class="form-control" id="newCstVat" placeholder="code here" value="1234567890">
+                    </div>
+                    <div class="form-group">
+                        <label for="newCstCurrency">Currency</label>
+                        <input type="text" class="form-control" id="newCstCurrency" placeholder="currency here" value="EUR">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" data-action="cstAdd" class="btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newPrjModal">Add Project</button>
+<div class="modal fade" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Add Project</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newPrjName">Project Name</label>
+                        <input type="text" class="form-control" id="newPrjName" placeholder="project name here">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPrjRate">Rate</label>
+                        <input type="number" min="0" max="100" class="form-control" id="newPrjRate" placeholder="address here" value="rate here">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" data-action="prjAdd" class="btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- /.box-header -->
-<div class="box-body no-padding">
-    <div class="mailbox-controls">
+<div class="box-body">
+    <div>
         <!-- Check all button -->
 
         <!-- /.btn-group -->
         <button type="button" data-action="wmove" data-incr="current" class="btn btn-default btn-sm">Today</button>
         <div class="pull-left">
-            <%=view.formatWeek()%>
+            <%= view.formatWeek() %>
             <div class="btn-group">
                 <button type="button" data-action="wmove" data-incr="-1" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
                 <button type="button" data-action="wmove" data-incr="1" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
@@ -22,162 +94,10 @@
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Project</th>
-                    <th>Task</th>
-                    <th>S</th>
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>T</th>
-                    <th>F</th>
-                    <th>S</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        Customer1
-                    </td>
-                    <td>
-                        Project1
-                    </td>
-                    <td>
-                        Task1
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Customer1
-                    </td>
-                    <td>
-                        Project1
-                    </td>
-                    <td>
-                        Task1
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Customer1
-                    </td>
-                    <td>
-                        Project1
-                    </td>
-                    <td>
-                        Task1
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Customer1
-                    </td>
-                    <td>
-                        Project1
-                    </td>
-                    <td>
-                        Task1
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                    <td>
-                        <input type="number" style="width: 3em"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- /.table -->
-    </div>
-</div>
-<!-- /.box-body -->
-
-
-<!--<div>
-        <table class="table">
             <tr>
                 <th>Customer</th>
                 <th>Project</th>
-                <th>Task</th>
+                <th>Memo</th>
                 <th>S</th>
                 <th>M</th>
                 <th>T</th>
@@ -186,6 +106,8 @@
                 <th>F</th>
                 <th>S</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
                 <td>
                     Customer1
@@ -194,7 +116,7 @@
                     Project1
                 </td>
                 <td>
-                    Task1
+                    memo1
                 </td>
                 <td>
                     <input type="number" style="width: 3em"/>
@@ -206,16 +128,16 @@
                     <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
             </tr>
             <tr>
@@ -226,7 +148,7 @@
                     Project1
                 </td>
                 <td>
-                    Task1
+                    memo1
                 </td>
                 <td>
                     <input type="number" style="width: 3em"/>
@@ -238,16 +160,16 @@
                     <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
             </tr>
             <tr>
@@ -258,7 +180,7 @@
                     Project1
                 </td>
                 <td>
-                    Task1
+                    memo1
                 </td>
                 <td>
                     <input type="number" style="width: 3em"/>
@@ -270,16 +192,16 @@
                     <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
             </tr>
             <tr>
@@ -290,7 +212,7 @@
                     Project1
                 </td>
                 <td>
-                    Task1
+                    memo1
                 </td>
                 <td>
                     <input type="number" style="width: 3em"/>
@@ -302,51 +224,21 @@
                     <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
                 <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
+                    <input type="number" style="width: 3em"/>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    Task1
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-                <td>
-                    <a href="#" class="timetext" data-type="text" data-title="Enter the time (h)">5</a>
-                </td>
-            </tr>
+            </tbody>
         </table>
-
+        <!-- /.table -->
+    </div>
 </div>
--->
+<!-- /.box-body -->

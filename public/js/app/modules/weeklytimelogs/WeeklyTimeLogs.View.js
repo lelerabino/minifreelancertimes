@@ -15,13 +15,18 @@ define('WeeklyTimeLogs.View', function () {
 
         , events: {
             'click [data-action="wmove"]': 'moveWeek',
+            'click [data-action="cstAdd"]': 'addCustomer',
+            'click [data-action="prjAdd"]': 'addProject'
         }
 
         , initialize: function (options) {
             var that = this;
             that.application = options.application;
             that.weekModel = options.weekModel;
-            that.weekModel.on('change',that.onWeekChange, that);
+            that.weekModel.on('change', that.onWeekChange, that);
+            that.cstColl = options.cstColl;
+            that.prjColl = options.prjColl;
+            that.tlColl = options.tlColl;
             that.DOM = {
                 _view: that,
                 _fxDelay: 200,
@@ -58,8 +63,8 @@ define('WeeklyTimeLogs.View', function () {
             };
         }
 
-        , onWeekChange:function () {
-            Backbone.history.navigate('log?w=' + this.getWeekNumber(), {trigger:true});
+        , onWeekChange: function () {
+            Backbone.history.navigate('log?w=' + this.getWeekNumber(), {trigger: true});
         }
 
         , getWeekNumber: function () {
@@ -68,14 +73,32 @@ define('WeeklyTimeLogs.View', function () {
 
         , formatWeek: function () {
             var wn = this.getWeekNumber(),
-                mStartDate = SPA.getDateFromRelWeek(wn).add(1,'days');
-            return mStartDate.format('MMM DD YY') + ' - ' + mStartDate.add(6,'days').format('MMM DD YY');
+                mStartDate = SPA.getDateFromRelWeek(wn).add(1, 'days');
+            return mStartDate.format('MMM DD YY') + ' - ' + mStartDate.add(6, 'days').format('MMM DD YY');
         }
 
         , moveWeek: function (e) {
             var that = this,
                 incr = jQuery(e.target).closest('button').data('incr');
             that.weekModel.set('week', (incr === 'current') ? SPA.getCurrentWeek() : (that.getWeekNumber() + parseInt(incr)));
+        }
+
+        , addCustomer: function (e) {
+            var that = this;
+            that.cstColl.create({
+                name:that.$('#newCstName').val(),
+                address:that.$('#newCstAddress').val(),
+                vatNumber:that.$('#newCstVat').val(),
+                currency:that.$('#newCstCurrency').val()
+            });
+        }
+
+        , addProject: function (e) {
+            var that = this;
+            that.prjColl.create({
+                name:that.$('#newPrjName').val(),
+                rate:that.$('#newPrjRate').val()
+            });
         }
 
         , render: function () {
@@ -87,6 +110,11 @@ define('WeeklyTimeLogs.View', function () {
             return that;
         }
 
+        , getCustomers: function () {
+            var that = this;
+            return that.cstColl.toJSON();
+        }
+
         , showContent: function () {
             this.application.getLayout().showContent(this).then(function () {
 
@@ -95,7 +123,7 @@ define('WeeklyTimeLogs.View', function () {
 
         , destroy: function () {
             var that = this;
-            that.weekModel.off('change',that.onWeekChange);
+            that.weekModel.off('change', that.onWeekChange);
             console.log('destroy view');
             that._destroy();
         }

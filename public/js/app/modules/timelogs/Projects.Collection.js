@@ -7,7 +7,7 @@ define('Projects.Collection',['Projects.Model'], function (Model) {
     return Backbone.Collection.extend(
         {
             model:Model,
-            urlRoot: 'TODO'
+            url: '/api/projects',
 
-        });
+        }, SPA.Singleton);
 });

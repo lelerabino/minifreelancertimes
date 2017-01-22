@@ -7,7 +7,7 @@ define('Customers.Collection',['Customers.Model'], function (Model) {
     return Backbone.Collection.extend(
         {
             model:Model,
-            urlRoot: 'TODO'
+            url: '/api/customers',
 
-        });
+        }, SPA.Singleton);
 });
