@@ -1,16 +1,14 @@
-// timelogs.js
+// TimeLogs.js
 // -----------------
-// Defines the timelogs module (Model, Collection, Views, Router)
+// Defines the TimeLogs module (Model, Collection, Views, Router)
 define('TimeLogs'
-    , ['TimeLogs.Router']
-    , function (Router) {
+    , []
+    , function () {
         'use strict';
 
         return {
-            Router: Router
-            , mountToApp: function (application) {
-                // default behaviour for mount to app
-                return new Router(application);
+            mountToApp: function (application) {
+
             }
         };
     });

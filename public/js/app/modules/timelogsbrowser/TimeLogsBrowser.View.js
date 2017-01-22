@@ -1,7 +1,7 @@
-// TimeBrowser.View.js
+// TimeLogsBrowser.View.js
 // -------------------
 // Handles the related view
-define('TimeBrowser.View', function () {
+define('TimeLogsBrowser.View', function () {
     'use strict';
 
 
@@ -9,9 +9,9 @@ define('TimeBrowser.View', function () {
 
         template: 'time_logs'
 
-        , title: _('TimeBrowser').translate()
+        , title: _('TimeLogsBrowser').translate()
 
-        , page_header: _('TimeBrowser.View').translate()
+        , page_header: _('TimeLogsBrowser.View').translate()
 
         , events: {
             'click [data-action="wmove"]': 'moveWeek',

@@ -1,7 +1,7 @@
-// TimeLogs.Router.js
+// WeeklyTimeLogs.Router.js
 // -----------------------
 // Router for handling ...
-define('TimeLogs.Router', ['TimeLogs.View'], function (View) {
+define('WeeklyTimeLogs.Router', ['WeeklyTimeLogs.View'], function (View) {
     'use strict';
 
     return Backbone.Router.extend({

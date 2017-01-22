@@ -1,7 +1,7 @@
-// TimeBrowser.Router.js
+// TimeLogsBrowser.Router.js
 // -----------------------
 // Router for handling ...
-define('TimeBrowser.Router', ['TimeBrowser.View'], function (View) {
+define('TimeLogsBrowser.Router', ['TimeLogsBrowser.View'], function (View) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -16,6 +16,7 @@ define('TimeBrowser.Router', ['TimeBrowser.View'], function (View) {
         }
 
         , browse: function (filter) {
+            return;
             var view = new View({
                 application: this.application,
                 weekModel : new Backbone.Model({week:w})

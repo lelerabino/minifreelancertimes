@@ -1,17 +1,17 @@
-// TimeLogs.View.js
+// WeeklyTimeLogs.View.js
 // -------------------
 // Handles the related view
-define('TimeLogs.View', function () {
+define('WeeklyTimeLogs.View', function () {
     'use strict';
 
 
     return Backbone.View.extend({
 
-        template: 'time_logs'
+        template: 'weekly_time_logs'
 
-        , title: _('TimeLogs').translate()
+        , title: _('WeeklyTimeLogs').translate()
 
-        , page_header: _('TimeLogs.View').translate()
+        , page_header: _('WeeklyTimeLogs.View').translate()
 
         , events: {
             'click [data-action="wmove"]': 'moveWeek',

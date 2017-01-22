@@ -1,8 +1,8 @@
 // timelogs.js
 // -----------------
 // Defines the timelogs module (Model, Collection, Views, Router)
-define('TimeBrowser'
-    , ['TimeBrowser.Router']
+define('WeeklyTimeLogs'
+    , ['WeeklyTimeLogs.Router']
     , function (Router) {
         'use strict';
 
