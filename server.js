@@ -83,7 +83,12 @@ express()
     //region TimeLogs API
     .get('/api/timelogs', function (req, res) {
         // http://mongoosejs.com/docs/api.html#query_Query-find
-        TimeLog.find(function (err, timelogs) {
+
+        var query = TimeLog.find();
+        if (req.query.populate) {
+            query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
+        }
+        query.exec(function (err, timelogs) {
             res.json(200, timelogs);
         });
     })

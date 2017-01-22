@@ -16,9 +16,9 @@ define('TimeLogsBrowser.Router', ['TimeLogs.Collection', 'TimeLogsBrowser.View']
         }
 
         , browse: function (filter) {
-            var that=this, coll = TLCollection.getInstance();
+            var that = this, coll = TLCollection.getInstance();
 
-            coll.fetch().then(function () {
+            coll.fetch({data: {populate: true}}).then(function () {
                 var view = new View({
                     application: that.application,
                     coll: coll

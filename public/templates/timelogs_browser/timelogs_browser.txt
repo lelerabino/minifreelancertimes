@@ -24,19 +24,19 @@
                     <input type="checkbox"/>
                 </td>
                 <td>
-                    <%=tlog.date%>
+                    <%=_.formatDate(tlog.date)%>
                 </td>
                 <td>
-                    <%=tlog._cstId%>
+                    <%=tlog._cstId.name%>
                 </td>
                 <td>
-                    <%=tlog._prjId%>
+                    <%=tlog._prjId.name%>
                 </td>
                 <td>
                     <%=tlog.memo%>
                 </td>
                 <td>
-                    <%=tlog.duration%>
+                    <%=tlog.duration%>h
                 </td>
             </tr>
             <%
