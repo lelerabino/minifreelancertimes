@@ -85,7 +85,8 @@
 
     _.extend(application.Configuration, {
         modules: [
-            'TimeLogs'
+            'TimeLogs',
+            'TimeBrowser'
         ]
     });
 
