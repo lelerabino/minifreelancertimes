@@ -476,6 +476,7 @@
                 });
                 that._surrogateTask = that.createTask(that, {type: 'SURROGATE'});
                 window.onerror = function (err, url, lineNumber) {
+                    alert(err.toString());
                     that._surrogateTask.reject(that.createReason('WINDOW_ONERROR', {
                         error: err,
                         url: url,
