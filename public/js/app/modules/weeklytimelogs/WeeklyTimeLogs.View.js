@@ -119,7 +119,7 @@ define('WeeklyTimeLogs.View', function () {
         , buildNewRowDialog: function (e) {
             var that = this;
             that.$('[data-placeholder="newRowModal"]').html(
-                SPA.macros.newWeeklyRow(that)
+                SPA.template('new_row_tmpl', {view: that})
             );
 
             that.$('#newRowModal').modal();
