@@ -5,7 +5,9 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     favicon = require('serve-favicon'),
     basicAuth = require('basic-auth-connect'),
-    TimeLog = require('./app/models/timelog');
+    Customer = require('./app/models/models').Customer,
+    Project = require('./app/models/models').Project,
+    TimeLog = require('./app/models/models').TimeLog;
 
 /*
  * I’m sharing my credential here.
@@ -36,6 +38,49 @@ express()
         res.json(200, {msg: 'API is responding!'});
     })
 
+    //region Customers API
+    .get('/api/customers', function (req, res) {
+        // http://mongoosejs.com/docs/api.html#query_Query-find
+        Customer.find(function (err, customers) {
+            res.json(200, customers);
+        });
+    })
+
+    .post('/api/customers', function (req, res) {
+        var customer = new Customer(req.body);
+        // http://mongoosejs.com/docs/api.html#model_Model-save
+        customer.save(function (err) {
+            if (err) {
+                handleError(res, err.message, "Failed to create new customer.");
+            } else {
+                res.status(201).json(customer);
+            }
+        });
+    })
+    //endregion
+
+    //region Projects API
+    .get('/api/projects', function (req, res) {
+        // http://mongoosejs.com/docs/api.html#query_Query-find
+        Project.find(function (err, projects) {
+            res.json(200, projects);
+        });
+    })
+
+    .post('/api/projects', function (req, res) {
+        var project = new Project(req.body);
+        // http://mongoosejs.com/docs/api.html#model_Model-save
+        project.save(function (err) {
+            if (err) {
+                handleError(res, err.message, "Failed to create new project.");
+            } else {
+                res.status(201).json(project);
+            }
+        });
+    })
+    //endregion
+
+    //region TimeLogs API
     .get('/api/timelogs', function (req, res) {
         // http://mongoosejs.com/docs/api.html#query_Query-find
         TimeLog.find(function (err, timelogs) {
@@ -48,7 +93,7 @@ express()
         // http://mongoosejs.com/docs/api.html#model_Model-save
         timelog.save(function (err) {
             if (err) {
-                handleError(res, err.message, "Failed to create new contact.");
+                handleError(res, err.message, "Failed to create new timelog.");
             } else {
                 res.status(201).json(timelog);
             }
@@ -89,6 +134,8 @@ express()
             });
         });
     })
+    //endregion
+
 
     .use(basicAuth('guest', 'guest'))
     .use(express.static(__dirname + '/public'))
