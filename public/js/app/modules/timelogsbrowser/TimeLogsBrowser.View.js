@@ -14,13 +14,15 @@ define('TimeLogsBrowser.View', function () {
         , page_header: _('TimeLogsBrowser.View').translate()
 
         , events: {
-            'click [data-action="wmove"]': 'moveWeek',
+            'change #filter_cst': 'filterCustomer'
         }
 
         , initialize: function (options) {
             var that = this;
             that.application = options.application;
             that.coll = options.coll;
+            that.filter = options.filter;
+            that.filter.on('change', that.onFilterChange, that);
             that.DOM = {
                 _view: that,
                 _fxDelay: 200,
@@ -33,6 +35,10 @@ define('TimeLogsBrowser.View', function () {
                         root: this._view.$el,
 
                     });
+                },
+
+                selectCurrentFilter:function(){
+                  this.$('#filter_cst').val(that.filter.get('filter').cst);
                 },
 
                 activateViewScripts: function () {
@@ -57,12 +63,35 @@ define('TimeLogsBrowser.View', function () {
             };
         }
 
+        , onFilterChange: function () {
+            var that = this;
+            that.render();
+        }
+
+        , filterCustomer: function (e) {
+            var that = this,
+                cstFilter = that.$('#filter_cst').val();
+            that.filter.set('filter', {cst: cstFilter});
+        }
+
+        , getFilteredTimeLogs: function () {
+            var that = this;
+            if (that.filter.get('filter').cst != '-') {
+                return _.filter(that.coll.toJSON(), function (tl) {
+                    return tl._cstId._id === that.filter.get('filter').cst
+                });
+            }
+            else {
+                return that.coll.toJSON();
+            }
+        }
+
         , render: function () {
             var that = this;
-            that.dirty = false;
             Backbone.View.prototype.render.apply(this, arguments);
             that.DOM._cacheEls();
             that.DOM.activateViewScripts();
+            that.DOM.selectCurrentFilter();
             return that;
         }
 

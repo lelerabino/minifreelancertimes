@@ -1,9 +1,26 @@
 <div class="box-header with-border">
     <h3 class="box-title">TimeLogs Browser</h3>
-
 </div>
 <!-- /.box-header -->
 <div class="box-body no-padding">
+    <div>
+        <label for="filter_cst">Customer</label>
+        <select class="form-control" id="filter_cst">
+            <option value="-">- All -</option>
+            <% _.each(view.coll.getCustomers(), function(cst, index){
+            %>
+            <option value="<%= cst._id %>"><%= cst.name %></option>
+            <%
+            }) %>
+        </select>
+        <!--<select class="form-control">
+            <% _.each(view.coll.getProjects(), function(prj, index){
+            %>
+            <option value="<%= prj._id %>"><%= prj.name %></option>
+            <%
+            }) %>
+        </select>-->
+    </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
@@ -17,26 +34,26 @@
             </tr>
             </thead>
             <tbody>
-            <% _.each(view.coll.toJSON(), function(tlog, index){
+            <% _.each(view.getFilteredTimeLogs(), function(tlog, index){
             %>
             <tr>
                 <td>
                     <input type="checkbox"/>
                 </td>
                 <td>
-                    <%=_.formatDate(tlog.date)%>
+                    <%= _.formatDate(tlog.date) %>
                 </td>
                 <td>
-                    <%=tlog._cstId.name%>
+                    <%= tlog._cstId.name %>
                 </td>
                 <td>
-                    <%=tlog._prjId.name%>
+                    <%= tlog._prjId.name %>
                 </td>
                 <td>
-                    <%=tlog.memo%>
+                    <%= tlog.memo %>
                 </td>
                 <td>
-                    <%=tlog.duration%>h
+                    <%= tlog.duration %>h
                 </td>
             </tr>
             <%
@@ -46,4 +63,5 @@
         </table>
 
     </div>
-    <!-- /.box-body -->
+</div>
+<!-- /.box-body -->

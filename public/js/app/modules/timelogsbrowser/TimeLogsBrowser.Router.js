@@ -21,7 +21,8 @@ define('TimeLogsBrowser.Router', ['TimeLogs.Collection', 'TimeLogsBrowser.View']
             coll.fetch({data: {populate: true}}).then(function () {
                 var view = new View({
                     application: that.application,
-                    coll: coll
+                    coll: coll,
+                    filter:new Backbone.Model({filter:{cst:'-'}})
                 });
 
                 view.showContent();
