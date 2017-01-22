@@ -39,8 +39,8 @@ SPA.startTimeLogs = function () {
                                 }
                                 else {
 
-                                    if (!document.location.hash || document.location.hash.indexOf('w=') < 0) {
-                                        document.location.hash = '?w=' + SPA.getCurrentWeek();
+                                    if (!document.location.hash) {
+                                        document.location.hash = 'log?w=' + SPA.getCurrentWeek();
                                     }
 
                                     // Only do push state client side.

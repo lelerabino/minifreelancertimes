@@ -59,7 +59,7 @@ define('TimeLogs.View', function () {
         }
 
         , onWeekChange:function () {
-            Backbone.history.navigate('?w=' + this.getWeekNumber(), {trigger:true});
+            Backbone.history.navigate('log?w=' + this.getWeekNumber(), {trigger:true});
         }
 
         , getWeekNumber: function () {

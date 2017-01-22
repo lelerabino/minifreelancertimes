@@ -7,7 +7,7 @@ define('TimeLogs.Router', ['TimeLogs.View'], function (View) {
     return Backbone.Router.extend({
 
         routes: {
-            '?w=*w': 'index'
+            'log?w=*w': 'index'
         }
 
         , initialize: function (application) {
