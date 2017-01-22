@@ -1,4 +1,4 @@
-<% registerMacro('newWeeklyRow', function (view) { %>
+<% SPA.registerMacro('newWeeklyRow', function (view) { %>
 <div class="modal" tabindex="-1" role="dialog" id="newRowModal" aria-labelledby="newRowModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

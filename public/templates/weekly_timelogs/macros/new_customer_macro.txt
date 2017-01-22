@@ -1,4 +1,4 @@
-<% registerMacro('newCustomer', function () { %>
+<% SPA.registerMacro('newCustomer', function () { %>
 <div class="modal" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -23,33 +23,28 @@
 		// Exports all macros to SPA.macros
 		SPA.macros = {};
 
-		var context = {
+        SPA.registerMacro= function (name, fn)
+        {
+            var original_source = fn.toString()
+                ,	prefix = isTestingEnv() ? '' : '\\n\\n<!-- MACRO STARTS: ' + name + ' -->\\n'
+                ,	posfix = isTestingEnv() ? '' : '\\n<!-- MACRO ENDS: ' + name + ' -->\\n'
+                // Adds comment lines at the begining and end of the macro
+                // The rest of the mumbo jumbo is to play nice with underscore.js
+                ,	modified_source = ';try{var __p="' + prefix + '";' + original_source.replace(/^function[^\{]+\{/i, '').replace(/\}[^\}]*$/i, '') +';__p+="' + posfix + '";return __p;}catch(e){SPA.handleMacroError(e,"'+ name +'")}' || []
+                // We get the parameters from the string with a RegExp
+                ,	parameters = original_source.slice(original_source.indexOf('(') + 1, original_source.indexOf(')')).match(/([^\s,]+)/g) || [];
 
-			// registerMacro:
-			// method used on every macro to define itself
-			registerMacro: function (name, fn)
-			{
-				var original_source = fn.toString()
-				,	prefix = isTestingEnv() ? '' : '\\n\\n<!-- MACRO STARTS: ' + name + ' -->\\n'
-				,	posfix = isTestingEnv() ? '' : '\\n<!-- MACRO ENDS: ' + name + ' -->\\n'
-					// Adds comment lines at the begining and end of the macro
-					// The rest of the mumbo jumbo is to play nice with underscore.js
-				,	modified_source = ';try{var __p="' + prefix + '";' + original_source.replace(/^function[^\{]+\{/i, '').replace(/\}[^\}]*$/i, '') +';__p+="' + posfix + '";return __p;}catch(e){SPA.handleMacroError(e,"'+ name +'")}' || []
-					// We get the parameters from the string with a RegExp
-				,	parameters = original_source.slice(original_source.indexOf('(') + 1, original_source.indexOf(')')).match(/([^\s,]+)/g) || [];
+            parameters.push(modified_source);
 
-				parameters.push(modified_source);
-
-				// Add the macro to SPA.macros
-				SPA.macros[name] = _.wrap(Function.apply(null, parameters), function (fn)
-				{
-					var result = fn.apply(this, _.toArray(arguments).slice(1));
-					result = minifyMarkup(result);
-					result = removeScripts(result);
-					return result;
-				});
-			}
-		};
+            // Add the macro to SPA.macros
+            SPA.macros[name] = _.wrap(Function.apply(null, parameters), function (fn)
+            {
+                var result = fn.apply(this, _.toArray(arguments).slice(1));
+                result = minifyMarkup(result);
+                result = removeScripts(result);
+                return result;
+            });
+        };
 
 		// Now we compile de macros
 		_.each(macros, function (macro)
@@ -57,7 +52,7 @@
 			try
 			{
 				// http://underscorejs.org/#template
-				_.template(macro, context);
+				_.template(macro)();
 			}
 			catch (e)
 			{
