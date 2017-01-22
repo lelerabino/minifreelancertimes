@@ -99,7 +99,7 @@ define('WeeklyTimeLogs.View', function () {
         , buildCstDialog: function (e) {
             var that = this;
             that.$('[data-placeholder="cstModal"]').html(
-                SPA.macros.newCustomer(that)
+                SPA.template('new_customer_tmpl', {view: that})
             );
 
             that.$('#newCstModal').modal();
@@ -109,7 +109,7 @@ define('WeeklyTimeLogs.View', function () {
         , buildPrjDialog: function (e) {
             var that = this;
             that.$('[data-placeholder="prjModal"]').html(
-                SPA.macros.newProject(that)
+                SPA.template('new_project_tmpl', {view: that})
             );
 
             that.$('#newPrjModal').modal();

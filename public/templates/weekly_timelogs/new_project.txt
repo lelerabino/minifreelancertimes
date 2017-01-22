@@ -1,4 +1,3 @@
-<% SPA.registerMacro('newProject', function (view) { %>
 <div class="modal" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -35,4 +34,3 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<% }) %>
