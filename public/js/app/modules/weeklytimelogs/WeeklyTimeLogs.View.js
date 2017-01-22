@@ -67,15 +67,15 @@ define('WeeklyTimeLogs.View', function () {
         }
 
         , formatWeek: function () {
-            var wn = this.getWeekNumber();
-            return moment().day(0).week(wn).format('MMM DD YY') + ' - ' + moment().day(6).week(wn).format('MMM DD YY');
+            var wn = this.getWeekNumber(),
+                mStartDate = SPA.getDateFromRelWeek(wn).add(1,'days');
+            return mStartDate.format('MMM DD YY') + ' - ' + mStartDate.add(6,'days').format('MMM DD YY');
         }
 
         , moveWeek: function (e) {
             var that = this,
                 incr = jQuery(e.target).closest('button').data('incr');
-
-            that.weekModel.set('week',(that.getWeekNumber() + parseInt(incr)));
+            that.weekModel.set('week', (incr === 'current') ? SPA.getCurrentWeek() : (that.getWeekNumber() + parseInt(incr)));
         }
 
         , render: function () {
@@ -91,6 +91,13 @@ define('WeeklyTimeLogs.View', function () {
             this.application.getLayout().showContent(this).then(function () {
 
             });
+        }
+
+        , destroy: function () {
+            var that = this;
+            that.weekModel.off('change',that.onWeekChange);
+            console.log('destroy view');
+            that._destroy();
         }
     });
 });

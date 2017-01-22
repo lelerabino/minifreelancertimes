@@ -7,7 +7,7 @@ define('TimeLogsBrowser.View', function () {
 
     return Backbone.View.extend({
 
-        template: 'time_logs'
+        template: 'timelogs_browser'
 
         , title: _('TimeLogsBrowser').translate()
 
@@ -20,8 +20,7 @@ define('TimeLogsBrowser.View', function () {
         , initialize: function (options) {
             var that = this;
             that.application = options.application;
-            that.weekModel = options.weekModel;
-            that.weekModel.on('change',that.onWeekChange, that);
+            that.coll = options.coll;
             that.DOM = {
                 _view: that,
                 _fxDelay: 200,
@@ -58,26 +57,6 @@ define('TimeLogsBrowser.View', function () {
             };
         }
 
-        , onWeekChange:function () {
-            Backbone.history.navigate('log?w=' + this.getWeekNumber(), {trigger:true});
-        }
-
-        , getWeekNumber: function () {
-            return parseInt(this.weekModel.get('week'));
-        }
-
-        , formatWeek: function () {
-            var wn = this.getWeekNumber();
-            return moment().day(0).week(wn).format('MMM DD YY') + ' - ' + moment().day(6).week(wn).format('MMM DD YY');
-        }
-
-        , moveWeek: function (e) {
-            var that = this,
-                incr = jQuery(e.target).closest('button').data('incr');
-
-            that.weekModel.set('week',(that.getWeekNumber() + parseInt(incr)));
-        }
-
         , render: function () {
             var that = this;
             that.dirty = false;
@@ -91,6 +70,12 @@ define('TimeLogsBrowser.View', function () {
             this.application.getLayout().showContent(this).then(function () {
 
             });
+        }
+
+        , destroy: function () {
+            var that = this;
+            console.log('destroy view');
+            that._destroy();
         }
     });
 });

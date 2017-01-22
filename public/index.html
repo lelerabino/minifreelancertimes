@@ -50,7 +50,16 @@
                 return SPA.ENVIRONMENT.PROFILE;
             },
             getCurrentWeek: function () {
-                return moment().week();
+                var now = moment().startOf('day');
+                return this.getRelativeWeeks(now);
+            },
+            getRelativeWeeks: function (mdate) {
+                var dref = moment([2000, 0, 1]);
+                return mdate.diff(dref, 'weeks')
+            },
+            getDateFromRelWeek: function (weeks) {
+                var dref = moment([2000, 0, 1]);
+                return dref.add(weeks, 'weeks');
             }
         };
     </script>
@@ -81,6 +90,7 @@
 <script src="js/core/Main.js"></script>
 <script src="js/core/Utils.js"></script>
 <script src="js/core/ApplicationSkeleton.js"></script>
+<script src="js/core/extras/jQuery.ajaxSetup.js"></script>
 <script src="js/core/extras/ApplicationSkeleton.Layout.showContent.js"></script>
 <script src="js/core/extras/ApplicationSkeleton.Layout.showError.js"></script>
 <script src="js/core/extras/ApplicationSkeleton.Layout.showInModal.js"></script>

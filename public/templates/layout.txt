@@ -162,12 +162,12 @@
 		<ul class="sidebar-menu">
 			<li>
 				<a href="#log?w=current">
-					<i class="fa fa-th"></i> <span>Weekly Add</span>
+					<i class="fa fa-plus"></i> <span>Weekly Add</span>
 				</a>
 			</li>
 			<li>
 				<a href="#browse">
-					<i class="fa fa-th"></i> <span>Browse</span>
+					<i class="fa fa-list"></i> <span>Browse</span>
 				</a>
 			</li>
 		</ul>

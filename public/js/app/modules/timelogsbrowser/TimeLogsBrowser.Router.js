@@ -1,14 +1,14 @@
 // TimeLogsBrowser.Router.js
 // -----------------------
 // Router for handling ...
-define('TimeLogsBrowser.Router', ['TimeLogsBrowser.View'], function (View) {
+define('TimeLogsBrowser.Router', ['TimeLogs.Collection', 'TimeLogsBrowser.View'], function (TLCollection, View) {
     'use strict';
 
     return Backbone.Router.extend({
 
         routes: {
             'browse': 'browse',
-            'browse?filter=*filter':'browse'
+            'browse?filter=*filter': 'browse'
         }
 
         , initialize: function (application) {
@@ -16,13 +16,17 @@ define('TimeLogsBrowser.Router', ['TimeLogsBrowser.View'], function (View) {
         }
 
         , browse: function (filter) {
-            return;
-            var view = new View({
-                application: this.application,
-                weekModel : new Backbone.Model({week:w})
+            var that=this, coll = TLCollection.getInstance();
+
+            coll.fetch().then(function () {
+                var view = new View({
+                    application: that.application,
+                    coll: coll
+                });
+
+                view.showContent();
             });
 
-            view.showContent();
         }
     });
 });

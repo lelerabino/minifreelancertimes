@@ -7,7 +7,7 @@ define('TimeLogs.Collection',['TimeLogs.Model'], function (Model) {
     return Backbone.Collection.extend(
         {
             model:Model,
-            urlRoot: 'TODO'
+            url: '/api/timelogs'
 
-        });
+        }, SPA.Singleton);
 });

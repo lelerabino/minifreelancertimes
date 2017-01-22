@@ -1,5 +1,5 @@
 <div class="box-header with-border">
-    <h3 class="box-title">TimeLogs</h3>
+    <h3 class="box-title">Weekly Enter TimeLogs</h3>
 
 </div>
 <!-- /.box-header -->
@@ -8,7 +8,7 @@
         <!-- Check all button -->
 
         <!-- /.btn-group -->
-        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+        <button type="button" data-action="wmove" data-incr="current" class="btn btn-default btn-sm">Today</button>
         <div class="pull-left">
             <%=view.formatWeek()%>
             <div class="btn-group">
@@ -19,7 +19,7 @@
         </div>
         <!-- /.pull-right -->
     </div>
-    <div class="table-responsive mailbox-messages">
+    <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
@@ -168,7 +168,6 @@
         </table>
         <!-- /.table -->
     </div>
-    <!-- /.mail-box-messages -->
 </div>
 <!-- /.box-body -->
 

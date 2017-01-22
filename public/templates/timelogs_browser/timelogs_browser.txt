@@ -1,0 +1,49 @@
+<div class="box-header with-border">
+    <h3 class="box-title">TimeLogs Browser</h3>
+
+</div>
+<!-- /.box-header -->
+<div class="box-body no-padding">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Project</th>
+                <th>Memo</th>
+                <th>Duration</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% _.each(view.coll.toJSON(), function(tlog, index){
+            %>
+            <tr>
+                <td>
+                    <input type="checkbox"/>
+                </td>
+                <td>
+                    <%=tlog.date%>
+                </td>
+                <td>
+                    <%=tlog._cstId%>
+                </td>
+                <td>
+                    <%=tlog._prjId%>
+                </td>
+                <td>
+                    <%=tlog.memo%>
+                </td>
+                <td>
+                    <%=tlog.duration%>
+                </td>
+            </tr>
+            <%
+            }) %>
+
+            </tbody>
+        </table>
+
+    </div>
+    <!-- /.box-body -->
