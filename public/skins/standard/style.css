@@ -1,6 +1,3 @@
-
-
-a.editable-empty {
-    color: gray;
-    font-style: italic;
+.modal-dialog{
+    top: 20%;
 }

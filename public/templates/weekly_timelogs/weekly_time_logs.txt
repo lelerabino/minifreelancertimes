@@ -4,75 +4,17 @@
 <div>
     <!--<select class="form-control" id="customers">
         <% _.each(view.getCustomers(), function(cst, index){
-        %>
+    %>
         <option value="<%= cst._id %>"><%= cst.name %></option>
         <%
-        }) %>
+    }) %>
     </select>-->
 </div>
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newCstModal">Add Customer</button>
-<div class="modal fade" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form>
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">Add Customer</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="newCstName">Customer Name</label>
-                        <input type="text" class="form-control" id="newCstName" placeholder="customer name here">
-                    </div>
-                    <div class="form-group">
-                        <label for="newCstAddress">Address</label>
-                        <input type="text" class="form-control" id="newCstAddress" placeholder="address here" value="test address...">
-                    </div>
-                    <div class="form-group">
-                        <label for="newCstVat">Fiscal Code</label>
-                        <input type="text" class="form-control" id="newCstVat" placeholder="code here" value="1234567890">
-                    </div>
-                    <div class="form-group">
-                        <label for="newCstCurrency">Currency</label>
-                        <input type="text" class="form-control" id="newCstCurrency" placeholder="currency here" value="EUR">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" data-action="cstAdd" class="btn btn-primary" data-dismiss="modal">Save</button>
-                </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<%= SPA.macros.newCustomer()%>
 
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newPrjModal">Add Project</button>
-<div class="modal fade" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form>
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">Add Project</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="newPrjName">Project Name</label>
-                        <input type="text" class="form-control" id="newPrjName" placeholder="project name here">
-                    </div>
-                    <div class="form-group">
-                        <label for="newPrjRate">Rate</label>
-                        <input type="number" min="0" max="100" class="form-control" id="newPrjRate" placeholder="address here" value="rate here">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" data-action="prjAdd" class="btn btn-primary" data-dismiss="modal">Save</button>
-                </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<%= SPA.macros.newProject()%>
 
 <!-- /.box-header -->
 <div class="box-body">
@@ -140,105 +82,11 @@
                     <input type="number" style="width: 3em"/>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    memo1
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    memo1
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Customer1
-                </td>
-                <td>
-                    Project1
-                </td>
-                <td>
-                    memo1
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-                <td>
-                    <input type="number" style="width: 3em"/>
-                </td>
-            </tr>
             </tbody>
         </table>
         <!-- /.table -->
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newRowModal">Add Row</button>
+        <%= SPA.macros.newWeeklyRow()%>
     </div>
 </div>
 <!-- /.box-body -->
