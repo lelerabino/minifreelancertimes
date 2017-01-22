@@ -1,4 +1,4 @@
-<% registerMacro('newProject', function () { %>
+<% registerMacro('newProject', function (view) { %>
 <div class="modal" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -8,6 +8,16 @@
                     <h4 class="modal-title" id="gridSystemModalLabel">Add Project</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newPrjName">Customer</label>
+                        <select class="form-control" id="customers">
+                            <% _.each(view.getCustomers(), function(cst, index){
+                            %>
+                            <option value="<%= cst._id %>"><%= cst.name %></option>
+                            <%
+                            }) %>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="newPrjName">Project Name</label>
                         <input type="text" class="form-control" id="newPrjName" placeholder="project name here">

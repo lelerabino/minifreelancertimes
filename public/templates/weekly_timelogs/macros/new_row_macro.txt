@@ -1,4 +1,4 @@
-<% registerMacro('newWeeklyRow', function () { %>
+<% registerMacro('newWeeklyRow', function (view) { %>
 <div class="modal" tabindex="-1" role="dialog" id="newRowModal" aria-labelledby="newRowModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -14,14 +14,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="newPrjName">Customer</label>
-                                    <input type="text" class="form-control" id="newPrjName" placeholder="project name here">
+                                    <select class="form-control" id="customers">
+                                        <% _.each(view.getCustomers(), function(cst, index){
+                                        %>
+                                        <option value="<%= cst._id %>"><%= cst.name %></option>
+                                        <%
+                                        }) %>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="newPrjRate">Project</label>
-                                    <input type="number" min="0" max="100" class="form-control" id="newPrjRate" placeholder="address here"
-                                           value="rate here">
+                                    <select class="form-control">
+                                        <% _.each(view.getProjects(), function(prj, index){
+                                        %>
+                                        <option value="<%= prj._id %>"><%= prj.name %></option>
+                                        <%
+                                        }) %>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">

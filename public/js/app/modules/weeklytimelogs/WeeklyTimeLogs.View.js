@@ -16,7 +16,10 @@ define('WeeklyTimeLogs.View', function () {
         , events: {
             'click [data-action="wmove"]': 'moveWeek',
             'click [data-action="cstAdd"]': 'addCustomer',
-            'click [data-action="prjAdd"]': 'addProject'
+            'click [data-action="prjAdd"]': 'addProject',
+            'click [data-action="buildCstDialog"]': 'buildCstDialog',
+            'click [data-action="buildPrjDialog"]': 'buildPrjDialog',
+            'click [data-action="buildNewRowDialog"]': 'buildNewRowDialog'
         }
 
         , initialize: function (options) {
@@ -86,18 +89,47 @@ define('WeeklyTimeLogs.View', function () {
         , addCustomer: function (e) {
             var that = this;
             that.cstColl.create({
-                name:that.$('#newCstName').val(),
-                address:that.$('#newCstAddress').val(),
-                vatNumber:that.$('#newCstVat').val(),
-                currency:that.$('#newCstCurrency').val()
+                name: that.$('#newCstName').val(),
+                address: that.$('#newCstAddress').val(),
+                vatNumber: that.$('#newCstVat').val(),
+                currency: that.$('#newCstCurrency').val()
             });
+        }
+
+        , buildCstDialog: function (e) {
+            var that = this;
+            that.$('[data-placeholder="cstModal"]').html(
+                SPA.macros.newCustomer(that)
+            );
+
+            that.$('#newCstModal').modal();
+
+        }
+
+        , buildPrjDialog: function (e) {
+            var that = this;
+            that.$('[data-placeholder="prjModal"]').html(
+                SPA.macros.newProject(that)
+            );
+
+            that.$('#newPrjModal').modal();
+
+        }
+
+        , buildNewRowDialog: function (e) {
+            var that = this;
+            that.$('[data-placeholder="newRowModal"]').html(
+                SPA.macros.newWeeklyRow(that)
+            );
+
+            that.$('#newRowModal').modal();
         }
 
         , addProject: function (e) {
             var that = this;
             that.prjColl.create({
-                name:that.$('#newPrjName').val(),
-                rate:that.$('#newPrjRate').val()
+                name: that.$('#newPrjName').val(),
+                rate: that.$('#newPrjRate').val()
             });
         }
 
@@ -113,6 +145,11 @@ define('WeeklyTimeLogs.View', function () {
         , getCustomers: function () {
             var that = this;
             return that.cstColl.toJSON();
+        }
+
+        , getProjects: function () {
+            var that = this;
+            return that.prjColl.toJSON();
         }
 
         , showContent: function () {

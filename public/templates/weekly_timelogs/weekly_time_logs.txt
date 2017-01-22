@@ -10,11 +10,22 @@
     }) %>
     </select>-->
 </div>
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newCstModal">Add Customer</button>
-<%= SPA.macros.newCustomer()%>
-
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newPrjModal">Add Project</button>
-<%= SPA.macros.newProject()%>
+<div class="container col-md-12">
+    <div class="row">
+        <div class="col-md-1">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" data-action="buildCstDialog">Add Customer</button>
+                <div data-placeholder="cstModal"></div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" data-action="buildPrjDialog">Add Project</button>
+                <div data-placeholder="prjModal"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- /.box-header -->
 <div class="box-body">
@@ -85,8 +96,8 @@
             </tbody>
         </table>
         <!-- /.table -->
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newRowModal">Add Row</button>
-        <%= SPA.macros.newWeeklyRow()%>
+        <button type="button" class="btn btn-primary btn-sm" data-action="buildNewRowDialog">Add Row</button>
+        <div data-placeholder="newRowModal"></div>
     </div>
 </div>
 <!-- /.box-body -->

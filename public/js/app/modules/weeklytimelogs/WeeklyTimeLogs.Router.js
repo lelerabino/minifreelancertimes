@@ -21,7 +21,7 @@ define('WeeklyTimeLogs.Router', ['Customers.Collection','Projects.Collection', '
                 cstColl = CSTCollection.getInstance(),
                 prjColl = PRJCollection.getInstance();
 
-            cstColl.fetch().then(function () {
+            Q.all([cstColl.fetch(), prjColl.fetch()]).then(function () {
                 w = w ? w.toLowerCase() : 'current';
                 w = (w === 'current') ? SPA.getCurrentWeek() : w;
 
