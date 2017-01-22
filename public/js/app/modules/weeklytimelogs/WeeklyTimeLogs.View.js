@@ -122,7 +122,9 @@ define('WeeklyTimeLogs.View', function () {
                 SPA.macros.newWeeklyRow(that)
             );
 
-            that.$('#newRowModal').modal();
+            _.defer(function () {
+                that.$('#newRowModal').modal()
+            });
         }
 
         , addProject: function (e) {
