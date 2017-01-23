@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CustomerSchema = new Schema({
-        name: { type : String , unique : true, required : true, dropDups: true },
+        name: { type : Schema.Types.String , unique : true, required : true, dropDups: true },
         address: Schema.Types.String,
         vatNumber:Schema.Types.String,
         currency: Schema.Types.String

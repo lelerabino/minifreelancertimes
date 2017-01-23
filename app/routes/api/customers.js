@@ -1,5 +1,11 @@
 Customer = require('../../models/models').Customer;
 
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({"error": message});
+}
+
 module.exports = function (app) {
     app
         .get('/api/customers', function (req, res) {
@@ -9,6 +15,7 @@ module.exports = function (app) {
             });
         })
         .post('/api/customers', function (req, res) {
+            console.log(req.body);
             var customer = new Customer(req.body);
             // http://mongoosejs.com/docs/api.html#model_Model-save
             customer.save(function (err) {
