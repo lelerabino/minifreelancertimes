@@ -1,27 +1,18 @@
 <div class="box-header with-border">
     <h3 class="box-title">Weekly Enter TimeLogs</h3>
 </div>
-<div>
-    <!--<select class="form-control" id="customers">
-        <% _.each(view.getCustomers(), function(cst, index){
-    %>
-        <option value="<%= cst._id %>"><%= cst.name %></option>
-        <%
-    }) %>
-    </select>-->
-</div>
 <div class="container col-md-12">
     <div class="row">
         <div class="col-md-1">
             <div class="form-group">
-                <button type="button" class="btn btn-primary btn-sm" data-action="buildCstDialog">Add Customer</button>
-                <div data-placeholder="cstModal"></div>
+                <button type="button" class="btn btn-primary btn-sm" data-action="newCst">Add Customer</button>
+                <div class="modal" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel" data-placeholder="cstModal"></div>
             </div>
         </div>
         <div class="col-md-1">
             <div class="form-group">
-                <button type="button" class="btn btn-primary btn-sm" data-action="buildPrjDialog">Add Project</button>
-                <div data-placeholder="prjModal"></div>
+                <button type="button" class="btn btn-primary btn-sm" data-action="newPrj">Add Project</button>
+                <div class="modal" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel" data-placeholder="prjModal"></div>
             </div>
         </div>
     </div>
@@ -96,8 +87,8 @@
             </tbody>
         </table>
         <!-- /.table -->
-        <button type="button" class="btn btn-primary btn-sm" data-action="buildNewRowDialog">Add Row</button>
-        <div data-placeholder="newRowModal"></div>
+        <button type="button" class="btn btn-primary btn-sm" data-action="newRow">Add Row</button>
+        <div class="modal" tabindex="-1" role="dialog" id="newRowModal" aria-labelledby="newRowModalLabel" data-placeholder="newRowModal"></div>
     </div>
 </div>
 <!-- /.box-body -->
