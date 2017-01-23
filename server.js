@@ -32,16 +32,18 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({"error": message});
 }
 
+
+// https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
+app.use(bodyParser.json()) // support json encoded bodies
+    .use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+
 timeLogsRoutes(app);
 customersRoutes(app);
 projectsRoutes(app);
-// https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
-app.use(bodyParser.json()) // support json encoded bodies
-    .use(bodyParser.urlencoded({extended: true})) // support encoded bodies
 
-    .get('/api', function (req, res) {
-        res.json(200, {msg: 'API is responding!'});
-    })
+app.get('/api', function (req, res) {
+    res.json(200, {msg: 'API is responding!'});
+})
 
 
     .use(basicAuth('guest', 'guest'))
