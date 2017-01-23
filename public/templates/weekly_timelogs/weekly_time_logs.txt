@@ -1,14 +1,12 @@
 <div class="container col-md-12">
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
             <button type="button" class="btn btn-primary btn-sm" data-action="newCst">Add Customer</button>
             <div class="modal" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel" data-placeholder="cstModal"></div>
-        </div>
-        <div class="col-md-1">
             <button type="button" class="btn btn-primary btn-sm" data-action="newPrj">Add Project</button>
             <div class="modal" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel" data-placeholder="prjModal"></div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <button type="button" data-action="wmove" data-incr="-1" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
             <button type="button" data-action="wmove" data-incr="current" class="btn btn-default btn-sm">Today</button>
             <button type="button" data-action="wmove" data-incr="1" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>

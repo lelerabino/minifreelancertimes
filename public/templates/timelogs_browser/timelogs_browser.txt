@@ -13,13 +13,6 @@
             <%
             }) %>
         </select>
-        <!--<select class="form-control">
-            <% _.each(view.coll.getProjects(), function(prj, index){
-            %>
-            <option value="<%= prj._id %>"><%= prj.name %></option>
-            <%
-            }) %>
-        </select>-->
     </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped">
@@ -44,10 +37,10 @@
                     <%= _.formatDate(tlog.date) %>
                 </td>
                 <td>
-                    <%= tlog._cstId.name %>
+                    <%= tlog._cstId ? tlog._cstId.name:'?' %>
                 </td>
                 <td>
-                    <%= tlog._prjId.name %>
+                    <%= tlog._prjId ? tlog._prjId.name:'?' %>
                 </td>
                 <td>
                     <%= tlog.memo %>
