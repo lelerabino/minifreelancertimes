@@ -16,7 +16,6 @@ module.exports = function (app) {
         })
 
         .post('/api/projects', function (req, res) {
-            console.log('proj body: ' + JSON.stringify(req.body));
             var project = new Project(req.body);
             // http://mongoosejs.com/docs/api.html#model_Model-save
             project.save(function (err) {

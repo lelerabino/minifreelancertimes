@@ -15,7 +15,6 @@ module.exports = function (app) {
             });
         })
         .post('/api/customers', function (req, res) {
-            console.log(req.body);
             var customer = new Customer(req.body);
             // http://mongoosejs.com/docs/api.html#model_Model-save
             customer.save(function (err) {
