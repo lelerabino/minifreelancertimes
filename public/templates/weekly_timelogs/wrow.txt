@@ -6,7 +6,7 @@
         <%= row.prj.name %>
     </td>
     <td>
-        <%= row.memo %>
+        <div class="memo"><%= row.memo %></div>
     </td>
     <% _.each(row.cells, function(cell, index){
     %>

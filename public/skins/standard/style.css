@@ -22,3 +22,29 @@
 .table th {
     text-align: center;
 }
+
+#tboard tr td:nth-child(1){
+    width:10%;
+}
+
+#tboard tr td:nth-child(2){
+    width:10%;
+}
+
+#tboard tr th:nth-child(3){
+    text-align:left;
+}
+
+#tboard tr td:nth-child(3){
+    width:30%;
+    text-align:left;
+}
+
+.memo{
+    max-height: 60px;
+    overflow: auto;
+}
+
+#tboard tr td:nth-child(n+4){
+    width:6%;
+}
