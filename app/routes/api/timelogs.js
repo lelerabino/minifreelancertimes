@@ -10,6 +10,12 @@ module.exports = function (app) {
             if (req.query.populate) {
                 query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
             }
+            if (req.query.from) {
+                query = query.find({date: {$gte: new Date(req.query.from)}});
+            }
+            if (req.query.to) {
+                query = query.find({date: {$lte: new Date(req.query.to)}});
+            }
             query.exec(function (err, timelogs) {
                 res.json(200, timelogs);
             });
