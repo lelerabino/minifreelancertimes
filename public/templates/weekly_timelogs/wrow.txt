@@ -1,0 +1,32 @@
+<tr>
+    <td>
+        <%=row.cst.name%>
+    </td>
+    <td>
+        <%=row.prj.name%>
+    </td>
+    <td>
+        <%=row.memo%>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+    <td>
+        <input type="number" style="width: 3em"/>
+    </td>
+</tr>

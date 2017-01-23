@@ -12,7 +12,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newPrjName">Customer</label>
-                                <select class="form-control" id="customers">
+                                <select class="form-control" id="newRowCustomer">
                                     <% _.each(view.getCustomers(), function(cst, index){
                                     %>
                                     <option value="<%= cst._id %>"><%= cst.name %></option>
@@ -24,7 +24,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newPrjRate">Project</label>
-                                <select class="form-control">
+                                <select class="form-control" id="newRowProject">
                                     <% _.each(view.getProjects(), function(prj, index){
                                     %>
                                     <option value="<%= prj._id %>"><%= prj.name %></option>
@@ -36,7 +36,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newPrjRate">Memo</label>
-                                <input type="number" min="0" max="100" class="form-control" id="newPrjRate" placeholder="address here">
+                                <textarea class="form-control" id="newRowMemo" placeholder="memo here"></textarea>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,8 @@
 SPA.startTimeLogs = function () {
     'use strict';
 
+    SPA.dtRef = moment([2000, 0, 1]).startOf('isoweek');
+
     var application = SPA.Application('TimeLogs');
 
     application.getConfig().spaSettings = SPA.ENVIRONMENT.spaSettings || {};

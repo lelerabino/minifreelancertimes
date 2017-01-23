@@ -18,6 +18,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="wmove"]': 'moveWeek',
                 'click [data-action="cstAdd"]': 'addCustomer',
                 'click [data-action="prjAdd"]': 'addProject',
+                'click [data-action="rowAdd"]': 'addRow',
                 'click [data-action="newCst"]': 'onNewCustomer',
                 'click [data-action="newPrj"]': 'onNewProject',
                 'click [data-action="newRow"]': 'onNewRow'
@@ -31,7 +32,6 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 that.cstColl = options.cstColl;
                 that.prjColl = options.prjColl;
                 that.tlColl = options.tlColl;
-                that.test();
                 that.DOM = {
                     _view: that,
                     _fxDelay: 200,
@@ -42,12 +42,19 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     _cacheEls: function () {
                         _.extend(this, {
                             root: this._view.$el,
-                            newWRowModalPH:that.$('div[data-placeholder="newRowModal"]'),
-                            newWRowModal:that.$('#newRowModal'),
-                            newCstModalPH:that.$('div[data-placeholder="cstModal"]'),
-                            newCstModal:that.$('#newCstModal'),
-                            newPrjModalPH:that.$('div[data-placeholder="prjModal"]'),
-                            newPrjModal:that.$('#newPrjModal')
+                            newWRowModalPH: that.$('div[data-placeholder="newRowModal"]'),
+                            newWRowModal: that.$('#newRowModal'),
+                            newCstModalPH: that.$('div[data-placeholder="cstModal"]'),
+                            newCstModal: that.$('#newCstModal'),
+                            newPrjModalPH: that.$('div[data-placeholder="prjModal"]'),
+                            newPrjModal: that.$('#newPrjModal'),
+                            navDates: that.$('#navDates'),
+                            newRowModal:{
+                                el:that.$('#newRowModal'),
+                                customers:function(){ return that.$('#newRowCustomer');},
+                                projects:function(){ return that.$('#newRowProject');},
+                                memo:function(){ return that.$('#newRowMemo');}
+                            }
                         });
                     },
 
@@ -58,18 +65,26 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         this.newWRowModal.modal();
                     },
 
-                    buildNewCstDialog:function () {
+                    buildNewCstDialog: function () {
                         this.newCstModalPH.html(
                             SPA.template('new_customer_tmpl', {view: that})
                         );
                         this.newCstModal.modal();
                     },
 
-                    buildNewPrjDialog:function () {
+                    buildNewPrjDialog: function () {
                         this.newPrjModalPH.html(
                             SPA.template('new_project_tmpl', {view: that})
                         );
                         this.newPrjModal.modal();
+                    },
+
+                    resetRows: function () {
+                        this.$('table > tbody').empty();
+                    },
+
+                    appendRow: function (rowObj) {
+                        return this.$('table > tbody:last-child').append($(SPA.template('wrow_tmpl', {row: rowObj})));
                     },
 
                     activateViewScripts: function () {
@@ -90,9 +105,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                                 }
                             }
                         });
-                    },
-
-
+                    }
                 };
             }
 
@@ -109,15 +122,11 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 );
             }
 
-            , fetchCstAndPrj: function () {
-                var that = this;
-                return Q.all([that.cstColl.fetch(), that.prjColl.fetch()]);
-            }
-
             , onWeekChange: function () {
                 var that = this;
                 var fn = function () {
-                    Backbone.history.navigate('log?w=' + that.getWeekNumber(), {trigger: true});
+                    Backbone.history.navigate('log?w=' + that.getWeekNumber(), {trigger: false});
+                    that.drawNewWeek();
                 };
 
                 if (that.unsavedData()) {
@@ -146,8 +155,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , formatWeek: function () {
                 var wn = this.getWeekNumber(),
-                    mStartDate = SPA.getDateFromRelWeek(wn).add(1, 'days');
-                return mStartDate.format('MMM DD YY') + ' - ' + mStartDate.add(6, 'days').format('MMM DD YY');
+                    mStartDate = SPA.getDateFromRelWeek(wn);
+                return mStartDate.format('MMM DD YYYY') + ' - ' + mStartDate.clone().add(6, 'days').format('MMM DD YYYY');
             }
 
             , moveWeek: function (e) {
@@ -164,6 +173,28 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     vatNumber: that.$('#newCstVat').val(),
                     currency: that.$('#newCstCurrency').val()
                 });
+            }
+
+            , addRow: function (e) {
+                var that = this;
+
+                var cstId = that.DOM.newRowModal.customers().val(),
+                    prjId = that.DOM.newRowModal.projects().val(),
+                    memo = that.DOM.newRowModal.memo().val(),
+                    cst = that.cstColl.get(cstId),
+                    prj = that.prjColl.get(prjId);
+                if (cst && prj) {
+                    if (false && that.rowsColl.anyMatchTLog(tl)) {
+
+                    }
+                    else {
+                        that.rowsColl.add(new WRow(null, {
+                            cst: that.cstColl.get(cstId),
+                            prj: that.prjColl.get(prjId),
+                            memo: memo
+                        }))
+                    }
+                }
             }
 
             , onNewCustomer: function (e) {
@@ -199,21 +230,102 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 return that.prjColl.toJSON();
             }
 
+            , fetchTLogs: function () {
+                var that = this;
+                var wn = this.getWeekNumber(),
+                    mStartDate = SPA.getDateFromRelWeek(wn);
+                return that.tlColl.fetch({
+                    data: {
+                        from: mStartDate.toString(),
+                        to: mStartDate.clone().add(6, 'days').toString()
+                    }
+                });
+            }
+
+            , unsubscribeWRows: function () {
+                var that = this;
+                return;
+            }
+            , prepareWRows: function () {
+                var that = this,
+                    rows = new WRowCollection();
+                _.each(that.tlColl.models, function (tl) {
+                    var cstId = tl.get('_cstId'), prjId = tl.get('_prjId'), memo = tl.get('memo'),
+                        cst = that.cstColl.get(cstId),
+                        prj = that.prjColl.get(prjId);
+                    if (cst && prj) {
+                        if (false && rows.anyMatchTLog(tl)) {
+
+                        }
+                        else {
+                            rows.add(new WRow(null, {
+                                cst: that.cstColl.get(cstId),
+                                prj: that.prjColl.get(prjId),
+                                memo: memo
+                            }))
+                        }
+                    }
+                    //cells.add(new WCell(null, {tlog: tl}));
+                });
+                that.rowsColl = rows;
+                return rows;
+            }
+
+            , subscribeWRows: function () {
+                var that = this;
+                that.rowsColl.on('add remove', that.onRowsCollectionChange, that);
+            }
+            , onRowsCollectionChange: function (newRow, coll, options) {
+                var that = this;
+                that.DOM.appendRow(newRow.toDTO());
+            }
+
+
+            , drawRows: function () {
+                var that = this;
+                that.DOM.resetRows();
+
+                _.each(that.rowsColl.models, function (row) {
+                    that.DOM.appendRow(row.toDTO());
+                });
+            }
+
+            , drawWBoard: function () {
+                var that = this;
+                return that.fetchTLogs().then(function () {
+                    that.prepareWRows();
+                    that.subscribeWRows();
+                    that.drawRows();
+                });
+            }
+
+            , drawDates: function () {
+                var that = this;
+
+                that.DOM.navDates.text(that.formatWeek());
+
+                return Q.resolve(true);
+            }
+
+            , drawNewWeek: function () {
+                var that = this;
+                that.unsubscribeWRows();
+                return that.drawDates().then(function () {
+                    that.drawWBoard();
+                });
+            }
+
             , render: function () {
                 var that = this;
-                that.dirty = false;
-                Backbone.View.prototype.render.apply(this, arguments);
+                Backbone.View.prototype.render.apply(that, arguments);
                 that.DOM._cacheEls();
                 that.DOM.activateViewScripts();
-                return that;
+                return that.drawNewWeek();
             }
 
             , showContent: function () {
                 var that = this;
-
-                return that.fetchCstAndPrj().then(function () {
-                    return that.application.getLayout().showContent(that);
-                });
+                return that.application.getLayout().showContent(that);
             }
 
             , destroy: function () {

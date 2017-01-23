@@ -54,12 +54,10 @@
                 return this.getRelativeWeeks(now);
             },
             getRelativeWeeks: function (mdate) {
-                var dref = moment([2000, 0, 1]);
-                return mdate.diff(dref, 'weeks')
+                return mdate.clone().diff(this.dtRef, 'weeks');
             },
             getDateFromRelWeek: function (weeks) {
-                var dref = moment([2000, 0, 1]);
-                return dref.add(weeks, 'weeks');
+                return this.dtRef.clone().add(weeks, 'weeks').startOf('isoweek');
             }
         };
     </script>

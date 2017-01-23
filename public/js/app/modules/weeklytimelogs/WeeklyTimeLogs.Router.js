@@ -13,26 +13,39 @@ define('WeeklyTimeLogs.Router', ['Customers.Collection', 'Projects.Collection', 
 
             , initialize: function (application) {
                 this.application = application;
+                this.cstColl = CSTCollection.getInstance();
+                this.prjColl = PRJCollection.getInstance();
+                this._fetchedCstAndPrjPromise = this.getFetchPromise();
+                this.tlColl = TLCollection.getInstance();
+            }
+
+            , getFetchPromise: function () {
+                var that = this,
+                    dfd = Q.defer();
+                Q.all([that.cstColl.fetch(), that.prjColl.fetch()]).then(function () {
+                    dfd.resolve(true);
+                });
+
+                return dfd.promise;
             }
 
             , index: function (w) {
-                var that = this,
-                    tlColl = TLCollection.getInstance(),
-                    cstColl = CSTCollection.getInstance(),
-                    prjColl = PRJCollection.getInstance();
+                var that = this;
 
-                w = w ? w.toLowerCase() : 'current';
-                w = (w === 'current') ? SPA.getCurrentWeek() : w;
+                that._fetchedCstAndPrjPromise.then(function(){
+                    w = w ? w.toLowerCase() : 'current';
+                    w = (w === 'current') ? SPA.getCurrentWeek() : w;
 
-                var view = new View({
-                    application: that.application,
-                    weekModel: new Backbone.Model({week: w}),
-                    cstColl: cstColl,
-                    prjColl: prjColl,
-                    tlColl: tlColl
+                    var view = new View({
+                        application: that.application,
+                        weekModel: new Backbone.Model({week: w}),
+                        cstColl: that.cstColl,
+                        prjColl: that.prjColl,
+                        tlColl: that.tlColl
+                    });
+
+                    view.showContent();
                 });
-
-                view.showContent();
             }
         });
     });
