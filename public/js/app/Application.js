@@ -68,7 +68,7 @@
             this.resetNotifyProgress('');
             SPA.isLoading = false;
         },
-        confirm: function (taskType, options) {
+        confirm: function (options) {
             var that = this;
             if (SPA.noconfirm) {
                 return options.callback(true);
