@@ -21,7 +21,9 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="rowAdd"]': 'addRow',
                 'click [data-action="newCst"]': 'onNewCustomer',
                 'click [data-action="newPrj"]': 'onNewProject',
-                'click [data-action="newRow"]': 'onNewRow'
+                'click [data-action="newRow"]': 'onNewRow',
+                'change #newRowCustomer' : 'onNewRowCstSelect',
+                'change .newRow':'onChangeNewRowControl'
             }
 
             , initialize: function (options) {
@@ -49,11 +51,26 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             newPrjModalPH: that.$('div[data-placeholder="prjModal"]'),
                             newPrjModal: that.$('#newPrjModal'),
                             navDates: that.$('#navDates'),
-                            newRowModal:{
-                                el:that.$('#newRowModal'),
-                                customers:function(){ return that.$('#newRowCustomer');},
-                                projects:function(){ return that.$('#newRowProject');},
-                                memo:function(){ return that.$('#newRowMemo');}
+                            newRowModal: {
+                                el: that.$('#newRowModal'),
+                                customers: function () {
+                                    return that.$('#newRowCustomer');
+                                },
+                                projects: function () {
+                                    return that.$('#newRowProject');
+                                },
+                                memo: function () {
+                                    return that.$('#newRowMemo');
+                                },
+                                newRowSubmit: function () {
+                                    return that.$('#newRowSubmit');
+                                },
+                                addProjectsOption: function(value, text){
+                                    $('<option/>').val(value).html(text).appendTo(this.projects());
+                                },
+                                resetProjectsOption: function(){
+                                    this.projects().find('option').remove();
+                                }
                             }
                         });
                     },
@@ -176,7 +193,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , addRow: function (e) {
-                var that = this;
+                var that = this, currRow;
 
                 var cstId = that.DOM.newRowModal.customers().val(),
                     prjId = that.DOM.newRowModal.projects().val(),
@@ -184,17 +201,31 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     cst = that.cstColl.get(cstId),
                     prj = that.prjColl.get(prjId);
                 if (cst && prj) {
-                    if (false && that.rowsColl.anyMatchTLog(tl)) {
-
-                    }
-                    else {
-                        that.rowsColl.add(new WRow(null, {
+                    currRow = that.rowsColl.anyMatchTLog(cstId, prjId, memo);
+                    if (!currRow) {
+                        that.rowsColl.add(currRow = new WRow({memo: memo}, {
                             cst: that.cstColl.get(cstId),
-                            prj: that.prjColl.get(prjId),
-                            memo: memo
+                            prj: that.prjColl.get(prjId)
                         }))
                     }
+                    else {
+                        that.alert('You already have this entry on the board. Please use it!')
+                    }
                 }
+            }
+
+            , onNewRowCstSelect: function (e) {
+                var that=this;
+                that.DOM.newRowModal.resetProjectsOption();
+                _.each(that.prjColl.where({_cstId:that.DOM.newRowModal.customers().val()}), function(prj, index){
+                    that.DOM.newRowModal.addProjectsOption(prj.id, prj.get('name'));
+                });
+                that.DOM.newRowModal.projects().prop('disabled', false);
+            },
+
+            onChangeNewRowControl:function (e) {
+                var that=this;
+                that.DOM.newRowModal.newRowSubmit().prop('disabled', !(that.DOM.newRowModal.customers().val() && that.DOM.newRowModal.projects().val() && that.DOM.newRowModal.memo().val()));
             }
 
             , onNewCustomer: function (e) {
@@ -250,22 +281,25 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 var that = this,
                     rows = new WRowCollection();
                 _.each(that.tlColl.models, function (tl) {
-                    var cstId = tl.get('_cstId'), prjId = tl.get('_prjId'), memo = tl.get('memo'),
+                    var currRow, cstId = tl.get('_cstId'), prjId = tl.get('_prjId'), memo = tl.get('memo'),
                         cst = that.cstColl.get(cstId),
                         prj = that.prjColl.get(prjId);
                     if (cst && prj) {
-                        if (false && rows.anyMatchTLog(tl)) {
+                        currRow = rows.anyMatchTLog(tl.get('_cstId'), tl.get('_prjId'), tl.get('memo'));
+                        if (currRow) {
 
                         }
                         else {
-                            rows.add(new WRow(null, {
-                                cst: that.cstColl.get(cstId),
-                                prj: that.prjColl.get(prjId),
+                            currRow = new WRow({
                                 memo: memo
-                            }))
+                            }, {
+                                cst: that.cstColl.get(cstId),
+                                prj: that.prjColl.get(prjId)
+                            });
+                            rows.add(currRow);
                         }
+                        currRow.bindCell(tl);
                     }
-                    //cells.add(new WCell(null, {tlog: tl}));
                 });
                 that.rowsColl = rows;
                 return rows;

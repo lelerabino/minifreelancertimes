@@ -3,7 +3,22 @@
 }
 
 .weekLabel{
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
-    margin-left: 10px;
+}
+
+.duration{
+    text-align: center;
+}
+
+#tboard {
+
+}
+
+.table td {
+    text-align: center;
+}
+
+.table th {
+    text-align: center;
 }

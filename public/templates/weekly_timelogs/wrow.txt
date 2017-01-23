@@ -1,32 +1,20 @@
 <tr>
     <td>
-        <%=row.cst.name%>
+        <%= row.cst.name %>
     </td>
     <td>
-        <%=row.prj.name%>
+        <%= row.prj.name %>
     </td>
     <td>
-        <%=row.memo%>
+        <%= row.memo %>
     </td>
+    <% _.each(row.cells, function(cell, index){
+    %>
     <td>
-        <input type="number" style="width: 3em"/>
+        <div data-day="<%= cell.id %>">
+            <input type="text" class="wctrl duration" style="width: 3em" value="<%= cell.value %>"/>
+        </div>
     </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
-    <td>
-        <input type="number" style="width: 3em"/>
-    </td>
+    <%
+    }) %>
 </tr>

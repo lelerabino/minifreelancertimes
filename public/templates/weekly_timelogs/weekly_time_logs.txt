@@ -1,33 +1,36 @@
-<div class="container col-md-12">
+<div class="container col-md-10">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <button type="button" class="btn btn-primary btn-sm" data-action="newCst">Add Customer</button>
             <div class="modal" tabindex="-1" role="dialog" id="newCstModal" aria-labelledby="newCstModalLabel" data-placeholder="cstModal"></div>
             <button type="button" class="btn btn-primary btn-sm" data-action="newPrj">Add Project</button>
             <div class="modal" tabindex="-1" role="dialog" id="newPrjModal" aria-labelledby="newPrjModalLabel" data-placeholder="prjModal"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <button type="button" data-action="wmove" data-incr="-1" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-            <button type="button" data-action="wmove" data-incr="current" class="btn btn-default btn-sm">Today</button>
-            <button type="button" data-action="wmove" data-incr="1" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
             <span class="weekLabel" id="navDates"></span>
+            <button type="button" data-action="wmove" data-incr="1" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+            <button type="button" data-action="wmove" data-incr="current" class="btn btn-default btn-sm">Today</button>
         </div>
     </div>
+</div>
+
+<div class="container col-md-12">
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-hover table-striped">
+            <table id="tboard" class="table table-hover table-striped">
                 <thead>
                 <tr>
                     <th>Customer</th>
                     <th>Project</th>
                     <th>Memo</th>
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>T</th>
-                    <th>F</th>
-                    <th>S</th>
-                    <th>S</th>
+                    <th class="day_header">M</th>
+                    <th class="day_header">T</th>
+                    <th class="day_header">W</th>
+                    <th class="day_header">T</th>
+                    <th class="day_header">F</th>
+                    <th class="day_header">S</th>
+                    <th class="day_header">S</th>
                 </tr>
                 </thead>
                 <tbody>
