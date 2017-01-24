@@ -6,21 +6,21 @@ var Schema = mongoose.Schema;
 var CustomerSchema = new Schema({
         name: { type : Schema.Types.String , unique : true, required : true, dropDups: true },
         address: Schema.Types.String,
-        vatNumber:Schema.Types.String,
-        currency: Schema.Types.String
+        vatNumber:{ type : Schema.Types.String , required : true },
+        currency: { type : Schema.Types.String , required : true }
     }),
     ProjectSchema = new Schema({
-        _cstId: {type: Schema.Types.ObjectId, ref: 'Customer'},
-        name: Schema.Types.String,
+        _cstId: {type: Schema.Types.ObjectId, ref: 'Customer', required : true},
+        name: { type : Schema.Types.String , unique : true, required : true, dropDups: true },
         rate: Schema.Types.Number
     }),
     TimeLogSchema = new Schema({
-        _cstId: {type: Schema.Types.ObjectId, ref: 'Customer'},
-        _prjId: {type: Schema.Types.ObjectId, ref: 'Project'},
-        memo: Schema.Types.String,
+        _cstId: {type: Schema.Types.ObjectId, ref: 'Customer', required : true},
+        _prjId: {type: Schema.Types.ObjectId, ref: 'Project', required : true},
+        memo: { type : Schema.Types.String , required : true },
         date:Schema.Types.Date,
         duration: {
-            type: Schema.Types.Number, min: 0, max: 24, set: function (v) {
+            type: Schema.Types.Number, required : true, min: 0, max: 24, set: function (v) {
                 return Math.round(v);
             }
         }
