@@ -23,7 +23,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="newPrj"]': 'onNewProject',
                 'click [data-action="newRow"]': 'onNewRow',
                 'change #newRowCustomer' : 'onNewRowCstSelect',
-                'change .newRow':'onChangeNewRowControl'
+                'change .newRow':'onChangeNewRowControl',
+                'keyup #newRowMemo':'onChangeNewRowControl'
             }
 
             , initialize: function (options) {
