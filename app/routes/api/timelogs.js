@@ -12,7 +12,7 @@ module.exports = function (app) {
         .get('/api/timelogs', function (req, res) {
             // http://mongoosejs.com/docs/api.html#query_Query-find
 
-            var query = TimeLog.find();
+            var query = TimeLog.find().sort({date: 'desc'});
             if (req.query.populate) {
                 query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
             }
