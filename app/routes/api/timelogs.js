@@ -54,9 +54,12 @@ module.exports = function (app) {
         })
 
         .put('/api/timelogs/:id', function (req, res) {        // http://mongoosejs.com/docs/api.html#model_Model.findById
-            TimeLog.findById(req.params.id, function (err, timelog) {
-                timelog.comment = req.body.comment;
-                timelog.prj = req.body.prj;
+            TimeLog.findById(req.body._id, function (err, timelog) {
+                timelog._cstId = req.body._cstId;
+                timelog._prjId = req.body._prjId;
+                timelog.date = req.body.date;
+                timelog.duration = parseFloat(req.body.duration);
+                timelog.memo = req.body.memo;
                 // http://mongoosejs.com/docs/api.html#model_Model-save
                 timelog.save(function (err, timelog) {
                     res.json(200, timelog);

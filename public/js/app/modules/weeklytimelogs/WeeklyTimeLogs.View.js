@@ -311,7 +311,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             });
                             rows.add(currRow);
                         }
-                        currRow.bindTimeLog(tl);
+                        currRow.bindTimeLog(tl, {silent:true});
                     }
                 });
                 that.rowsColl = rows;

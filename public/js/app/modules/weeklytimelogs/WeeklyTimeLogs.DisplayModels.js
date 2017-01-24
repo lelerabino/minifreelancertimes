@@ -14,14 +14,14 @@ define('WCell.Model', function () {
                 //that.set('value', options.tlog ? options.tlog.get('duration') : null);
             },
 
-            bindTimeLog: function (tl) {
+            bindTimeLog: function (tl, options) {
                 var that = this;
                 that.tlog = tl;
                 that.set({
                     originalValue: tl.get('duration'),
                     value: tl.get('duration'),
                     hasTL: true
-                }, {silent: true});
+                }, {silent: options && options.silent});
             },
 
             getClass: function () {
@@ -37,6 +37,11 @@ define('WCell.Model', function () {
             hasTL: function () {
                 var that = this;
                 return that.get('hasTL') === true;
+            },
+
+            clean:function () {
+              var that=this;
+              that.bindTimeLog(that.tlog);
             },
 
             toJSON: function () {
@@ -112,9 +117,9 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
                     return dto;
                 },
 
-                bindTimeLog: function (tl) {
+                bindTimeLog: function (tl, options) {
                     var that = this;
-                    (that.cells.get(moment(tl.get('date')).day())).bindTimeLog(tl);
+                    (that.cells.get(moment(tl.get('date')).day())).bindTimeLog(tl, options);
                 },
 
                 getDirtyCells: function () {
@@ -157,7 +162,10 @@ define('WRow.Collection', ['WRow.Model'], function (Model) {
                 });
 
                 return Q.all(_.map(dirtyCells, function (dcell) {
-                    return dcell.tlog.save();
+                    dcell.tlog.set({duration:dcell.get('value')});
+                    return dcell.tlog.save().then(function(){
+                        dcell.clean();
+                    });
                 }));
             }
         });
