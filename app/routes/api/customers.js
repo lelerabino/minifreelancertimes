@@ -21,7 +21,7 @@ module.exports = function (app) {
                 if (err) {
                     handleError(res, err.message, "Failed to create new customer.");
                 } else {
-                    res.status(201).json(customer);
+                    res.status(201).location('/api/customers/' + timelog.id).json(customer);
                 }
             });
         })

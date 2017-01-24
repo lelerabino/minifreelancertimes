@@ -22,7 +22,7 @@ module.exports = function (app) {
                 if (err) {
                     handleError(res, err.message, "Failed to create new project.");
                 } else {
-                    res.status(201).json(project);
+                    res.status(201).location('/api/projects/' + project.id).json(project);
                 }
             });
         });

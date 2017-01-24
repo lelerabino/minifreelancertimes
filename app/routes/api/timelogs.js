@@ -34,7 +34,7 @@ module.exports = function (app) {
                 if (err) {
                     handleError(res, err.message, "Failed to create new timelog.");
                 } else {
-                    res.status(201).json(timelog);
+                    res.status(201).location('/api/timelogs/' + timelog.id).json(timelog);
                 }
             });
         })
