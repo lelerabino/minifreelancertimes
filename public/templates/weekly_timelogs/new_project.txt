@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="newPrjName">Customer</label>
-                    <select class="form-control" id="customers">
+                    <select class="form-control" id="newPrjCustomer">
                         <% _.each(view.getCustomers(), function(cst, index){
                         %>
                         <option value="<%= cst._id %>"><%= cst.name %></option>

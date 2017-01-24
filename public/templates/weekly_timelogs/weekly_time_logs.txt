@@ -37,9 +37,15 @@
                 </tbody>
             </table>
             <!-- /.table -->
+        </div>
+    </div>
+</div>
+
+<div class="container col-md-10">
+    <div class="row">
+        <div class="col-md-4">
             <button type="button" class="btn btn-primary btn-sm" data-action="newRow">Add Row</button>
             <div class="modal" tabindex="-1" role="dialog" id="newRowModal" aria-labelledby="newRowModalLabel" data-placeholder="newRowModal"></div>
         </div>
     </div>
 </div>
-<!-- /.box-body -->

@@ -247,6 +247,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , addProject: function (e) {
                 var that = this;
                 that.prjColl.create({
+                    _cstId: that.$('#newPrjCustomer').val(),
                     name: that.$('#newPrjName').val(),
                     rate: that.$('#newPrjRate').val()
                 });

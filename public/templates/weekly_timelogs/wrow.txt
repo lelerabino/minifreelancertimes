@@ -12,7 +12,7 @@
     %>
     <td>
         <div data-day="<%= cell.id %>">
-            <input type="text" class="wctrl duration" style="width: 3em" value="<%= cell.value %>"/>
+            <input type='number' step='1' min="0" max="24" class="wctrl duration" style="width: 3.5em" value="<%= cell.value %>"/>
         </div>
     </td>
     <%
