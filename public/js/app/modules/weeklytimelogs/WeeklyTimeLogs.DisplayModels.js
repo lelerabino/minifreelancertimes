@@ -4,9 +4,9 @@ define('WCell.Model', function () {
     return Backbone.Model.extend(
         {
             idAttribute: 'id',
-            defaults:{
-                originalValue:'',
-                value:''
+            defaults: {
+                originalValue: '',
+                value: ''
             },
             initialize: function (attributes, options) {
                 var that = this;
@@ -24,14 +24,19 @@ define('WCell.Model', function () {
                 }, {silent: true});
             },
 
-            getClass:function () {
-                var that=this;
+            getClass: function () {
+                var that = this;
                 return that.isDirty() ? 'dirty' : '';
             },
 
-            isDirty:function () {
-                var that=this;
+            isDirty: function () {
+                var that = this;
                 return (that.get('value') != that.get('originalValue'));
+            },
+
+            hasTL: function () {
+                var that = this;
+                return that.get('hasTL') === true;
             },
 
             toJSON: function () {
@@ -53,8 +58,8 @@ define('WCell.Collection', ['WCell.Model'], function (Model) {
                 }
             },
 
-            isDirty:function(){
-                var that=this;
+            isDirty: function () {
+                var that = this;
                 return _.find(that.models, function (cell) {
                     return cell.isDirty();
                 })
@@ -110,6 +115,13 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
                 bindTimeLog: function (tl) {
                     var that = this;
                     (that.cells.get(moment(tl.get('date')).day())).bindTimeLog(tl);
+                },
+
+                getDirtyCells: function () {
+                    var that = this;
+                    return _.filter(that.cells.models, function (cell) {
+                        return cell.hasTL() && cell.isDirty();
+                    });
                 }
             });
     });
@@ -128,11 +140,25 @@ define('WRow.Collection', ['WRow.Model'], function (Model) {
                 })
             },
 
-            isDirty:function(){
-                var that=this;
+            isDirty: function () {
+                var that = this;
                 return _.find(that.models, function (row) {
                     return row.isDirty();
                 })
+            },
+
+            syncDirty: function () {
+                var that = this, dirtyCells = [];
+                _.each(that.models, function (row) {
+                    var dcells = row.getDirtyCells();
+                    if (dcells.length) {
+                        dirtyCells = _.union(dirtyCells, dcells);
+                    }
+                });
+
+                return Q.all(_.map(dirtyCells, function (dcell) {
+                    return dcell.tlog.save();
+                }));
             }
         });
 });

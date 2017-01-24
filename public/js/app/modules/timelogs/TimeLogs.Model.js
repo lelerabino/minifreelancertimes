@@ -6,6 +6,7 @@ define('TimeLogs.Model', function () {
 
     return Backbone.Model.extend(
         {
-            idAttribute:'_id'
+            idAttribute:'_id',
+            url:'/api/timelogs'
         });
 });

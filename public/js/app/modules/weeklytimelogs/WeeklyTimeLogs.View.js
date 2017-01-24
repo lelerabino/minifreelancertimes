@@ -22,7 +22,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="newCst"]': 'onNewCustomer',
                 'click [data-action="newPrj"]': 'onNewProject',
                 'click [data-action="newRow"]': 'onNewRow',
-                'click #submitWeek':'onSubmit',
+                'click #submitWeek': 'onSubmit',
                 'change #newRowCustomer': 'onNewRowCstSelect',
                 'change .newRow': 'onChangeNewRowControl',
                 'keyup #newRowMemo': 'onChangeNewRowControl',
@@ -129,8 +129,17 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 };
             }
 
-            , onSubmit: function(e){
-                var that=this;
+            , onSubmit: function (e) {
+                var that = this;
+                e.preventDefault();
+                that.rowsColl.syncDirty().then(
+                    function () {
+                        that.notify('Saved TimeLogs.');
+                    },
+                    function (err) {
+                        that.application.getLayout().showError({msg:'Some error occurred!'});
+                    }
+                );
             }
 
             , onWeekChange: function () {
@@ -367,6 +376,31 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 });
             }
 
+            , notify: function (msg) {
+                _.defer(function () {
+                    jQuery.blockUI({
+                        message: msg,
+                        fadeIn: 700,
+                        fadeOut: 700,
+                        timeout: 4000,
+                        showOverlay: false,
+                        centerY: false,
+                        css: {
+                            width: '350px',
+                            top: jQuery('#tboard').offset().top - jQuery(window).scrollTop() + 10 + 'px',
+                            right: '10px',
+                            border: 'none',
+                            padding: '5px',
+                            backgroundColor: '#00aa00',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .6,
+                            color: '#fff'
+                        }
+                    });
+                });
+            }
+
             , render: function () {
                 var that = this;
                 Backbone.View.prototype.render.apply(that, arguments);
@@ -375,16 +409,19 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 return that.drawNewWeek();
             }
 
-            , showContent: function () {
+            ,
+            showContent: function () {
                 var that = this;
                 return that.application.getLayout().showContent(that);
             }
 
-            , destroy: function () {
+            ,
+            destroy: function () {
                 var that = this;
                 that.weekModel.off('change', that.onWeekChange);
                 console.log('destroy view');
                 that._destroy();
             }
-        });
+        })
+            ;
     });
