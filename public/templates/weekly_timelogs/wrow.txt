@@ -11,9 +11,7 @@
     <% _.each(row.cells, function(cell, index){
     %>
     <td>
-        <div data-day="<%= cell.id %>">
-            <input type='number' step='1' min="0" max="24" class="wctrl duration" style="width: 3.5em" value="<%= cell.value %>"/>
-        </div>
+        <%= SPA.template('wcell_tmpl', {data: {row: row.id, cell: cell}}) %>
     </td>
     <%
     }) %>

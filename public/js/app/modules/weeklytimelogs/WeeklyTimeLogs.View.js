@@ -22,9 +22,11 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="newCst"]': 'onNewCustomer',
                 'click [data-action="newPrj"]': 'onNewProject',
                 'click [data-action="newRow"]': 'onNewRow',
-                'change #newRowCustomer' : 'onNewRowCstSelect',
-                'change .newRow':'onChangeNewRowControl',
-                'keyup #newRowMemo':'onChangeNewRowControl'
+                'click #submitWeek':'onSubmit',
+                'change #newRowCustomer': 'onNewRowCstSelect',
+                'change .newRow': 'onChangeNewRowControl',
+                'keyup #newRowMemo': 'onChangeNewRowControl',
+                'change .duration': 'onCellEditorChange'
             }
 
             , initialize: function (options) {
@@ -66,10 +68,10 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                                 newRowSubmit: function () {
                                     return that.$('#newRowSubmit');
                                 },
-                                addProjectsOption: function(value, text){
+                                addProjectsOption: function (value, text) {
                                     $('<option/>').val(value).html(text).appendTo(this.projects());
                                 },
-                                resetProjectsOption: function(){
+                                resetProjectsOption: function () {
                                     this.projects().find('option').remove();
                                 }
                             }
@@ -127,17 +129,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 };
             }
 
-            , test: function () {
-                var that = this,
-                    cells = new WCellCollection();
-
-                that.tlColl.fetch().then(
-                    function () {
-                        _.each(that.tlColl.models, function (tl) {
-                            cells.add(new WCell(null, {tlog: tl}));
-                        });
-                    }
-                );
+            , onSubmit: function(e){
+                var that=this;
             }
 
             , onWeekChange: function () {
@@ -164,7 +157,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , unsavedData: function () {
                 var that = this;
-                return false;
+                return that.rowsColl.isDirty();
             }
 
             , getWeekNumber: function () {
@@ -216,16 +209,16 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , onNewRowCstSelect: function (e) {
-                var that=this;
+                var that = this;
                 that.DOM.newRowModal.resetProjectsOption();
-                _.each(that.prjColl.where({_cstId:that.DOM.newRowModal.customers().val()}), function(prj, index){
+                _.each(that.prjColl.where({_cstId: that.DOM.newRowModal.customers().val()}), function (prj, index) {
                     that.DOM.newRowModal.addProjectsOption(prj.id, prj.get('name'));
                 });
                 that.DOM.newRowModal.projects().prop('disabled', false);
-            },
+            }
 
-            onChangeNewRowControl:function (e) {
-                var that=this;
+            , onChangeNewRowControl: function (e) {
+                var that = this;
                 that.DOM.newRowModal.newRowSubmit().prop('disabled', !(that.DOM.newRowModal.customers().val() && that.DOM.newRowModal.projects().val() && that.DOM.newRowModal.memo().val()));
             }
 
@@ -242,6 +235,14 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , onNewRow: function (e) {
                 var that = this;
                 that.DOM.buildNewRowDialog();
+            }
+
+            , onCellEditorChange: function (e) {
+                var that = this,
+                    rowCid = that.$(e.target).data('row'),
+                    cellCid = that.$(e.target).data('cell'),
+                    newValue = that.$(e.target).val();
+                that.rowsColl.get({cid: rowCid}).cells.get({cid: cellCid}).set('value', newValue);
             }
 
             , addProject: function (e) {
@@ -279,6 +280,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 var that = this;
                 return;
             }
+
             , prepareWRows: function () {
                 var that = this,
                     rows = new WRowCollection();
@@ -300,7 +302,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             });
                             rows.add(currRow);
                         }
-                        currRow.bindCell(tl);
+                        currRow.bindTimeLog(tl);
                     }
                 });
                 that.rowsColl = rows;
@@ -310,12 +312,25 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , subscribeWRows: function () {
                 var that = this;
                 that.rowsColl.on('add remove', that.onRowsCollectionChange, that);
+                that.rowsColl.on('cellChanged', that.onCellChange, that);
             }
+
             , onRowsCollectionChange: function (newRow, coll, options) {
                 var that = this;
                 that.DOM.appendRow(newRow.toDTO());
             }
 
+            , onCellChange: function (cell, options) {
+                var that = this,
+                    rowCid = options.row,
+                    cellCid = cell.cid;
+                that.$('#' + rowCid + '_' + cellCid).parent().html(SPA.template('wcell_tmpl', {data: {row: rowCid, cell: cell}}));
+                that.toggleSubmit();
+            }
+
+            , toggleSubmit: function () {
+                this.$('#submitWeek').prop('disabled', !this.unsavedData());
+            }
 
             , drawRows: function () {
                 var that = this;
@@ -332,6 +347,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     that.prepareWRows();
                     that.subscribeWRows();
                     that.drawRows();
+                    that.toggleSubmit();
                 });
             }
 

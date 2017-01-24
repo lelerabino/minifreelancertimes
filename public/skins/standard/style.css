@@ -48,3 +48,7 @@
 #tboard tr td:nth-child(n+4){
     width:6%;
 }
+
+.dirty{
+    border: solid 1px red;
+}
