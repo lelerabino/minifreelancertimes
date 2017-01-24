@@ -8,7 +8,7 @@ define('TimeLogs.Model', function () {
         {
             idAttribute: '_id',
             url: function () {
-                return '/api/timelogs/' + this.id;
+                return '/api/timelogs/' + (this.id ? this.id : '');
             }
         });
 });

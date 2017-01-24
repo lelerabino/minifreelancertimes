@@ -1,4 +1,4 @@
-define('WCell.Model', function () {
+define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
     'use strict';
 
     return Backbone.Model.extend(
@@ -10,8 +10,6 @@ define('WCell.Model', function () {
             },
             initialize: function (attributes, options) {
                 var that = this;
-                //that.tlog = options.tlog;
-                //that.set('value', options.tlog ? options.tlog.get('duration') : null);
             },
 
             bindTimeLog: function (tl, options) {
@@ -20,7 +18,7 @@ define('WCell.Model', function () {
                 that.set({
                     originalValue: tl.get('duration'),
                     value: tl.get('duration'),
-                    hasTL: true
+                    date: tl.get('date')
                 }, {silent: options && options.silent});
             },
 
@@ -36,12 +34,36 @@ define('WCell.Model', function () {
 
             hasTL: function () {
                 var that = this;
-                return that.get('hasTL') === true;
+                return that.tlog;
             },
 
-            clean:function () {
-              var that=this;
-              that.bindTimeLog(that.tlog);
+            clean: function () {
+                var that = this;
+                that.bindTimeLog(that.tlog);
+            },
+
+            sync: function (headers) {
+                var that = this;
+                if (that.isDirty()) {
+                    if (!that.hasTL()) {
+                        that.tlog = new TLModel({
+                            _cstId: headers.cst,
+                            _prjId: headers.prj,
+                            memo: headers.memo,
+                            date: that.get('date'),
+                            duration: that.get('value')
+                        });
+                    }
+                    else {
+                        that.tlog.set({duration: that.get('value')});
+                    }
+                    return that.tlog.save().then(function () {
+                        that.clean();
+                    });
+                }
+                else {
+                    return Q.resolve(that);
+                }
             },
 
             toJSON: function () {
@@ -56,10 +78,10 @@ define('WCell.Collection', ['WCell.Model'], function (Model) {
     return Backbone.Collection.extend(
         {
             model: Model,
-            initializeWeekDays: function () {
+            initializeWeekDays: function (startDate) {
                 var that = this;
-                for (var i = 1; i <= 7; i++) {
-                    that.add(new Model({id: i}));
+                for (var i = 0; i < 7; i++) {
+                    that.add(new Model({id: i, date: (startDate.clone().add(i, 'days'))}));
                 }
             },
 
@@ -68,6 +90,13 @@ define('WCell.Collection', ['WCell.Model'], function (Model) {
                 return _.find(that.models, function (cell) {
                     return cell.isDirty();
                 })
+            },
+
+            sync: function (headers) {
+                var that = this;
+                return Q.all(_.map(that.models, function (cell) {
+                    return cell.sync(headers);
+                }));
             }
         });
 });
@@ -83,7 +112,7 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
                     that.cst = options.cst;
                     that.prj = options.prj;
                     that.cells = new WCellCollection();
-                    that.cells.initializeWeekDays();
+                    that.cells.initializeWeekDays(options.startDate);
                     that.cells.on('change', that.onCellsChanged, that);
                 },
 
@@ -118,14 +147,25 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
                 },
 
                 bindTimeLog: function (tl, options) {
-                    var that = this;
-                    (that.cells.get(moment(tl.get('date')).day())).bindTimeLog(tl, options);
+                    var that = this,
+                        tlDate = moment(tl.get('date')),
+                        cellIndex = tlDate.clone().startOf('day').diff(tlDate.clone().startOf('isoweek'), 'day');
+                    (that.cells.get(cellIndex)).bindTimeLog(tl, options);
                 },
 
                 getDirtyCells: function () {
                     var that = this;
                     return _.filter(that.cells.models, function (cell) {
-                        return cell.hasTL() && cell.isDirty();
+                        return cell.isDirty();
+                    });
+                },
+
+                sync: function () {
+                    var that = this;
+                    return that.cells.sync({
+                        cst: that.cst.id,
+                        prj: that.prj.id,
+                        memo: that.get('memo')
                     });
                 }
             });
@@ -152,20 +192,10 @@ define('WRow.Collection', ['WRow.Model'], function (Model) {
                 })
             },
 
-            syncDirty: function () {
-                var that = this, dirtyCells = [];
-                _.each(that.models, function (row) {
-                    var dcells = row.getDirtyCells();
-                    if (dcells.length) {
-                        dirtyCells = _.union(dirtyCells, dcells);
-                    }
-                });
-
-                return Q.all(_.map(dirtyCells, function (dcell) {
-                    dcell.tlog.set({duration:dcell.get('value')});
-                    return dcell.tlog.save().then(function(){
-                        dcell.clean();
-                    });
+            sync: function () {
+                var that = this;
+                return Q.all(_.map(that.models, function (row) {
+                    return row.sync();
                 }));
             }
         });

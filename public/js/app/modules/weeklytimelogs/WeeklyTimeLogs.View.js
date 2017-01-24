@@ -132,7 +132,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , onSubmit: function (e) {
                 var that = this;
                 e.preventDefault();
-                that.rowsColl.syncDirty().then(
+                that.rowsColl.sync().then(
                     function () {
                         that.notify('Saved TimeLogs.');
                     },
@@ -208,7 +208,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     if (!currRow) {
                         that.rowsColl.add(currRow = new WRow({memo: memo}, {
                             cst: that.cstColl.get(cstId),
-                            prj: that.prjColl.get(prjId)
+                            prj: that.prjColl.get(prjId),
+                            startDate:SPA.getDateFromRelWeek(that.getWeekNumber())
                         }))
                     }
                     else {
@@ -279,8 +280,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     mStartDate = SPA.getDateFromRelWeek(wn);
                 return that.tlColl.fetch({
                     data: {
-                        from: mStartDate.toString(),
-                        to: mStartDate.clone().add(6, 'days').toString()
+                        from: mStartDate,
+                        to: mStartDate.clone().add(6, 'days')
                     }
                 });
             }
@@ -292,7 +293,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , prepareWRows: function () {
                 var that = this,
-                    rows = new WRowCollection();
+                    rows = new WRowCollection(),startDate = SPA.getDateFromRelWeek(that.getWeekNumber())
                 _.each(that.tlColl.models, function (tl) {
                     var currRow, cstId = tl.get('_cstId'), prjId = tl.get('_prjId'), memo = tl.get('memo'),
                         cst = that.cstColl.get(cstId),
@@ -307,7 +308,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                                 memo: memo
                             }, {
                                 cst: that.cstColl.get(cstId),
-                                prj: that.prjColl.get(prjId)
+                                prj: that.prjColl.get(prjId),
+                                startDate:startDate
                             });
                             rows.add(currRow);
                         }
@@ -387,7 +389,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         centerY: false,
                         css: {
                             width: '350px',
-                            top: jQuery('#tboard').offset().top - jQuery(window).scrollTop() + 10 + 'px',
+                            top: jQuery('#tboard').offset().top - jQuery(window).scrollTop() + 50 + 'px',
                             right: '10px',
                             border: 'none',
                             padding: '5px',
