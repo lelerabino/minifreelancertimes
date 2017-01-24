@@ -5,7 +5,7 @@ HOST: http://times.minifreelancer.apiblueprint.org/
 
 minifreelancertimes is a proof of concept API allowing freelancer register and collect time logs.
 
-## TimeLogs Collection [/timelogs]
+## TimeLogs Collection [/api/timelogs]
 
 ### List All TimeLogs [GET]
 
@@ -13,20 +13,22 @@ minifreelancertimes is a proof of concept API allowing freelancer register and c
 
         [
             {
-                "id": 1,
-                "url": "/timelogs/1",
-                "prj": "prj-1",
-                "comment":"develop web app WA1",
-                "started": "2017-01-12T04:13:01.900+0000",
-                "timeSpent": 120
+                "_id": "58877bfa1532c42814fcd363",
+                "_cstId": "58848c193440cf05b4cde9e0",
+                "_prjId": "58848c873440cf05b4cde9e3",
+                "memo": "d1",
+                "date": "2017-01-27T23:00:00.000Z",
+                "duration": 1,
+                "__v": 0
             },
             {
-                "id": 2,
-                "url": "/timelogs/2",
-                "prj": "prj-1",
-                "comment":"unit test web app WA1",
-                "started": "2017-01-12T06:13:01.900+0000",
-                "timeSpent": 90
+                "_id": "58877bfa1532c42814fcd362",
+                "_cstId": "58848c193440cf05b4cde9e0",
+                "_prjId": "58848c873440cf05b4cde9e3",
+                "memo": "d1",
+                "date": "2017-01-25T23:00:00.000Z",
+                "duration": 2,
+                "__v": 0
             }
         ]
 
@@ -48,35 +50,37 @@ object containing a TimeLog.
 
     + Headers
 
-            Location: /timelogs/2
+            Location: /api/timelogs/2
 
     + Body
 
             {
-                "id": 1,
-                "url": "/timelogs/1",
-                "prj": "prj-1",
-                "comment":"develop web app WA1",
-                "started": "2017-01-12T04:13:01.900+0000",
-                "timeSpent": 120
+              "__v": 0,
+              "_cstId": "588484ed0b7ce405582ee678",
+              "_prjId": "588485ef28c0ea2c70875395",
+              "memo": "sample memo C1 memo",
+              "date": "2017-01-08T23:00:00.000Z",
+              "duration": 3,
+              "_id": "58877fef6850260ec06b7f9c"
             }
 
 
         
-## TimeLog [/timelogs/{timelog_id}]
+## TimeLog [/api/timelogs/{timelog_id}]
 
 ### Get a TimeLog [GET]
 
 + Parameters
-    + timelog_id (number) - ID of the TimeLog in the form of an integer
+    + timelog_id (string) - ID of the TimeLog
 
 + Response 200 (application/json)
 
         {
-                "id": 1,
-                "url": "/timelogs/1",
-                "prj": "prj-1",
-                "comment":"develop web app WA1",
-                "started": "2017-01-12T04:13:01.900+0000",
-                "timeSpent": 120
+          "_id": "58878139ee749e3490e08fd5",
+          "_cstId": "588484ed0b7ce405582ee678",
+          "_prjId": "588485ef28c0ea2c70875395",
+          "memo": "another sample memo C1 memo ",
+          "date": "2017-01-08T23:00:00.000Z",
+          "duration": 6,
+          "__v": 0
         }
