@@ -21,7 +21,7 @@ var express = require('express'),
  * MONGOLAB_URI=mongodb://example:example@ds053312.mongolab.com:53312/timeloglist
  * 'mongodb://example:example@ds053312.mongolab.com:53312/timeloglist'
  */
-mongoose.connect(process.env.MONGOLAB_URI, function (error) {
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://admin:admin@ds117189.mlab.com:17189/minifreelancerstore', function (error) {
     if (error) console.error(error);
     else console.log('mongo connected');
 });
@@ -50,4 +50,4 @@ app.get('/api', function (req, res) {
     .use(express.static(__dirname + '/public'))
     .use(bodyParser())
     .use(favicon('public/favicon.ico'))
-    .listen(process.env.PORT || 5000);
+    .listen(process.env.PORT || 8000);

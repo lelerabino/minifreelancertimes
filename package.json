@@ -29,6 +29,7 @@
     "foreman": "2.0.0",
     "gulp": "3.9.1",
     "mongoose": "4.7.7",
+    "nodeunit": "0.10.2",
     "serve-favicon": "2.3.2"
   }
 }
