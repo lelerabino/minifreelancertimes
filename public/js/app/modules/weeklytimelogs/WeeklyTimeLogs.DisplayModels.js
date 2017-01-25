@@ -14,12 +14,17 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
 
             bindTimeLog: function (tl, options) {
                 var that = this;
-                that.tlog = tl;
-                that.set({
-                    originalValue: tl.get('duration'),
-                    value: tl.get('duration'),
-                    date: tl.get('date')
-                }, {silent: options && options.silent});
+                if(tl) {
+                    that.tlog = tl;
+                    that.set({
+                        originalValue: tl.get('duration'),
+                        value: tl.get('duration'),
+                        date: tl.get('date')
+                    }, {silent: options && options.silent});
+                }
+                else{
+                    that.set(that.defaults, {silent: options && options.silent});
+                }
             },
 
             getClass: function () {
@@ -35,6 +40,11 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
             hasTL: function () {
                 var that = this;
                 return that.tlog;
+            },
+
+            hasValue: function () {
+                var that = this;
+                return that.get('value') && parseFloat(that.get('value')) > 0;
             },
 
             clean: function () {
@@ -55,7 +65,15 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
                         });
                     }
                     else {
-                        that.tlog.set({duration: that.get('value')});
+                        if(that.hasValue()) {
+                            that.tlog.set({duration: that.get('value')});
+                        }
+                        else{
+                            return that.tlog.destroy().then(function () {
+                                delete that.tlog;
+                                that.clean();
+                            });
+                        }
                     }
                     return that.tlog.save().then(function () {
                         that.clean();
