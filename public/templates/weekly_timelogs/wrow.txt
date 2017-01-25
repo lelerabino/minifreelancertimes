@@ -1,4 +1,4 @@
-<tr class="<%=row.cst ? '' : 'totalRow'%>">
+<tr class="<%= row.cst ? '' : 'totalRow' %>">
     <td>
         <%= row.cst ? row.cst.name : '' %>
     </td>
@@ -10,9 +10,14 @@
     </td>
     <% _.each(row.cells, function(cell, index){
     %>
-        <td>
-            <%= SPA.template('wcell_tmpl', {data: {row: row.id, isTotal:row.isTotal, cell: cell}}) %>
-        </td>
+    <td>
+        <%= SPA.template('wcell_tmpl', {data: {row: row.id, isTotal: row.isTotal, cell: cell}}) %>
+    </td>
     <%
     }) %>
+    <td>
+        <% if(row.cst){ %>
+        <i class="fa fa-trash" data-action="removeRow" data-row="<%=row.id%>" aria-hidden="true" style="cursor: pointer; cursor: hand; "></i>
+        <% } %>
+    </td>
 </tr>

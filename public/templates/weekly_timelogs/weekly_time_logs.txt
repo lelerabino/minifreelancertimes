@@ -36,6 +36,7 @@
                         <th class="day_header">F</th>
                         <th class="day_header">S</th>
                         <th class="day_header">S</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

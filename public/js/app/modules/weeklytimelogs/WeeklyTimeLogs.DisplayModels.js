@@ -199,23 +199,28 @@ define('WRow.Collection', ['WRow.Model'], function (Model) {
 
             anyMatchTLog: function (cstId, prjId, memo) {
                 var that = this;
-                return _.find(that.models, function (row) {
+                return _.find(that.nonTotalRows(), function (row) {
                     return row.matchTLog(cstId, prjId, memo);
                 })
             },
 
             isDirty: function () {
                 var that = this;
-                return _.find(that.models, function (row) {
+                return _.find(that.nonTotalRows(), function (row) {
                     return row.isDirty();
                 })
             },
 
+            nonTotalRows: function () {
+                var that = this;
+                return _.filter(that.models, function (row) {
+                    return row.id != 'total';
+                });
+            },
+
             sync: function () {
                 var that = this;
-                return Q.all(_.map(_.filter(that.models, function (row) {
-                    return row.id != 'total';
-                }), function (row) {
+                return Q.all(_.map(that.nonTotalRows(), function (row) {
                     return row.sync();
                 }));
             }

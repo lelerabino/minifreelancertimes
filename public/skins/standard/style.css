@@ -49,6 +49,10 @@
     width:6%;
 }
 
+#tboard tr td:nth-child(11){
+    width:2%;
+}
+
 .dirty{
     border: solid 1px red;
 }

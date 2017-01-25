@@ -104,7 +104,12 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     },
 
                     appendRow: function (rowObj) {
-                        return this.$('table > tbody:last-child').append($(SPA.template('wrow_tmpl', {row: rowObj})));
+                        if (this.$('table > tbody >tr.totalRow').length == 0) {
+                            return this.$('table > tbody').append($(SPA.template('wrow_tmpl', {row: rowObj})));
+                        }
+                        else {
+                            return this.$('table > tbody >tr.totalRow').before($(SPA.template('wrow_tmpl', {row: rowObj})));
+                        }
                     },
 
                     toggleEmptyContent: function (empty) {
@@ -120,22 +125,6 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
                     activateViewScripts: function () {
                         var that = this;
-                        $('.timetext').editable({
-                            success: function () {
-                                //TODO
-                            },
-                            showbuttons: true,
-                            send: 'never',
-                            emptytext: '-',
-                            display: function (value) {
-                                if (value) {
-                                    $(this).text(value + 'h');
-                                }
-                                else {
-                                    $(this).empty();
-                                }
-                            }
-                        });
                     }
                 };
             }
@@ -223,7 +212,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             cst: that.cstColl.get(cstId),
                             prj: that.prjColl.get(prjId),
                             startDate: SPA.getDateFromRelWeek(that.getWeekNumber())
-                        }))
+                        }), {at: that.rowsColl.models.length - 1})
                     }
                     else {
                         that.alert('You already have this entry on the board. Please use it!')
@@ -301,6 +290,10 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , unsubscribeWRows: function () {
                 var that = this;
+                if (that.rowsColl) {
+                    that.rowsColl.off('add remove', that.onRowsCollectionChange);
+                    that.rowsColl.off('cellChanged', that.onCellChange);
+                }
                 return;
             }
 
@@ -342,7 +335,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , onRowsCollectionChange: function (newRow, coll, options) {
                 var that = this;
                 that.DOM.appendRow(newRow.toDTO());
-                if(!that.rowsColl.get('total')){
+                if (!that.rowsColl.get('total')) {
                     that.addTotals(true);
                 }
                 that.toggleMode();
@@ -358,8 +351,14 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     dayTot = that.getDayTotal(cell.id),
                     rowCid = options.row,
                     cellCid = cell.cid;
-                that.$('#' + rowCid + '_' + cellCid).parent().html(SPA.template('wcell_tmpl', {data: {row: rowCid, isTotal:options.tot, cell: cell}}));
-                if(!options || !options.tot) {
+                that.$('#' + rowCid + '_' + cellCid).parent().html(SPA.template('wcell_tmpl', {
+                    data: {
+                        row: rowCid,
+                        isTotal: options.tot,
+                        cell: cell
+                    }
+                }));
+                if (!options || !options.tot) {
                     that.rowsColl.get('total').cells.get(cell.id).set({originalValue: dayTot, value: dayTot}, {tot: true});
                 }
                 that.toggleSubmit();
@@ -405,7 +404,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         dayTot = that.getDayTotal(j);
                         totRow.cells.at(j).set({originalValue: dayTot, value: dayTot}, {silent: true});
                     }
-                    that.rowsColl.add(totRow, {silent:!trigger});
+                    that.rowsColl.add(totRow, {silent: !trigger});
                 }
             }
 
@@ -485,6 +484,5 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 //console.log('destroy view');
                 that._destroy();
             }
-        })
-            ;
+        });
     });
