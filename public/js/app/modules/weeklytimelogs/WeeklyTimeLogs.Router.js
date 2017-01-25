@@ -43,7 +43,6 @@ define('WeeklyTimeLogs.Router', ['Customers.Collection', 'Projects.Collection', 
                         prjColl: that.prjColl,
                         tlColl: that.tlColl
                     });
-
                     view.showContent();
                 });
             }

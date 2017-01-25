@@ -1,0 +1,25 @@
+<div>
+    <h4>:( Error</h4>
+    <p>Sorry, some critical error occurred and the application can't continue.</p>
+    <p><%=reason.code%></p>
+    <div class="modal-body">
+        <h2>Please, what are you doing when the error occurred ?</h2>
+        <textarea rows="3" cols="175" placeholder="Error description"></textarea>
+        <br>
+        <div>
+            <input type="button" class="button button-exec" value="Send" id="btnSend" title="Send the error message">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="details">
+        </div>
+        <div class="reload">
+            <input type="button" class="button button-alt" value="Details" id="btnErrorDetails" onclick="jQuery('#modal_view_details').toggle();" title="Show/hide error details">
+            <input type="button" class="button" value="Reload" id="btnReload" title="Reload the page" onclick="document.location.reload(true)">
+        </div>
+    </div>
+    <div id="modal_view_details" class="modal-footer view-details">
+        <textarea rows="5" cols="175" readonly><%=details%></textarea>
+    </div>
+    <div class="vex-close"></div>
+</div>

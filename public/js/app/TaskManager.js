@@ -21,7 +21,7 @@
 
         saveDiagnostic: function () {
             var that = this;
-            var diagnosticUrl = SPA.ENVIRONMENT.spaSettings.touchpoints.router_rest,
+            var diagnosticUrl = SPA.ENVIRONMENT.spaSettings.touchpoints.diagnosticUrl,
                 postData = _.extend({p: 'diagnostic'}, that.toJSON());
 
             Q(jQuery.ajax({
@@ -476,7 +476,7 @@
                 });
                 that._surrogateTask = that.createTask(that, {type: 'SURROGATE'});
                 window.onerror = function (err, url, lineNumber) {
-                    alert(err.toString());
+                    //alert(err.toString());
                     that._surrogateTask.reject(that.createReason('WINDOW_ONERROR', {
                         error: err,
                         url: url,

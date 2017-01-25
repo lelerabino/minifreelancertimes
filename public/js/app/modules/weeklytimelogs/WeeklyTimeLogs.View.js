@@ -130,17 +130,49 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 };
             }
 
+            , commandFailHandler: function (task) {
+                var that = this;
+                return function (reason) {
+                    var matchedError;
+                    if (matchedError = reason.match('FIXABLE_SERVER_MSG')) {
+                        return task.fix(reason).then(
+                            function (manager) {
+                                that.alert(matchedError.inner);
+                            });
+                    }
+                };
+            }
+
             , onSubmit: function (e) {
                 var that = this;
                 e.preventDefault();
-                that.rowsColl.sync().then(
-                    function () {
-                        that.notify('Saved TimeLogs.');
-                    },
-                    function (err) {
-                        that.application.getLayout().showError({msg: 'Some error occurred!'});
-                    }
-                );
+
+                return that.application.TM.createTask(that, {type: 'SUBMIT_WEEK'}).then(
+                    function (task) {
+                        var taskCtx = task.ctx();
+
+                        // BFD: business flow definition!!!
+                        task.promise.fail(that.commandFailHandler(task));
+                        task.promise.then(function(){
+                            that.notify('Saved successfully.');
+                        });
+                        //~BFD
+
+                        try {
+                            taskCtx.notify(taskCtx.createInfo('Saving Week...'));
+                            that.rowsColl.sync().then(
+                                function () {
+                                    task.resolve(true);
+                                },
+                                _.taskReject(task)
+                            );
+                        }
+                        catch (err) {
+                            task.reject(_.reasonFromError(taskCtx, err));
+                        }
+
+                        return task.promise;
+                    });
             }
 
             , onWeekChange: function () {
@@ -187,7 +219,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , resetRow: function (e) {
-                var that=this,
+                var that = this,
                     rowid = that.$(e.target).data('row');
 
                 that.rowsColl.get(rowid).resetCells();
@@ -488,6 +520,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             ,
             destroy: function () {
                 var that = this;
+                that.unsubscribeWRows();
                 that.weekModel.off('change', that.onWeekChange);
                 //console.log('destroy view');
                 that._destroy();

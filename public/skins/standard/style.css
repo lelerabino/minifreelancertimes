@@ -5,6 +5,7 @@
 .weekLabel{
     font-size: 15px;
     font-weight: 600;
+    padding: 20px;
 }
 
 .duration{
@@ -65,4 +66,67 @@
 table.table.table-striped tr.totalRow {
     background-color: #9acfea;
     font-weight: bold;
+}
+
+#critical_alert h4 {
+    color: #D20000;
+    font-size: 38px;
+    font-weight: 200;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: capitalize;
+}
+
+#critical_alert p {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#critical_alert h2 {
+    color: #343434;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 12px;
+}
+
+#critical_alert textarea {
+    background-color: #F4F4F4;
+    color: #7D7D7D;
+    padding: 2px;
+    resize: none;
+    margin-left: 10px;
+    width: 95%
+}
+
+#critical_alert .modal-footer .details {
+    width: 80px;
+    float: left;
+}
+
+#critical_alert .modal-footer {
+    background-color: #FFFFFF;
+    border-top: 0 none;
+    box-shadow: 0 1px 0 #FFFFFF inset;
+    margin-bottom: 0;
+    padding: 14px 15px 15px;
+    text-align: right;
+}
+
+#critical_alert .reload {
+    float: right;
+    margin-top: -10px;
+}
+
+#critical_alert .modal-footer.view-details {
+    display: none;
+    text-align: left;
+}
+
+.loadingBox {
+    margin-top: 25px;
+    font-size: 16px;
+    color: #337ab7;
 }

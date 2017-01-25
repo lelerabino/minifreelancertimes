@@ -37,9 +37,11 @@
             ENVIRONMENT: {
                 jsEnvironment: 'browser',
                 spaSettings: {
-                    touchpoints: JSON.parse('{}')
+                    touchpoints: {
+                        diagnosticUrl:'/api/logs'
+                    }
                 },
-                PROFILE: JSON.parse('{}'),
+                PROFILE: {user: 'lelerabino'},
                 serverSettings: JSON.parse('{}')
             }
             , getSessionInfo: function (key) {
