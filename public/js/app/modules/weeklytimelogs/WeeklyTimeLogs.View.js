@@ -107,6 +107,17 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         return this.$('table > tbody:last-child').append($(SPA.template('wrow_tmpl', {row: rowObj})));
                     },
 
+                    toggleEmptyContent: function (empty) {
+                        if(empty){
+                            that.$('#emptyContent').show();
+                            that.$('.withContent').hide();
+                        }
+                        else{
+                            that.$('#emptyContent').hide();
+                            that.$('.withContent').show();
+                        }
+                    },
+
                     activateViewScripts: function () {
                         var that = this;
                         $('.timetext').editable({
@@ -197,6 +208,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , addRow: function (e) {
                 var that = this, currRow;
+
+                e.preventDefault();
 
                 var cstId = that.DOM.newRowModal.customers().val(),
                     prjId = that.DOM.newRowModal.projects().val(),
@@ -329,6 +342,12 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , onRowsCollectionChange: function (newRow, coll, options) {
                 var that = this;
                 that.DOM.appendRow(newRow.toDTO());
+                that.toggleMode();
+            }
+
+            , toggleMode: function () {
+                var that=this;
+                that.DOM.toggleEmptyContent(that.rowsColl.models.length === 0);
             }
 
             , onCellChange: function (cell, options) {
@@ -357,6 +376,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 return that.fetchTLogs().then(function () {
                     that.prepareWRows();
                     that.subscribeWRows();
+                    that.toggleMode();
                     that.drawRows();
                     that.toggleSubmit();
                 });
