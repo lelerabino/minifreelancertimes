@@ -57,3 +57,8 @@
     text-align: center;
     margin-top: 50px;
 }
+
+table.table.table-striped tr.totalRow {
+    background-color: #9acfea;
+    font-weight: bold;
+}

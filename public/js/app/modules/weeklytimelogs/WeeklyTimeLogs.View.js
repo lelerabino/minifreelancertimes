@@ -108,11 +108,11 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     },
 
                     toggleEmptyContent: function (empty) {
-                        if(empty){
+                        if (empty) {
                             that.$('#emptyContent').show();
                             that.$('.withContent').hide();
                         }
-                        else{
+                        else {
                             that.$('#emptyContent').hide();
                             that.$('.withContent').show();
                         }
@@ -148,7 +148,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         that.notify('Saved TimeLogs.');
                     },
                     function (err) {
-                        that.application.getLayout().showError({msg:'Some error occurred!'});
+                        that.application.getLayout().showError({msg: 'Some error occurred!'});
                     }
                 );
             }
@@ -222,7 +222,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         that.rowsColl.add(currRow = new WRow({memo: memo}, {
                             cst: that.cstColl.get(cstId),
                             prj: that.prjColl.get(prjId),
-                            startDate:SPA.getDateFromRelWeek(that.getWeekNumber())
+                            startDate: SPA.getDateFromRelWeek(that.getWeekNumber())
                         }))
                     }
                     else {
@@ -306,7 +306,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
             , prepareWRows: function () {
                 var that = this,
-                    rows = new WRowCollection(),startDate = SPA.getDateFromRelWeek(that.getWeekNumber())
+                    rows = new WRowCollection(), startDate = SPA.getDateFromRelWeek(that.getWeekNumber())
                 _.each(that.tlColl.models, function (tl) {
                     var currRow, cstId = tl.get('_cstId'), prjId = tl.get('_prjId'), memo = tl.get('memo'),
                         cst = that.cstColl.get(cstId),
@@ -322,11 +322,11 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             }, {
                                 cst: that.cstColl.get(cstId),
                                 prj: that.prjColl.get(prjId),
-                                startDate:startDate
+                                startDate: startDate
                             });
                             rows.add(currRow);
                         }
-                        currRow.bindTimeLog(tl, {silent:true});
+                        currRow.bindTimeLog(tl, {silent: true});
                     }
                 });
                 that.rowsColl = rows;
@@ -346,16 +346,19 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , toggleMode: function () {
-                var that=this;
+                var that = this;
                 that.DOM.toggleEmptyContent(that.rowsColl.models.length === 0);
             }
 
             , onCellChange: function (cell, options) {
                 var that = this,
+                    dayTot = that.getDayTotal(cell.id),
                     rowCid = options.row,
                     cellCid = cell.cid;
-                that.$('#' + rowCid + '_' + cellCid).parent().html(SPA.template('wcell_tmpl', {data: {row: rowCid, cell: cell}}));
-                that.toggleSubmit();
+                that.$('#' + rowCid + '_' + cellCid).parent().html(SPA.template('wcell_tmpl', {data: {row: rowCid, isTotal:options.tot, cell: cell}}));
+                if(!options || !options.tot) {
+                    that.rowsColl.get('total').cells.get(cell.id).set({originalValue: dayTot, value: dayTot}, {tot: true});
+                }
             }
 
             , toggleSubmit: function () {
@@ -377,9 +380,40 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                     that.prepareWRows();
                     that.subscribeWRows();
                     that.toggleMode();
+                    that.addTotals();
                     that.drawRows();
                     that.toggleSubmit();
                 });
+            }
+
+            , addTotals: function () {
+                var that = this, totRow = that.rowsColl.get('total'), dayTot;
+                if (that.rowsColl.models.length) {
+                    totRow = totRow ? totRow : new WRow({
+                            id: 'total',
+                            memo: 'TOTAL'
+                        }, {
+                            cst: null,
+                            prj: null,
+                            startDate: SPA.getDateFromRelWeek(that.getWeekNumber())
+                        });
+                    for (var j = 0; j < 7; j++) {
+                        dayTot = that.getDayTotal(j);
+                        totRow.cells.at(j).set({originalValue: dayTot, value: dayTot}, {silent: true});
+                    }
+                    that.rowsColl.add(totRow, {silent:true});
+                }
+            }
+
+            , getDayTotal: function (nDay) {
+                var that = this, currRow, currCell,
+                    nTot = 0;
+                for (var i = 0; i < that.rowsColl.models.length-1; i++) {
+                    currRow = that.rowsColl.at(i);
+                    currCell = currRow.cells.at(nDay);
+                    nTot += currCell.hasValue() ? parseFloat(currCell.get('value')) : 0;
+                }
+                return nTot;
             }
 
             , drawDates: function () {

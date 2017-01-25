@@ -14,7 +14,7 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
 
             bindTimeLog: function (tl, options) {
                 var that = this;
-                if(tl) {
+                if (tl) {
                     that.tlog = tl;
                     that.set({
                         originalValue: tl.get('duration'),
@@ -22,7 +22,7 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
                         date: tl.get('date')
                     }, {silent: options && options.silent});
                 }
-                else{
+                else {
                     that.set(that.defaults, {silent: options && options.silent});
                 }
             },
@@ -65,10 +65,10 @@ define('WCell.Model', ['TimeLogs.Model'], function (TLModel) {
                         });
                     }
                     else {
-                        if(that.hasValue()) {
+                        if (that.hasValue()) {
                             that.tlog.set({duration: that.get('value')});
                         }
-                        else{
+                        else {
                             return that.tlog.destroy().then(function () {
                                 delete that.tlog;
                                 that.clean();
@@ -155,9 +155,10 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
 
                 toDTO: function () {
                     var dto = {
+                        isTotal: this.id === 'total',
                         id: this.cid,
-                        cst: this.cst.toJSON(),
-                        prj: this.prj.toJSON(),
+                        cst: this.cst ? this.cst.toJSON() : null,
+                        prj: this.prj ? this.prj.toJSON() : null,
                         memo: this.get('memo'),
                         cells: this.cells.models
                     };

@@ -1,4 +1,5 @@
+<%console.log(data)%>
 <div id="<%= data.row + '_' + data.cell.cid %>" class="<%= data.cell.getClass() %>">
     <input type='number' data-day="<%= data.cell.id %>" data-row="<%= data.row %>" data-cell="<%= data.cell.cid %>"
-           step='any' min="0.1" max="24" class="wctrl duration" style="width: 100%" value="<%= data.cell.get('value') %>"/>
+           step='any' min="0.1" max="24" class="wctrl duration" style="width: 100%" <%if(data.isTotal){%> disabled <%}%> value="<%= data.cell.get('value') %>"/>
 </div>

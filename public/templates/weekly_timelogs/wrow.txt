@@ -1,18 +1,18 @@
-<tr>
+<tr class="<%=row.cst ? '' : 'totalRow'%>">
     <td>
-        <%= row.cst.name %>
+        <%= row.cst ? row.cst.name : '' %>
     </td>
     <td>
-        <%= row.prj.name %>
+        <%= row.prj ? row.prj.name : '' %>
     </td>
     <td>
         <div class="memo"><%= row.memo %></div>
     </td>
     <% _.each(row.cells, function(cell, index){
     %>
-    <td>
-        <%= SPA.template('wcell_tmpl', {data: {row: row.id, cell: cell}}) %>
-    </td>
+        <td>
+            <%= SPA.template('wcell_tmpl', {data: {row: row.id, isTotal:row.isTotal, cell: cell}}) %>
+        </td>
     <%
     }) %>
 </tr>
