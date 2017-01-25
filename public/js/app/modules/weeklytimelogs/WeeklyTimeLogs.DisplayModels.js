@@ -213,7 +213,9 @@ define('WRow.Collection', ['WRow.Model'], function (Model) {
 
             sync: function () {
                 var that = this;
-                return Q.all(_.map(that.models, function (row) {
+                return Q.all(_.map(_.filter(that.models, function (row) {
+                    return row.id != 'total';
+                }), function (row) {
                     return row.sync();
                 }));
             }

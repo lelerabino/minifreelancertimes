@@ -103,7 +103,7 @@ define('TimeLogsBrowser.View', function () {
 
         , destroy: function () {
             var that = this;
-            console.log('destroy view');
+            //console.log('destroy view');
             that._destroy();
         }
     });

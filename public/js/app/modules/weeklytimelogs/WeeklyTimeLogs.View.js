@@ -342,6 +342,9 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             , onRowsCollectionChange: function (newRow, coll, options) {
                 var that = this;
                 that.DOM.appendRow(newRow.toDTO());
+                if(!that.rowsColl.get('total')){
+                    that.addTotals(true);
+                }
                 that.toggleMode();
             }
 
@@ -359,6 +362,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 if(!options || !options.tot) {
                     that.rowsColl.get('total').cells.get(cell.id).set({originalValue: dayTot, value: dayTot}, {tot: true});
                 }
+                that.toggleSubmit();
             }
 
             , toggleSubmit: function () {
@@ -386,7 +390,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 });
             }
 
-            , addTotals: function () {
+            , addTotals: function (trigger) {
                 var that = this, totRow = that.rowsColl.get('total'), dayTot;
                 if (that.rowsColl.models.length) {
                     totRow = totRow ? totRow : new WRow({
@@ -401,16 +405,19 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         dayTot = that.getDayTotal(j);
                         totRow.cells.at(j).set({originalValue: dayTot, value: dayTot}, {silent: true});
                     }
-                    that.rowsColl.add(totRow, {silent:true});
+                    that.rowsColl.add(totRow, {silent:!trigger});
                 }
             }
 
             , getDayTotal: function (nDay) {
                 var that = this, currRow, currCell,
-                    nTot = 0;
-                for (var i = 0; i < that.rowsColl.models.length-1; i++) {
-                    currRow = that.rowsColl.at(i);
+                    nTot = 0, rows = _.filter(that.rowsColl.models, function (row) {
+                        return row.id != 'total';
+                    });
+                for (var i = 0; i < rows.length; i++) {
+                    currRow = rows[i];
                     currCell = currRow.cells.at(nDay);
+                    //console.log('nday:' + nDay + ' cell (' + i + '):' + currCell.get('value'));
                     nTot += currCell.hasValue() ? parseFloat(currCell.get('value')) : 0;
                 }
                 return nTot;
@@ -475,7 +482,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             destroy: function () {
                 var that = this;
                 that.weekModel.off('change', that.onWeekChange);
-                console.log('destroy view');
+                //console.log('destroy view');
                 that._destroy();
             }
         })
