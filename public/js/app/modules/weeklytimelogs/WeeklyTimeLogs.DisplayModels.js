@@ -115,6 +115,13 @@ define('WCell.Collection', ['WCell.Model'], function (Model) {
                 return Q.all(_.map(that.models, function (cell) {
                     return cell.sync(headers);
                 }));
+            },
+
+            resetValue: function () {
+                var that = this;
+                _.each(that.models, function (cell) {
+                    cell.set({value: ''});
+                });
             }
         });
 });
@@ -177,6 +184,11 @@ define('WRow.Model', ['WCell.Model', 'WCell.Collection'],
                     return _.filter(that.cells.models, function (cell) {
                         return cell.isDirty();
                     });
+                },
+
+                resetCells: function () {
+                    var that = this;
+                    that.cells.resetValue();
                 },
 
                 sync: function () {

@@ -23,6 +23,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'click [data-action="newPrj"]': 'onNewProject',
                 'click [data-action="newRow"]': 'onNewRow',
                 'click #submitWeek': 'onSubmit',
+                'click [data-action="removeRow"]': 'resetRow',
                 'change #newRowCustomer': 'onNewRowCstSelect',
                 'change .newRow': 'onChangeNewRowControl',
                 'keyup #newRowMemo': 'onChangeNewRowControl',
@@ -183,6 +184,13 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 var that = this,
                     incr = jQuery(e.target).closest('button').data('incr');
                 that.weekModel.set('week', (incr === 'current') ? SPA.getCurrentWeek() : (that.getWeekNumber() + parseInt(incr)));
+            }
+
+            , resetRow: function (e) {
+                var that=this,
+                    rowid = that.$(e.target).data('row');
+
+                that.rowsColl.get(rowid).resetCells();
             }
 
             , addCustomer: function (e) {
