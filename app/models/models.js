@@ -20,9 +20,7 @@ var CustomerSchema = new Schema({
         memo: { type : Schema.Types.String , required : true },
         date:Schema.Types.Date,
         duration: {
-            type: Schema.Types.Number, required : true, min: 0, max: 24, set: function (v) {
-                return Math.round(v);
-            }
+            type: Schema.Types.Number, required : true, min: 0, max: 24
         }
     });
 
