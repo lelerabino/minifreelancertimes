@@ -2,7 +2,7 @@
 // --------------
 // Extends the application with TimeLogs specific core methods
 
-/*global _:true, CLU:true, jQuery:true, Backbone:true*/
+/*global _:true, SPA:true, jQuery:true, Backbone:true*/
 
 (function (app) {
     'use strict';
