@@ -43,22 +43,6 @@ define('TimeLogsBrowser.View', function () {
 
                 activateViewScripts: function () {
                     var that = this;
-                    $('.timetext').editable({
-                        success: function () {
-                            //TODO
-                        },
-                        showbuttons: true,
-                        send: 'never',
-                        emptytext: '-',
-                        display: function (value) {
-                            if (value) {
-                                $(this).text(value + 'h');
-                            }
-                            else {
-                                $(this).empty();
-                            }
-                        }
-                    });
                 }
             };
         }
@@ -71,6 +55,7 @@ define('TimeLogsBrowser.View', function () {
         , filterCustomer: function (e) {
             var that = this,
                 cstFilter = that.$('#filter_cst').val();
+            Backbone.history.navigate('browse?filter=' + cstFilter, {trigger: false});
             that.filter.set('filter', {cst: cstFilter});
         }
 

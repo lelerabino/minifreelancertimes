@@ -13,6 +13,14 @@
             <%
             }) %>
         </select>
+        <!--<select class="form-control" id="filter_prj">
+            <option value="-">- All -</option>
+            <% _.each(view.coll.getProjects(), function(prj, index){
+        %>
+            <option value="<%= prj._id %>"><%= prj.name %></option>
+            <%
+        }) %>-->
+        </select>
     </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped">
@@ -28,25 +36,30 @@
             </thead>
             <tbody>
             <% _.each(view.getFilteredTimeLogs(), function(tlog, index){
+                var targetWeek = SPA.getRelativeWeeks(moment(tlog.date));
             %>
             <tr>
                 <td>
                     <input type="checkbox"/>
                 </td>
                 <td>
-                    <%= _.formatDate(tlog.date) %>
+                    <a href="#log?w=<%=targetWeek%>">
+                        <%= _.formatDate(tlog.date) %>
+                    </a>
                 </td>
                 <td>
-                    <%= tlog._cstId ? tlog._cstId.name:'?' %>
+                    <%= tlog._cstId ? tlog._cstId.name : '?' %>
                 </td>
                 <td>
-                    <%= tlog._prjId ? tlog._prjId.name:'?' %>
+                    <%= tlog._prjId ? tlog._prjId.name : '?' %>
                 </td>
                 <td>
                     <%= tlog.memo %>
                 </td>
                 <td>
-                    <%= tlog.duration %>h
+                    <a href="#log?w=<%=targetWeek%>">
+                        <%= tlog.duration %>h
+                    </a>
                 </td>
             </tr>
             <%

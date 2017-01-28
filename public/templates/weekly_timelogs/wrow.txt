@@ -1,6 +1,8 @@
 <tr class="<%= row.cst ? '' : 'totalRow' %>">
     <td>
-        <%= row.cst ? row.cst.name : '' %>
+        <%if(row.cst){%>
+            <a href="#browse?filter=<%=row.cst._id%>"><%= row.cst ? row.cst.name : '' %></a>
+        <%}%>
     </td>
     <td>
         <%= row.prj ? row.prj.name : '' %>
