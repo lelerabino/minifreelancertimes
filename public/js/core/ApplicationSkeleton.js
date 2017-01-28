@@ -173,7 +173,9 @@
                 return module[0];
             }
         });
-        notifyOnOperation(options.operation,'Loading modules...');
+        if(options && options.operation) {
+            notifyOnOperation(options.operation, 'Loading modules...');
+        }
         // we use require.js to load the modules
         // require.js takes care of the dependencies between modules
         require(modules_list, function () {
