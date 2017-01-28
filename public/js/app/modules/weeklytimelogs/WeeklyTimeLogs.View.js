@@ -113,6 +113,12 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         }
                     },
 
+                    drawWeekDayHeaders:function(labels){
+                        this.$('.day_header').map(function(index, th){
+                            $(th).text(labels[index]);
+                        });
+                    },
+
                     toggleEmptyContent: function (empty) {
                         if (empty) {
                             that.$('#emptyContent').show();
@@ -463,9 +469,15 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , drawDates: function () {
-                var that = this;
+                var that = this, daysLabels=[],wn = this.getWeekNumber(),
+                    mStartDate = SPA.getDateFromRelWeek(wn);
+
+                for(var i=0;i<7;i++){
+                    daysLabels[i] = mStartDate.clone().add(i, 'days').format('ddd DD')
+                }
 
                 that.DOM.navDates.text(that.formatWeek());
+                that.DOM.drawWeekDayHeaders(daysLabels);
 
                 return Q.resolve(true);
             }

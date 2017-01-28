@@ -34,8 +34,8 @@
                         <th class="day_header">W</th>
                         <th class="day_header">T</th>
                         <th class="day_header">F</th>
-                        <th class="day_header">S</th>
-                        <th class="day_header">S</th>
+                        <th class="day_header notworking">S</th>
+                        <th class="day_header notworking">S</th>
                         <th></th>
                     </tr>
                     </thead>

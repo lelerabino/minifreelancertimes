@@ -64,7 +64,7 @@
 }
 
 table.table.table-striped tr.totalRow {
-    background-color: #9acfea;
+    background-color: #cfcfcf;
     font-weight: bold;
 }
 
@@ -129,4 +129,8 @@ table.table.table-striped tr.totalRow {
     margin-top: 25px;
     font-size: 16px;
     color: #337ab7;
+}
+
+.notworking {
+    color: red;
 }
