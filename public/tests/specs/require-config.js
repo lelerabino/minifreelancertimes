@@ -39,26 +39,26 @@ require.config({
         , 'jquery.serializeObject': 'js/core/extras/jQuery.serializeObject'
         , 'jquery.ajaxSetup': 'js/core/extras/jQuery.ajaxSetup'
         , 'SPA': 'tests/specs/SPA'
-        , 'WeeklyTimeLogs': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs'
+        , 'WeeklyTimeLogs':        'js/app/modules/weeklytimelogs/WeeklyTimeLogs'
         , 'WeeklyTimeLogs.Router': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs.Router'
-        , 'WeeklyTimeLogs.View': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs.View'
+        , 'WeeklyTimeLogs.View':   'js/app/modules/weeklytimelogs/WeeklyTimeLogs.View'
         , 'Customers.Collection':'js/app/modules/timelogs/Customers.Collection'
         , 'Customers.Model':'js/app/modules/timelogs/Customers.Model'
         , 'Projects.Collection':'js/app/modules/timelogs/Projects.Collection'
         , 'Projects.Model':'js/app/modules/timelogs/Projects.Model'
-        , 'TimeLogs.Collection':'js/app/modules/timelogs/Customers.Model'
-        , 'TimeLogs.Model':'js/app/modules/timelogs/Customers.Model'
-        , 'WRow.Collection':'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
-        , 'WRow.Model': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
-        , 'WCell.Collection': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
-        , 'WCell.Model': 'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
+        , 'TimeLogs.Collection':'js/app/modules/timelogs/TimeLogs.Collection'
+        , 'TimeLogs.Model':'js/app/modules/timelogs/TimeLogs.Model'
+        , 'WRow.Collection':       'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
+        , 'WRow.Model':            'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
+        , 'WCell.Collection':      'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
+        , 'WCell.Model':           'js/app/modules/weeklytimelogs/WeeklyTimeLogs.DisplayModels'
     }
     , shim: {
         'jasmine': {
             exports: 'jasmine'
         }
         , 'jasmineHtml': {
-            deps: ['jasmine', 'jQuery'] //jQuery is not a real dependency but we want jquery to always be present in our specs.
+            deps: ['jasmine', 'jQuery'] //jQuery is not a real dependency but I want jquery to always be present in our specs.
             , exports: 'jasmine'
         }
         , 'jasmineTypeCheck': {
@@ -103,15 +103,6 @@ require.config({
         }
         , 'Bootstrap': {
             deps: ['jQuery']
-        }
-        // Application Core
-        , 'Main': {
-            deps: ['Backbone']
-            , exports: 'SPA'
-        }
-        , 'ApplicationSkeleton': {
-            deps: ['Main']
-            , exports: 'ApplicationSkeleton'
         }
         , 'Main': {
             deps: ['SPA', 'Backbone']
@@ -167,7 +158,7 @@ require.config({
             deps: ['Backbone','Customers.Collection', 'Projects.Collection', 'TimeLogs.Collection', 'WeeklyTimeLogs.View']
         }
         , 'WeeklyTimeLogs.View': {
-            deps: ['Backbone','WCell.Model', 'WCell.Collection', 'WRow.Model', 'WRow.Collection']
+            deps: ['Utils','Backbone','WCell.Model', 'WCell.Collection', 'WRow.Model', 'WRow.Collection']
         }
         , 'Customers.Collection': {
             deps: ['Backbone','Customers.Model','SPA']
