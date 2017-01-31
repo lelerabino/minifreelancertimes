@@ -10,17 +10,8 @@ var express = require('express'),
     timeLogsRoutes = require('./app/routes/api/timelogs'),
     customersRoutes = require('./app/routes/api/customers'),
     projectsRoutes = require('./app/routes/api/projects'),
-    app = express();
+    app = express(), router = express.Router();
 
-/*
- * I’m sharing my credential here.
- * Feel free to use it while you’re learning.
- * After that, create and use your own credential.
- * Thanks.
- *
- * MONGOLAB_URI=mongodb://example:example@ds053312.mongolab.com:53312/timeloglist
- * 'mongodb://example:example@ds053312.mongolab.com:53312/timeloglist'
- */
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://admin:admin@ds117189.mlab.com:17189/minifreelancerstore', function (error) {
     if (error) console.error(error);
     else console.log('mongo connected');
@@ -33,19 +24,27 @@ function handleError(res, reason, message, code) {
 }
 
 
-// https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
 app.use(bodyParser.json()) // support json encoded bodies
     .use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
-timeLogsRoutes(app);
-customersRoutes(app);
-projectsRoutes(app);
-
-app.get('/api', function (req, res) {
+router.get('/api', function (req, res) {
     res.json(200, {msg: 'API is responding!'});
-})
+});
 
+router.get('/api/timelogs', timeLogsRoutes.collection.doGet);
+router.post('/api/timelogs', timeLogsRoutes.collection.doPost);
+router.delete('/api/timelogs', timeLogsRoutes.collection.doDelete);
+router.get('/api/timelogs/:id', timeLogsRoutes.single.doGet);
+router.post('/api/timelogs/:id', timeLogsRoutes.single.doPost);
+router.delete('/api/timelogs/:id', timeLogsRoutes.single.doDelete);
 
+router.get('/api/customers', customersRoutes.collection.doGet);
+router.post('/api/customers', customersRoutes.collection.doPost);
+
+router.get('/api/projects', projectsRoutes.collection.doGet);
+router.post('/api/projects', projectsRoutes.collection.doPost);
+
+app.use('/', router)
     .use(basicAuth('guest', 'guest'))
     .use(express.static(__dirname + '/public'))
     .use(bodyParser())

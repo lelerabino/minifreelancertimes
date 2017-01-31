@@ -6,12 +6,9 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({"error": message});
 }
 
-module.exports = function (app) {
-
-    app
-        .get('/api/timelogs', function (req, res) {
-            // http://mongoosejs.com/docs/api.html#query_Query-find
-
+module.exports = {
+    collection:{
+        doGet:function(req, res){
             var query = TimeLog.find().sort({date: 'desc'});
             if (req.query.populate) {
                 query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
@@ -25,11 +22,9 @@ module.exports = function (app) {
             query.exec(function (err, timelogs) {
                 res.json(200, timelogs);
             });
-        })
-
-        .post('/api/timelogs', function (req, res) {
+        },
+        doPost:function (req, res) {
             var timelog = new TimeLog(req.body);
-            // http://mongoosejs.com/docs/api.html#model_Model-save
             timelog.save(function (err) {
                 if (err) {
                     handleError(res, err.message, "Failed to create new timelog.");
@@ -37,46 +32,37 @@ module.exports = function (app) {
                     res.status(201).location('/api/timelogs/' + timelog.id).json(timelog);
                 }
             });
-        })
-
-        .delete('/api/timelogs', function (req, res) {
-            // http://mongoosejs.com/docs/api.html#query_Query-remove
+        },
+        doDelete:function (req, res) {
             TimeLog.remove({}, function (err) {
                 res.json(200, {msg: 'OK'});
             });
-        })
-
-        .get('/api/timelogs/:id', function (req, res) {
-            // http://mongoosejs.com/docs/api.html#model_Model.findById
+        }
+    },
+    single:{
+        doGet:function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
                 res.json(200, timelog);
             });
-        })
-
-        .put('/api/timelogs/:id', function (req, res) {        // http://mongoosejs.com/docs/api.html#model_Model.findById
+        },
+        doPost:function (req, res) {
             TimeLog.findById(req.body._id, function (err, timelog) {
                 timelog._cstId = req.body._cstId;
                 timelog._prjId = req.body._prjId;
                 timelog.date = req.body.date;
                 timelog.duration = parseFloat(req.body.duration);
                 timelog.memo = req.body.memo;
-                // http://mongoosejs.com/docs/api.html#model_Model-save
                 timelog.save(function (err, timelog) {
                     res.json(200, timelog);
                 });
             });
-        })
-
-        .delete('/api/timelogs/:id', function (req, res) {
-            // http://mongoosejs.com/docs/api.html#model_Model.findById
+        },
+        doDelete:function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
-                // http://mongoosejs.com/docs/api.html#model_Model.remove
                 timelog.remove(function (err, timelog) {
                     res.json(200, {msg: 'OK'});
                 });
             });
-        })
-
-}
-
-
+        }
+    }
+};
