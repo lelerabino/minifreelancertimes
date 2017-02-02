@@ -10,17 +10,18 @@ module.exports = {
     collection:{
         doGet:function(req, res){
             var query = TimeLog.find().sort({date: 'desc'});
-            if (req.query.populate) {
+            if (req.query && req.query.populate) {
                 query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
             }
-            if (req.query.from) {
+            if (req.query && req.query.from) {
                 query = query.find({date: {$gte: new Date(req.query.from)}});
             }
-            if (req.query.to) {
+            if (req.query && req.query.to) {
                 query = query.find({date: {$lte: new Date(req.query.to)}});
             }
             query.exec(function (err, timelogs) {
-                res.json(200, timelogs);
+                if (err) return handleError(err);
+                res.status(200).json( timelogs);
             });
         },
         doPost:function (req, res) {
@@ -35,14 +36,14 @@ module.exports = {
         },
         doDelete:function (req, res) {
             TimeLog.remove({}, function (err) {
-                res.json(200, {msg: 'OK'});
+                res.status(200).json( {msg: 'OK'});
             });
         }
     },
     single:{
         doGet:function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
-                res.json(200, timelog);
+                res.status(200).json( timelog);
             });
         },
         doPost:function (req, res) {
@@ -53,14 +54,14 @@ module.exports = {
                 timelog.duration = parseFloat(req.body.duration);
                 timelog.memo = req.body.memo;
                 timelog.save(function (err, timelog) {
-                    res.json(200, timelog);
+                    res.status(200).json( timelog);
                 });
             });
         },
         doDelete:function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
                 timelog.remove(function (err, timelog) {
-                    res.json(200, {msg: 'OK'});
+                    res.status(200).json( {msg: 'OK'});
                 });
             });
         }

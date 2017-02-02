@@ -10,7 +10,7 @@ module.exports = {
     collection: {
         doGet: function (req, res) {
             Customer.find(function (err, customers) {
-                res.json(200, customers);
+                res.status(200).json( customers);
             });
         },
         doPost: function (req, res) {

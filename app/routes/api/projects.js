@@ -9,7 +9,7 @@ module.exports = {
     collection:{
         doGet:function(req, res){
             Project.find(function (err, projects) {
-                res.json(200, projects);
+                res.status(200).json( projects);
             });
         },
         doPost:function (req, res) {
