@@ -78,7 +78,10 @@ vex.defaultOptions.className = 'vex-theme-wireframe';
 
 if (SPA.ENVIRONMENT.serverSettings.beforeUnloadConfirmation) {
     jQuery(window).on('beforeunload', function () {
-        return 'There is potential unsaved data. Continue and leave?';
+        var currView = SPA._applications.TimeLogs.getLayout().currentView;
+        if(currView.unsavedData && currView.unsavedData()) {
+            return 'There is potential unsaved data. Continue and leave?';
+        }
     })
 }
 

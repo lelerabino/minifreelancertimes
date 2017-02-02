@@ -42,7 +42,7 @@
                     }
                 },
                 PROFILE: {user: 'lelerabino'},
-                serverSettings: JSON.parse('{}')
+                serverSettings: {beforeUnloadConfirmation: true}
             }
             , getSessionInfo: function (key) {
                 var session = SPA.SESSION || SPA.DEFAULT_SESSION || {};
