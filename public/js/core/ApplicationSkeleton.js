@@ -210,7 +210,7 @@
 
     function notifyOnOperation(operation, msg){
         if(operation) {
-            operation.notify(taskCtx.createInfo(msg, false));
+            operation.notify({msg:msg});
         }
     }
 

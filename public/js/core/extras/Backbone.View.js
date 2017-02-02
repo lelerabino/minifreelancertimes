@@ -25,18 +25,6 @@
         , showInModal: function (options) {
             return this.options.application && this.options.application.getLayout().showInModal(this, options);
         }
-        // Get view's SEO attributes
-        , getMetaDescription: function () {
-            return this.metaDescription;
-        }
-
-        , getMetaKeywords: function () {
-            return this.metaKeywords;
-        }
-
-        , getMetaTags: function () {
-            return jQuery('<head/>').html(this.metaTags || '').children('meta');
-        }
 
         //Backbone.View.getTitle() : returns the document's title to show when this view is active.
         , getTitle: function () {
@@ -51,10 +39,6 @@
             return !~index_of_query ? canonical : canonical.substring(0, index_of_query);
         }
 
-        // For paginated pages, you should implement this operations
-        // to return the url of the previous and next pages
-        , getRelPrev: jQuery.noop
-        , getRelNext: jQuery.noop
 
         // "private", shouldn't be overwritten
         // if a custom destroy method is required

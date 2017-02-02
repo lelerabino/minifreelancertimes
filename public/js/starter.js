@@ -12,12 +12,12 @@ SPA.startTimeLogs = function () {
     // Requires all dependencies so they are bootstrapped
     require([], function () {
         var crashFn = function (reason) {
-            throw _.createError('ADVSO_START', 'Can\'t start startTimeLogs', reason);
+            throw _.createError('APP_START', 'Can\'t start startTimeLogs', reason);
         };
 
         application.TM.start().then(
             function (director) {
-                director.createTask(application, {type: 'ADVSO:LOAD'}).then(
+                director.createTask(application, {type: 'APP:LOAD'}).then(
                     function (task) {
                         var taskCtx = task.ctx(),
                             startOp = taskCtx.newOp({type: 'APP:START'});
@@ -52,7 +52,7 @@ SPA.startTimeLogs = function () {
                                     startOp.resolve();
                                     task.resolve();
                                 }
-                            }, startOp);
+                            }, {operation: startOp});
                         }
                         catch (err) {
                             task.reject(taskCtx.createReason('JS_ERROR', err));
@@ -70,16 +70,14 @@ var layout = SPA.Application('TimeLogs').getLayout();
 layout.appendToDom();
 layout.on('afterAppendToDom', function () {
     SPA.initializeContainerDashboard();
-    jQuery.fn.editable.defaults.mode = 'inline';
 });
-
 
 vex.defaultOptions.className = 'vex-theme-wireframe';
 
 if (SPA.ENVIRONMENT.serverSettings.beforeUnloadConfirmation) {
     jQuery(window).on('beforeunload', function () {
         var currView = SPA._applications.TimeLogs.getLayout().currentView;
-        if(currView.unsavedData && currView.unsavedData()) {
+        if (currView.unsavedData && currView.unsavedData()) {
             return 'There is potential unsaved data. Continue and leave?';
         }
     })
