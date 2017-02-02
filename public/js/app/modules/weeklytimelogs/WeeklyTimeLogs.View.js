@@ -27,6 +27,12 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 'change #newRowCustomer': 'onNewRowCstSelect',
                 'change .newRow': 'onChangeNewRowControl',
                 'keyup #newRowMemo': 'onChangeNewRowControl',
+                'change .newPrj': 'onChangeNewPrjControl',
+                'keyup #newPrjName': 'onChangeNewPrjControl',
+                'keyup #newPrjRate': 'onChangeNewPrjControl',
+                'change .newCst': 'onChangeNewCstControl',
+                'keyup #newCstName': 'onChangeNewCstControl',
+                'keyup #newCstRate': 'onChangeNewCstControl',
                 'change .duration': 'onCellEditorChange'
             }
 
@@ -51,9 +57,40 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                             newWRowModalPH: that.$('div[data-placeholder="newRowModal"]'),
                             newWRowModal: that.$('#newRowModal'),
                             newCstModalPH: that.$('div[data-placeholder="cstModal"]'),
-                            newCstModal: that.$('#newCstModal'),
+                            newCstModal: {
+                                el:that.$('#newCstModal'),
+                                name: function () {
+                                    return that.$('#newCstName');
+                                },
+                                address: function () {
+                                    return that.$('#newCstAddress');
+                                },
+                                vatNumber: function () {
+                                    return that.$('#newCstVat');
+                                },
+                                currency: function () {
+                                    return that.$('#newCstCurrency');
+                                },
+                                newCstSubmit: function () {
+                                    return that.$('#newCstSubmit');
+                                }
+                            },
                             newPrjModalPH: that.$('div[data-placeholder="prjModal"]'),
-                            newPrjModal: that.$('#newPrjModal'),
+                            newPrjModal: {
+                                el:that.$('#newPrjModal'),
+                                customers: function () {
+                                    return that.$('#newPrjCustomer');
+                                },
+                                name: function () {
+                                    return that.$('#newPrjName');
+                                },
+                                rate: function () {
+                                    return that.$('#newPrjRate');
+                                },
+                                newPrjSubmit: function () {
+                                    return that.$('#newPrjSubmit');
+                                }
+                            },
                             navDates: that.$('#navDates'),
                             newRowModal: {
                                 el: that.$('#newRowModal'),
@@ -90,14 +127,14 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         this.newCstModalPH.html(
                             SPA.template('new_customer_tmpl', {view: that})
                         );
-                        this.newCstModal.modal();
+                        this.newCstModal.el.modal();
                     },
 
                     buildNewPrjDialog: function () {
                         this.newPrjModalPH.html(
                             SPA.template('new_project_tmpl', {view: that})
                         );
-                        this.newPrjModal.modal();
+                        this.newPrjModal.el.modal();
                     },
 
                     resetRows: function () {
@@ -113,8 +150,8 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                         }
                     },
 
-                    drawWeekDayHeaders:function(labels){
-                        this.$('.day_header').map(function(index, th){
+                    drawWeekDayHeaders: function (labels) {
+                        this.$('.day_header').map(function (index, th) {
                             $(th).text(labels[index]);
                         });
                     },
@@ -159,7 +196,7 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
 
                         // BFD: business flow definition!!!
                         task.promise.fail(that.commandFailHandler(task));
-                        task.promise.then(function(){
+                        task.promise.then(function () {
                             that.notify('Saved successfully.');
                         });
                         //~BFD
@@ -232,13 +269,20 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , addCustomer: function (e) {
-                var that = this;
-                that.cstColl.create({
-                    name: that.$('#newCstName').val(),
-                    address: that.$('#newCstAddress').val(),
-                    vatNumber: that.$('#newCstVat').val(),
-                    currency: that.$('#newCstCurrency').val()
-                });
+                var that = this,
+                    fldCstName = that.$('#newCstName').val(),
+                    fldCstAddress = that.$('#newCstAddress').val(),
+                    fldCstVat = that.$('#newCstVat').val(),
+                    fldCurr = that.$('#newCstCurrency').val();
+                //project form validation
+                if (fldCstName && fldCstAddress && fldCstVat && fldCurr) {
+                    that.cstColl.create({
+                        name: fldCstName,
+                        address: fldCstAddress,
+                        vatNumber: fldCstVat,
+                        currency: fldCurr
+                    });
+                }
             }
 
             , addRow: function (e) {
@@ -280,6 +324,16 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
                 that.DOM.newRowModal.newRowSubmit().prop('disabled', !(that.DOM.newRowModal.customers().val() && that.DOM.newRowModal.projects().val() && that.DOM.newRowModal.memo().val()));
             }
 
+            , onChangeNewPrjControl: function (e) {
+                var that = this;
+                that.DOM.newPrjModal.newPrjSubmit().prop('disabled', !(that.DOM.newPrjModal.customers().val() && that.DOM.newPrjModal.name().val() && that.DOM.newPrjModal.rate().val()));
+            }
+
+            , onChangeNewCstControl: function (e) {
+                var that = this;
+                that.DOM.newCstModal.newCstSubmit().prop('disabled', !(that.DOM.newCstModal.name().val() && that.DOM.newCstModal.address().val() && that.DOM.newCstModal.vatNumber().val() && that.DOM.newCstModal.currency()));
+            }
+
             , onNewCustomer: function (e) {
                 var that = this;
                 that.DOM.buildNewCstDialog();
@@ -304,12 +358,18 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , addProject: function (e) {
-                var that = this;
-                that.prjColl.create({
-                    _cstId: that.$('#newPrjCustomer').val(),
-                    name: that.$('#newPrjName').val(),
-                    rate: that.$('#newPrjRate').val()
-                });
+                var that = this,
+                    fldCst = that.$('#newPrjCustomer').val(),
+                    fldPrjName = that.$('#newPrjName').val(),
+                    fldRate = that.$('#newPrjRate').val();
+                //project form validation
+                if (fldPrjName && fldRate) {
+                    that.prjColl.create({
+                        _cstId: fldCst,
+                        name: fldPrjName,
+                        rate: fldRate
+                    });
+                }
             }
 
             , getCustomers: function () {
@@ -469,10 +529,10 @@ define('WeeklyTimeLogs.View', ['WCell.Model', 'WCell.Collection', 'WRow.Model', 
             }
 
             , drawDates: function () {
-                var that = this, daysLabels=[],wn = this.getWeekNumber(),
+                var that = this, daysLabels = [], wn = this.getWeekNumber(),
                     mStartDate = SPA.getDateFromRelWeek(wn);
 
-                for(var i=0;i<7;i++){
+                for (var i = 0; i < 7; i++) {
                     daysLabels[i] = mStartDate.clone().add(i, 'days').format('ddd DD')
                 }
 
