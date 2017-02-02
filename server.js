@@ -28,14 +28,14 @@ app.use(bodyParser.json()) // support json encoded bodies
     .use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
 router.get('/api', function (req, res) {
-    res.json(200, {msg: 'API is responding!'});
+    res.status(200).json({msg: 'API is responding!'});
 });
 
 router.get('/api/timelogs', timeLogsRoutes.collection.doGet);
 router.post('/api/timelogs', timeLogsRoutes.collection.doPost);
 router.delete('/api/timelogs', timeLogsRoutes.collection.doDelete);
 router.get('/api/timelogs/:id', timeLogsRoutes.single.doGet);
-router.post('/api/timelogs/:id', timeLogsRoutes.single.doPost);
+router.put('/api/timelogs/:id', timeLogsRoutes.single.doPut);
 router.delete('/api/timelogs/:id', timeLogsRoutes.single.doDelete);
 
 router.get('/api/customers', customersRoutes.collection.doGet);
@@ -47,6 +47,9 @@ router.post('/api/projects', projectsRoutes.collection.doPost);
 app.use('/', router)
     .use(basicAuth('guest', 'guest'))
     .use(express.static(__dirname + '/public'))
-    .use(bodyParser())
+    .use(bodyParser.urlencoded({ extended: true }))
+    .use(bodyParser.json())
     .use(favicon('public/favicon.ico'))
     .listen(process.env.PORT || 8000);
+
+module.exports = app;

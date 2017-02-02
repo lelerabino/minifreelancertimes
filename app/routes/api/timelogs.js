@@ -7,8 +7,8 @@ function handleError(res, reason, message, code) {
 }
 
 module.exports = {
-    collection:{
-        doGet:function(req, res){
+    collection: {
+        doGet: function (req, res) {
             var query = TimeLog.find().sort({date: 'desc'});
             if (req.query && req.query.populate) {
                 query = query.populate([{path: '_cstId'}, {path: '_prjId'}]);
@@ -20,11 +20,14 @@ module.exports = {
                 query = query.find({date: {$lte: new Date(req.query.to)}});
             }
             query.exec(function (err, timelogs) {
-                if (err) return handleError(err);
-                res.status(200).json( timelogs);
+                if (err) {
+                    handleError(res, err.message, "Failed to create new timelog.");
+                } else {
+                    res.status(200).json(timelogs);
+                }
             });
         },
-        doPost:function (req, res) {
+        doPost: function (req, res) {
             var timelog = new TimeLog(req.body);
             timelog.save(function (err) {
                 if (err) {
@@ -34,35 +37,57 @@ module.exports = {
                 }
             });
         },
-        doDelete:function (req, res) {
+        doDelete: function (req, res) {
             TimeLog.remove({}, function (err) {
-                res.status(200).json( {msg: 'OK'});
+                res.status(200).json({msg: 'OK'});
             });
         }
     },
-    single:{
-        doGet:function (req, res) {
+    single: {
+        doGet: function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
-                res.status(200).json( timelog);
+                if (err) {
+                    handleError(res, err.message, "Failed to get the timelog.");
+                } else {
+                    res.status(200).json(timelog);
+                }
             });
         },
-        doPost:function (req, res) {
+        doPut: function (req, res) {        // http://mongoosejs.com/docs/api.html#model_Model.findById
             TimeLog.findById(req.body._id, function (err, timelog) {
-                timelog._cstId = req.body._cstId;
-                timelog._prjId = req.body._prjId;
-                timelog.date = req.body.date;
-                timelog.duration = parseFloat(req.body.duration);
-                timelog.memo = req.body.memo;
-                timelog.save(function (err, timelog) {
-                    res.status(200).json( timelog);
-                });
+                if (err) {
+                    handleError(res, err.message, "Failed to find the target timelog.");
+                } else {
+                    timelog._cstId = req.body._cstId;
+                    timelog._prjId = req.body._prjId;
+                    timelog.date = req.body.date;
+                    timelog.duration = parseFloat(req.body.duration);
+                    timelog.memo = req.body.memo;
+                    // http://mongoosejs.com/docs/api.html#model_Model-save
+                    timelog.save(function (err, timelog) {
+                        if (err) {
+                            handleError(res, err.message, "Failed to update the timelog.");
+                        } else {
+                            res.status(200).json(timelog);
+                        }
+                    });
+                }
+
             });
         },
-        doDelete:function (req, res) {
+        doDelete: function (req, res) {
             TimeLog.findById(req.params.id, function (err, timelog) {
-                timelog.remove(function (err, timelog) {
-                    res.status(200).json( {msg: 'OK'});
-                });
+                if (err) {
+                    handleError(res, err.message, "Failed to find the target timelog.");
+                } else {
+                    timelog.remove(function (err, timelog) {
+                        if (err) {
+                            handleError(res, err.message, "Failed to delete the timelog.");
+                        } else {
+                            res.status(200).json({msg: 'OK'});
+                        }
+                    });
+                }
             });
         }
     }

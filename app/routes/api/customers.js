@@ -10,7 +10,11 @@ module.exports = {
     collection: {
         doGet: function (req, res) {
             Customer.find(function (err, customers) {
-                res.status(200).json( customers);
+                if (err) {
+                    handleError(res, err.message, "Failed to get the customer.");
+                } else {
+                    res.status(200).json(customers);
+                }
             });
         },
         doPost: function (req, res) {
